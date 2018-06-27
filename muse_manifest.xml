@@ -1,7 +1,7 @@
-<manifest alg="2" build="2017.0.3.363" opt="false" iceEnabled="true" iceMarkupVersion="2" iceEnabledOptions="link,responsive,cachebuster,textStyling" exportTarget="other" domain="fugybogie.tk" resolutions="1x" timestamp="1530033402707">
+<manifest alg="2" build="2017.0.3.363" opt="false" iceEnabled="true" iceMarkupVersion="2" iceEnabledOptions="link,responsive,cachebuster,textStyling" exportTarget="other" domain="fugybogie.tk" resolutions="1x" timestamp="1530122346847">
   <folder name="css">
     <file name="site_global.css" crc="443350757"/>
-    <file name="index.css" crc="4018740712" ref="index"/>
+    <file name="index.css" crc="33302718" ref="index"/>
   </folder>
   <folder name="scripts">
     <file name="jquery-1.8.3.min.js" crc="209076791" ref="index"/>
@@ -12,12 +12,12 @@
     <file name="require.js" crc="85721165" ref="index"/>
   </folder>
   <folder name="images">
-    <file name="up.jpg" crc="149915838" ref="index">
+    <file name="up.jpg" crc="4118261399" seo="true" ref="index">
       <caption webpage="index" alt=""/>
     </file>
-    <file name="ghjk.jpg" crc="3806256718" ref="index">
+    <file name="dow.jpg" crc="470054843" seo="true" ref="index">
       <caption webpage="index" alt=""/>
     </file>
   </folder>
-  <file name="index.html" crc="3838887610" seo="true" mt="1530033276853" redirect="true"/>
+  <file name="index.html" crc="3963746642" seo="true" mt="1530122287551" redirect="true"/>
 </manifest>

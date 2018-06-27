@@ -17,18 +17,18 @@ if(typeof Muse == "undefined") window.Muse = {}; window.Muse.assets = {"required
   <title>Домашняя</title>
   <!-- CSS -->
   <link rel="stylesheet" type="text/css" href="css/site_global.css?crc=443350757"/>
-  <link rel="stylesheet" type="text/css" href="css/index.css?crc=4018740712" id="pagesheet"/>
+  <link rel="stylesheet" type="text/css" href="css/index.css?crc=33302718" id="pagesheet"/>
    </head>
  <body>
 
   <div class="clearfix borderbox" id="page"><!-- column -->
-   <div class="browser_width colelem" id="u165-bw">
-    <div id="u165"><!-- simple frame --></div>
+   <div class="clip_frame colelem" id="u429"><!-- image -->
+    <img class="block" id="u429_img" src="images/up.jpg?crc=4118261399" alt="" data-image-width="960" data-image-height="934"/>
    </div>
-   <div class="browser_width colelem" id="u154-bw">
-    <div id="u154"><!-- simple frame --></div>
+   <div class="clip_frame colelem" id="u470"><!-- image -->
+    <img class="block" id="u470_img" src="images/dow.jpg?crc=470054843" alt="" data-image-width="960" data-image-height="896"/>
    </div>
-   <div class="verticalspacer" data-offset-top="1587" data-content-above-spacer="1587" data-content-below-spacer="62"></div>
+   <div class="verticalspacer" data-offset-top="1830" data-content-above-spacer="1830" data-content-below-spacer="0"></div>
   </div>
   <!-- Other scripts -->
   <script type="text/javascript">
@@ -45,8 +45,6 @@ var muse_init=function(){require.config({baseUrl:""});require(["jquery","museuti
 window.Muse.assets.check($);/* body */
 Muse.Utils.transformMarkupToFixBrowserProblemsPreInit();/* body */
 Muse.Utils.prepHyperlinks(true);/* body */
-Muse.Utils.resizeHeight('.browser_width');/* resize height */
-Muse.Utils.requestAnimationFrame(function() { $('body').addClass('initialized'); });/* mark body as initialized */
 Muse.Utils.fullPage('#page');/* 100% height page */
 Muse.Utils.showWidgetsWhenReady();/* body */
 Muse.Utils.transformMarkupToFixBrowserProblems();/* body */
