@@ -1,4 +1,4 @@
-<manifest alg="2" build="2017.0.3.363" opt="false" iceEnabled="true" iceMarkupVersion="2" iceEnabledOptions="link,responsive,cachebuster,textStyling" exportTarget="other" domain="fugybogie.tk" resolutions="1x" timestamp="1530433340228">
+<manifest alg="2" build="2017.0.3.363" opt="false" iceEnabled="true" iceMarkupVersion="2" iceEnabledOptions="link,responsive,cachebuster,textStyling" exportTarget="other" domain="fugybogie.tk" resolutions="1x" timestamp="1530434169070">
   <folder name="css">
     <file name="site_global.css" crc="443350757"/>
     <file name="index.css" crc="387702253" ref="index"/>
@@ -12,10 +12,16 @@
     <file name="require.js" crc="85721165" ref="phone>index:tablet>index:index"/>
   </folder>
   <folder name="images">
+    <file name="up-crop-u792.jpg" crc="3758930483" seo="true" ref="phone>index">
+      <caption webpage="index" alt=""/>
+    </file>
+    <file name="dow2.jpg" crc="418501831" seo="true" ref="phone>index">
+      <caption webpage="index" alt=""/>
+    </file>
     <file name="up-crop-u429.jpg" crc="3834043062" seo="true" ref="index">
       <caption webpage="index" alt=""/>
     </file>
-    <file name="dow21438x920.jpg" crc="4128806837" seo="true" ref="index">
+    <file name="dow22.jpg" crc="4128806837" seo="true" ref="index">
       <caption webpage="index" alt=""/>
     </file>
   </folder>
@@ -28,9 +34,9 @@
   </folder>
   <folder name="phone">
     <folder name="css">
-      <file name="index.css" crc="3922691833" ref="phone>index"/>
+      <file name="index.css" crc="115037718" ref="phone>index"/>
     </folder>
-    <file name="index.html" crc="326618990" seo="true" mt="1530430791427" redirect="true"/>
+    <file name="index.html" crc="3819800598" seo="true" mt="1530434135770" redirect="true"/>
   </folder>
-  <file name="index.html" crc="82432292" seo="true" mt="1530430614981" redirect="true"/>
+  <file name="index.html" crc="225561929" seo="true" mt="1530430614981" redirect="true"/>
 </manifest>
