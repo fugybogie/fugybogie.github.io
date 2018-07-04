@@ -1,4 +1,4 @@
-<manifest alg="2" build="2017.0.3.363" opt="false" iceEnabled="true" iceMarkupVersion="2" iceEnabledOptions="link,responsive,cachebuster,textStyling" exportTarget="other" domain="fugybogie.tk" resolutions="1x" timestamp="1530691380130">
+<manifest alg="2" build="2017.0.3.363" opt="false" iceEnabled="true" iceMarkupVersion="2" iceEnabledOptions="link,responsive,cachebuster,textStyling" exportTarget="other" domain="fugybogie.tk" resolutions="1x" timestamp="1530703145786">
   <folder name="css">
     <file name="site_global.css" crc="443350757"/>
     <file name="index.css" crc="387702253" ref="index"/>
@@ -15,34 +15,32 @@
     <file name="up-crop-u792.jpg" crc="491743725" seo="true" ref="phone>index">
       <caption webpage="index" alt=""/>
     </file>
-    <file name="dow2.jpg" crc="4169238198" seo="true" ref="phone>index">
+    <file name="dow2.jpg" crc="4256789767" seo="true" ref="phone>index">
       <caption webpage="index" alt=""/>
     </file>
     <file name="up-crop-u811.jpg" crc="238604017" seo="true" ref="tablet>index">
       <caption webpage="index" alt=""/>
     </file>
-    <file name="dow2768x491.jpg" crc="280089883" seo="true" ref="tablet>index">
+    <file name="dow22.jpg" crc="4128806837" seo="true" ref="tablet>index:index">
+      <caption webpage="index" alt=""/>
       <caption webpage="index" alt=""/>
     </file>
     <file name="up-crop-u429.jpg" crc="3834043062" seo="true" ref="index">
-      <caption webpage="index" alt=""/>
-    </file>
-    <file name="dow22.jpg" crc="4128806837" seo="true" ref="index">
       <caption webpage="index" alt=""/>
     </file>
   </folder>
   <folder name="tablet">
     <folder name="css">
       <file name="master_______-a.css" crc="253337574" ref="tablet>index"/>
-      <file name="index.css" crc="4164714643" ref="tablet>index"/>
+      <file name="index.css" crc="83058377" ref="tablet>index"/>
     </folder>
-    <file name="index.html" crc="474776703" seo="true" mt="1530450523856" redirect="true"/>
+    <file name="index.html" crc="4061492246" seo="true" mt="1530702921614" redirect="true"/>
   </folder>
   <folder name="phone">
     <folder name="css">
-      <file name="index.css" crc="217873650" ref="phone>index"/>
+      <file name="index.css" crc="476662825" ref="phone>index"/>
     </folder>
-    <file name="index.html" crc="3859595791" seo="true" mt="1530691354648" redirect="true"/>
+    <file name="index.html" crc="91008359" seo="true" mt="1530702899528" redirect="true"/>
   </folder>
   <file name="index.html" crc="225561929" seo="true" mt="1530430614981" redirect="true"/>
 </manifest>
