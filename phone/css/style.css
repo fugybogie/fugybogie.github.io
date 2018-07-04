@@ -36,8 +36,8 @@ a[href]:after {
           transform: scaleX(0);
 }
 .menu {
-  position: relative;
-  width: 100%;
+  position: fixed;
+  
 }
 .menu__content {
   color: #fff;
@@ -80,7 +80,7 @@ a[href]:after {
   position: fixed;
   top: 0;
   transition: background 0.15s;
-  width: 100%;
+  width: 100vw;
 }
 .menu__toggle:checked ~ .menu__toggle-label svg:nth-of-type(1) {
   -webkit-transform: scale(0);
