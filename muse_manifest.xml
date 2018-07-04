@@ -1,4 +1,4 @@
-<manifest alg="2" build="2017.0.3.363" opt="false" iceEnabled="true" iceMarkupVersion="2" iceEnabledOptions="link,responsive,cachebuster,textStyling" exportTarget="other" domain="fugybogie.tk" resolutions="1x" timestamp="1530440193769">
+<manifest alg="2" build="2017.0.3.363" opt="false" iceEnabled="true" iceMarkupVersion="2" iceEnabledOptions="link,responsive,cachebuster,textStyling" exportTarget="other" domain="fugybogie.tk" resolutions="1x" timestamp="1530691380130">
   <folder name="css">
     <file name="site_global.css" crc="443350757"/>
     <file name="index.css" crc="387702253" ref="index"/>
@@ -12,10 +12,10 @@
     <file name="require.js" crc="85721165" ref="phone>index:tablet>index:index"/>
   </folder>
   <folder name="images">
-    <file name="up-crop-u792.jpg" crc="3758930483" seo="true" ref="phone>index">
+    <file name="up-crop-u792.jpg" crc="491743725" seo="true" ref="phone>index">
       <caption webpage="index" alt=""/>
     </file>
-    <file name="dow2.jpg" crc="418501831" seo="true" ref="phone>index">
+    <file name="dow2.jpg" crc="4169238198" seo="true" ref="phone>index">
       <caption webpage="index" alt=""/>
     </file>
     <file name="up-crop-u811.jpg" crc="238604017" seo="true" ref="tablet>index">
@@ -34,15 +34,15 @@
   <folder name="tablet">
     <folder name="css">
       <file name="master_______-a.css" crc="253337574" ref="tablet>index"/>
-      <file name="index.css" crc="340109664" ref="tablet>index"/>
+      <file name="index.css" crc="4164714643" ref="tablet>index"/>
     </folder>
-    <file name="index.html" crc="63402262" seo="true" mt="1530437167373" redirect="true"/>
+    <file name="index.html" crc="474776703" seo="true" mt="1530450523856" redirect="true"/>
   </folder>
   <folder name="phone">
     <folder name="css">
-      <file name="index.css" crc="115037718" ref="phone>index"/>
+      <file name="index.css" crc="217873650" ref="phone>index"/>
     </folder>
-    <file name="index.html" crc="3819800598" seo="true" mt="1530434135770" redirect="true"/>
+    <file name="index.html" crc="3859595791" seo="true" mt="1530691354648" redirect="true"/>
   </folder>
   <file name="index.html" crc="225561929" seo="true" mt="1530430614981" redirect="true"/>
 </manifest>
