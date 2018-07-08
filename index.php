@@ -1,10 +1,4 @@
 
-<html>
-<head>
-
-
-</head>
-<body>
 <?php
 require 'phpmailer/PHPMailerAutoload.php';
 
@@ -26,5 +20,3 @@ $mail->Body = 'this is some body';
 if ($mail->send())
     echo "Mail sent";
 ?>
-</body>
-</html>
