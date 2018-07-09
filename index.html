@@ -16,7 +16,7 @@
   <body>
     <div class="container">
 		<div class="row">
-			<div class="col-lg-offset-3 col-lg-6">
+			<div>
 				<form class="form" action="https://formspree.io/fugybogie@gmail.com"
       method="POST">
 					<div class="form-group">
@@ -26,12 +26,15 @@
 					<div class="form-group">
 						<label for="exampleInputEmail2">Email</label>
 						<input type="email" class="form-control" id="exampleInputEmail2" name="email" placeholder="joe.dave@example.com">
-						<textarea name="message"></textarea>
-						<input type="hidden" name="_next" value="https://site.io/thanks.html" />
-						<input type="hidden" name="_subject" value="New submission!" />
-						<input type="text" name="_gotcha" style="display:none" />
 					</div>
-					<button type="submit" class="btn btn-default">Send invitation</button>
+					<div class="form-group">
+						<label for="exampleInputEmail2">Message</label><br/>
+						<textarea name="message" rows="10" cols="45" placeholder="Enter message" class="form-control"></textarea>
+					</div>
+					<input type="hidden" name="_next" value="https://site.io/thanks.html" />
+					<input type="hidden" name="_subject" value="New submission!" />
+					<input type="text" name="_gotcha" style="display:none" />
+					<button type="submit" class="btn btn-default"><b>Send</b></button>
 				</form>
 			</div>
 		</div>
