@@ -244,15 +244,15 @@ a[href]:after {
   border-left: 8px solid transparent;
 }
 .menu__content > .menu-item > a {
-  line-height: 44px;
+  line-height: 42px;
   min-width: 60px;
 }
 .sub-menu {
   padding: 0 0 0 44px;
 }
 .menu-item {
-  line-height: 44px;
-  min-height: 44px;
+  line-height: 1px;
+  min-height: 30px;
   padding: 0 12px;
   -webkit-transform: translateX(-100%);
           transform: translateX(-100%);
