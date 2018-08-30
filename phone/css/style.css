@@ -252,7 +252,7 @@ a[href]:after {
 }
 .menu-item {
   line-height: 1px;
-  min-height: 30px;
+  min-height: 25px;
   padding: 0 12px;
   -webkit-transform: translateX(-100%);
           transform: translateX(-100%);
