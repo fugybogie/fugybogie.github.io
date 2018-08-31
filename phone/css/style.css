@@ -1,3 +1,25 @@
+
+
+
+.talk-bubble2 {
+	border-radius: 25px;
+	margin: 10px;
+  display: inline-block;
+  position: relative;
+  padding: 20px; 
+	width: 200px;
+	height: auto;
+	background-color: #CFF4E7;
+	
+}
+
+
+
+
+
+
+
+
 #video-view {
   display:none;
     position: fixed;
