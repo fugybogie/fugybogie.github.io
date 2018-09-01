@@ -1,0 +1,83 @@
+/* Styling for fancyBox demo pages */
+
+@import url('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css');
+
+body {
+  margin: 0;
+  padding: 10vh 10vw;
+  color: #444;
+}
+
+h1 {
+  font-weight: 700px;
+}
+
+h2 {
+  font-weight: 600;
+}
+
+a, a:hover {
+  color: #ff5268;
+}
+
+code {
+  background-color: #f1f2f3;
+}
+
+.card {
+  transition: background .2s;
+  background: #f1ecec;
+  border: 0;
+}
+
+.card:hover {
+  background: rgb(234, 229, 229);
+}
+
+.card-body {
+  cursor: pointer;
+}
+
+.imglist {
+  font-size: 0;
+}
+
+.imglist a {
+  display: inline-block;
+  margin: 10px 10px 0 0; 
+}
+
+.imglist a:last-of-type {
+  margin-right: 0; 
+}
+
+.imglist a img {
+  vertical-align: top;
+}
+
+.btn {
+  border-radius: 50px;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.8125rem;
+  padding: 0.375rem 1rem;
+}
+
+.btn-primary {
+  background-color: #ff5268;
+  border-color: #ff5268;
+  color: #fff;
+}
+
+.btn:focus {
+  box-shadow: none;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active:focus,
+.btn-primary:not(:disabled):not(.disabled):focus,
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary:not(:disabled):not(.disabled):hover {
+  background-color: #ed475c;
+  border-color: #ed475c;
+  box-shadow: none;
+}
