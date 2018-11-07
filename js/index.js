@@ -1,4 +1,78 @@
+ $(document).ready(function(){
+	 $(".imgB2").click(function(){
+		 $("body").css("overflow-y", "hidden");
+		 $(".popup").css("z-index", "999");
+		  $(".view").css("z-index", "0");
+		 });
+		 	 $(".close3").click(function(){
+		 $("body").css("overflow-y", "hidden");
+         $("body").css("z-index", "99");
+		 $(".popup").css("z-index", "0");
+		  $(".view").css("z-index", "999");
+		  
+		var iframe = document.getElementById('iVid');
+		iframe.src = iframe.src;
+	
+		var iframe02 = document.getElementById('iVid02');
+		iframe02.src = iframe02.src;
+		
+		var iframe03 = document.getElementById('iVid03');
+		iframe03.src = iframe03.src;
+		
+		var iframe04 = document.getElementById('iVid04');
+		iframe04.src = iframe04.src;
+		
+		var iframe05 = document.getElementById('iVid05');
+		iframe05.src = iframe05.src;
+		
+		var iframe06 = document.getElementById('iVid06');
+		iframe06.src = iframe06.src;
+		
+		var iframe07 = document.getElementById('iVid07');
+		iframe07.src = iframe07.src;
+		
+		var iframe08 = document.getElementById('iVid08');
+		iframe08.src = iframe08.src;
+		
+		var iframe09 = document.getElementById('iVid09');
+		iframe09.src = iframe09.src;
+		
+		var iframe11 = document.getElementById('iVid11');
+		iframe11.src = iframe11.src;
+		
+		var iframe10 = document.getElementById('iVid10');
+		iframe10.src = iframe10.src;
+		 });
+		 
+		 $(".Like").hover(function(){
+		 $(".LineText").toggleClass("left");
+		 $(".LineText2").toggleClass("left2");
+		 $(".LineText3").toggleClass("left3");
+		 });
+	 });
 
+
+// based on JQ I found here: http://stackoverflow.com/posts/3842442/revisions
+//initial rotation
+$('.photo').each(function() {
+    var randrot = Math.random() * 20 - 10; //has to be local to run w/ each function call
+    $(this).css('transform', 'rotate(' + randrot + 'deg) scale(1)');
+});
+
+//hover/unhover rotations
+$('.photo').hover(function() {
+    var randrot = Math.random() * 20 - 10; //has to be local to run w/ each function call
+  $(this).css({
+    transform: "rotate(" + randrot + "deg) scale(1.25)", 
+    'z-index': "1"//kind of hacky, but standard notation didn't like the '-' in z-index, open to suggestions
+    });
+}, function() {
+    var randrot = Math.random() * 20 - 10; //has to be local to run w/ each function call
+  $(this).css({
+    transform: "rotate(" + randrot + "deg) scale(1)", 
+    'z-index': "0"//kind of hacky, but standard notation didn't like the '-' in z-index, open to suggestions
+    });
+});
 
 
 
