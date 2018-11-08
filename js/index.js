@@ -42,7 +42,11 @@
 		
 		var iframe10 = document.getElementById('iVid10');
 		iframe10.src = iframe10.src;
-		 });
+		 
+		var iframe12 = document.getElementById('iVid12');
+		iframe12.src = iframe12.src;
+		
+		});
 		 
 		 $(".Like").hover(function(){
 		 $(".LineText").toggleClass("left");
