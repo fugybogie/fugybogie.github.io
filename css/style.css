@@ -1,4 +1,69 @@
 
+
+
+.wrap {
+  margin: 50px;
+}
+
+.beep {
+}
+.wrap:hover .beep {
+  transform: scale(1.35);
+  cursor: pointer;
+}
+
+.beep1 {
+  transition: all 50ms;
+}
+
+
+
+.ball {
+  position: absolute;
+  top: 50%;
+  left: 45%;
+}
+
+.ball:not(:hover){
+  animation: hop 1.5s infinite;
+}
+
+
+.ball:hover {
+}
+
+@keyframes hop {
+  10% {
+    transform: scale(1.1, 0.8) translateY(5%);
+  }
+  15% {
+    transform: scale(0.9, 1.1) translateY(-80%);
+  }
+  25% {
+    transform: scale(1.05, 0.9) translateY(-100%);
+  }
+  30% {
+    transform: scale(1) translateY(-60%);
+  }
+  40% {
+    transform: scale(1.05, 1) translateY(0);
+  }
+  41% {
+    transform: scale(1.1, 0.9);
+  }
+  50% {
+    transform: translateY(-15%);
+  }
+  60% {
+    transform: translateY(0);
+  }
+}
+
+
+
+
+
+
 .overlay {
   position: absolute;
   top: 0;
