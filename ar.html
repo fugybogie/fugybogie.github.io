@@ -160,6 +160,49 @@ if(typeof Muse == "undefined") window.Muse = {}; window.Muse.assets = {"required
   color: #fff;
   background-color: #2980b9;
 }
+
+.play { 
+  background: red;
+  border-radius: 50% / 10%;
+  color: #FFFFFF;
+  font-size: 2em; /* change this to change size */
+  height: 3em;
+  margin: 20px auto;
+  padding: 0;
+  position: relative;
+  text-align: center;
+  text-indent: 0.1em;
+  transition: all 150ms ease-out;
+  width: 4em;
+}
+
+.play:hover {
+  background: #ff5e5e;
+}
+
+.play::before { 
+  background: inherit;
+  border-radius: 5% / 50%;
+  bottom: 9%;
+  content: "";
+  left: -5%;
+  position: absolute;
+  right: -5%;
+  top: 9%;
+}
+
+.play::after {
+  border-style: solid;
+  border-width: 1em 0 1em 1.732em;
+  border-color: transparent transparent transparent rgba(255, 255, 255, 0.75);
+  content: ' ';
+  font-size: 0.75em;
+  height: 0;
+  margin: -1em 0 0 -0.75em;
+  top: 50%;
+  position: absolute;
+  width: 0;
+}
 </style>
 
 <link rel="stylesheet" href="css/style.css">
@@ -261,23 +304,73 @@ if(typeof Muse == "undefined") window.Muse = {}; window.Muse.assets = {"required
 	</div>
 	
 	<div class="photo">
-			<a href="#CrystalTower05"><img src="images/iar1.png" width="100%" height="100%"></a>
+			<img src="images/iar1.png" width="100%" height="100%">
+			<div class="ball" style="top:0px;left:16px;height:25%">
+				<div class="wrap">
+					<div class="beep1 beep">
+						<a href="#CrystalTower05">
+							<div class="play" style="opacity:0.7">
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
 	</div>
 	
 	<div class="photo">
-			<a href="#CrystalTower06"><img src="images/iar4.png" width="100%" height="100%"></a>
+			<img src="images/iar4.png" width="100%" height="100%">
+			<div class="ball" style="top:0px;left:16px;height:25%">
+				<div class="wrap">
+					<div class="beep1 beep">
+						<a href="#CrystalTower06">
+							<div class="play" style="opacity:0.7">
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
 	</div>
 	
 	<div class="photo">
-			<a href="#CrystalTower07"><img src="images/iar5.png" width="100%" height="100%"></a>
+			<img src="images/iar5.gif" width="100%" height="100%">
+			<div class="ball" style="top:0px;left:16px;height:25%">
+				<div class="wrap">
+					<div class="beep1 beep">
+						<a href="#CrystalTower07">
+							<div class="play" style="opacity:0.7">
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
 	</div>
 	
 	<div class="photo">
-			<a href="#CrystalTower08"><img src="images/iar3.png" width="100%" height="100%"></a>
+			<img src="images/iar3.png" width="100%" height="100%">
+			<div class="ball" style="top:0px;left:16px;height:25%">
+				<div class="wrap">
+					<div class="beep1 beep">
+						<a href="#CrystalTower08">
+							<div class="play" style="opacity:0.7">
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
 	</div>
 	
 	<div class="photo">
-			<a href="#CrystalTower09"><img src="images/iar2.png" width="100%" height="100%"></a>
+			<img src="images/iar2.png" width="100%" height="100%">
+			<div class="ball" style="top:0px;left:16px;height:25%">
+				<div class="wrap">
+					<div class="beep1 beep">
+						<a href="#CrystalTower09">
+							<div class="play" style="opacity:0.7">
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
 	</div>
 </div>
 
