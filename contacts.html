@@ -212,6 +212,28 @@ if(typeof Muse == "undefined") window.Muse = {}; window.Muse.assets = {"required
   position: absolute;
   width: 0;
 }
+
+
+
+
+* {
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
 </style>
 
 <link rel="stylesheet" href="css/style.css">
@@ -296,23 +318,64 @@ if(typeof Muse == "undefined") window.Muse = {}; window.Muse.assets = {"required
    
     <div id="u660"><div class="container2" style="z-index:99999999">
 	
-	<p style="width:100%;height:50px">
 	
-	<div class="talk-bubble tri-right round right-in">
-		<div class="talktext">
-			<br/>
-			<p style="font-size:20px" align="center">Let's working <br/> together !</p>
-			<br/>
+	
+	<div class="row">
+	
+		<div class="column" style="height:100px">
+			
+			</br></br></br></br>
+			
+			<p style="width:100%;height:40px">
+		
+			<div class="talk-bubble tri-right round right-in" style="height:80px;top:32px">
+				<div class="talktext">
+					<div style="height:6px"></div>
+					<p style="font-size:16px" align="center">Let's working <br/> together :)</p>
+					
+				</div>
+			</div>
+				
+				<a href="cv.html">
+					<img style="width:150px; height:150px; border-radius: 50%;cursor: pointer" src="images/avatar3.png" alt="Smiley face" align="right"  href="https://www.google.com"/>
+				</a>
+				
+
+			</p>
+			
 		</div>
+		
+		
+		<div class="column">
+		
+			<div>
+						<form class="form" action="https://formspree.io/fugybogie@gmail.com" method="POST">
+							<div class="form-group">
+								<label for="exampleInputName2" style="font-size:15px;font-weight: normal">Name</label>
+								<input type="text" class="form-control" id="exampleInputName2" name="name" placeholder="Joe Dave" style="border-style: hidden">
+							</div>
+							<div class="form-group">
+								<label for="exampleInputEmail2" style="font-size:15px;font-weight: normal">Email</label>
+								<input type="email" class="form-control" id="exampleInputEmail2" name="email" placeholder="joe.dave@example.com" style="border-style: hidden">
+							</div>
+							<div class="form-group">
+								<label for="exampleInputEmail2" style="font-size:15px;font-weight: normal">Message</label><br/>
+								<textarea name="message" rows="10" cols="45" placeholder="Enter message" class="form-control" style="border-style: hidden"></textarea>
+							</div>
+							<input type="hidden" name="_next" value="thankyou.html" />
+							<input type="hidden" name="_subject" value="New submission!" />
+							<input type="text" name="_gotcha" style="display:none" />
+							<button type="submit" class="btn btn-default" style="border-style: hidden"><b style="font-size:15px;font-weight: normal">Send</b></button>
+						</form>
+					</div>
+		
+		</div>
+		
 	</div>
 	
-	<a href="cv.html"><img style="width:150px; height:150px; border-radius: 50%;cursor: pointer;" src="images/avatar3.png" alt="Smiley face" align="right"  href="https://www.google.com"/></a></p>
 	
-	<div style="width:100%;height:50px">
 	
-	</div>
-	
-	<div class="container">
+	<!--<div class="container" style="width:50%">
 		<div class="row">
 			<div>
 				<form class="form" action="https://formspree.io/fugybogie@gmail.com"
@@ -336,7 +399,7 @@ if(typeof Muse == "undefined") window.Muse = {}; window.Muse.assets = {"required
 				</form>
 			</div>
 		</div>
-	</div>
+	</div>-->
 	
 </div>
    
