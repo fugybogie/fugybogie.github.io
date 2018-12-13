@@ -422,10 +422,10 @@
 
 /* CSS talk bubble */
 .talk-bubble {
-	margin: 40px;
+	margin: 20px;
   display: inline-block;
   position: relative;
-	width: 200px;
+	width: 145px;
 	height: auto;
 	background-color: #fff;
 }
@@ -445,9 +445,9 @@
   border: 8px solid #666;
 }
 .round{
-  border-radius: 30px;
-	-webkit-border-radius: 30px;
-	-moz-border-radius: 30px;
+  border-radius: 29px;
+	-webkit-border-radius: 29px;
+	-moz-border-radius: 29px;
 
 }
 
@@ -622,9 +622,9 @@
 	position: absolute;
 	width: 0;
 	height: 0;
-  left: auto;
+	left: auto;
 	right: -20px;
-  top: 38px;
+	top: 27px;
 	bottom: auto;
 	border: 12px solid;
 	border-color: #fff transparent transparent #fff;
