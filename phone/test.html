@@ -6,7 +6,7 @@
   <meta name="generator" content="2017.0.3.363"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   
-  <title>Test10</title>
+  <title>Test11</title>
   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 
@@ -28,6 +28,98 @@
   
   justify-content: center;
   align-items: center;
+}
+
+.element-card {
+  position: relative;
+  width: 280px;
+  height: 295px;
+  -webkit-transform-style: preserve-3d;
+  box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.4);
+  margin: 9px;
+  cursor: pointer;
+  background-color: #fff;
+}
+.element-card:hover {
+  
+          
+}
+.element-card.open {
+  
+  
+          
+}
+.element-card .front-facing {
+  -webkit-transform: translateZ(2px);
+          
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #ecf0f1;
+  
+}
+.element-card .front-facing .abr {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  font-size: 42px;
+  margin: -35px 0 0 0;
+  text-align: center;
+  color: #3498db;
+}
+.element-card .front-facing .title {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  
+  
+  margin: 15px 0 0 0;
+  text-align: center;
+  color: #3498db;
+}
+.element-card .front-facing .atomic-number {
+  
+}
+.element-card .front-facing .atomic-mass {
+  
+}
+.element-card .back-facing {
+  
+          
+  
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #ecf0f1;
+  
+  text-align: center;
+  overflow: hidden;
+}
+.element-card .back-facing p {
+  font-size: 14px;
+  margin: 0;
+}
+.element-card .back-facing a.btn {
+  
+  background-color: white;
+  padding: 5px 15px;
+  margin: 20px 0 0 0;
+  color: #eee;
+  background-color: #3498db;
+  
+  border-radius: 3px;
+}
+.element-card .back-facing a.btn:hover, .element-card .back-facing a.btn:focus {
+  color: #fff;
+  background-color: #2980b9;
 }
 
 
