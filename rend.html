@@ -224,63 +224,149 @@ if(typeof Muse == "undefined") window.Muse = {}; window.Muse.assets = {"required
   
 
 
-   </head>
+   <link rel="stylesheet" href="css/menu_bare.css">
+<style id="new-site-theme">
+html, body {
+  background: #131517 !important;
+  background-color: #131517 !important;
+  background-image: none !important;
+}
+#container { display:flex; justify-content:center; }
+#menu { width:auto; }
+#menu > li > a.ai-video { color:#d1fe17; font-weight:600; }
+</style>
+
+<style id="menu-layout-fix">
+html, body {
+  background: #131517 !important;
+  background-color: #131517 !important;
+  background-image: none !important;
+}
+
+/* Keep the menu itself above all legacy Muse content/images. */
+body > #container {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: 100% !important;
+  max-width: none !important;
+  height: 32px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  float: none !important;
+  transform: none !important;
+  z-index: 2147483646 !important;
+  overflow: visible !important;
+  background: #131517 !important;
+}
+
+body > #container > #menu {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  width: auto !important;
+  max-width: none !important;
+  height: 32px !important;
+  margin: 0 auto !important;
+  padding: 0 16px !important;
+  display: flex !important;
+  float: none !important;
+  overflow: visible !important;
+  z-index: 2147483647 !important;
+  background: #131517 !important;
+}
+
+body > #container > #menu > li {
+  position: relative !important;
+  float: none !important;
+  overflow: visible !important;
+}
+
+body > #container > #menu li ul {
+  position: absolute !important;
+  top: 32px !important;
+  left: 0 !important;
+  z-index: 2147483647 !important;
+}
+
+body > #container > #menu > li > a.ai-video {
+  color: #d1fe17 !important;
+  font-weight: 600 !important;
+}
+
+/* Legacy Muse wrappers/images must stay below the navigation. */
+body > #container ~ * {
+  position: relative;
+  z-index: 1;
+}
+</style>
+
+
+<style id="viewport-center-fix">
+body > #container {
+  position: relative !important;
+  left: 50vw !important;
+  transform: translateX(-50%) !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  overflow: visible !important;
+  z-index: 2147483646 !important;
+  background: #131517 !important;
+}
+body > #container > #menu {
+  width: max-content !important;
+  margin: 0 !important;
+  padding: 0 16px !important;
+  flex: 0 0 auto !important;
+  overflow: visible !important;
+  z-index: 2147483647 !important;
+}
+body > #container > #menu li ul {
+  z-index: 2147483647 !important;
+}
+</style>
+
+</head>
  <body style="overflow:hidden">
 
  
  
- <div id="menu" style="z-index:9999999999">
-		<div class="hamburger">
-			<img src="images/menu.png" style="width:30px;height:120px">
-			
-		</div>
-		<div class="menu-inner">
-			
-			<ul>
-			
-				<li style="color: #9b59b6; font-weight:bold; text-indent:; text-decoration: none; font-size: 22px"><span style="cursor:pointer"><a style="text-decoration:none; color: #9b59b6" href="index.html">Home</a></span></li>
-				<li style="color: #86e2d5; font-weight:bold; text-indent:; text-decoration: none; font-size: 22px"><span style="cursor:pointer"><a style="text-decoration:none; color: #86e2d5" href="contacts.html">Contacts</a></span></li>
-				<li style="color: #f5ab35; font-weight:bold; text-indent:; text-decoration: none; font-size: 22px"><span style="cursor:pointer"><span style="cursor:pointer"><a style="text-decoration:none; color: #f5ab35" href="cv.html">CV</a></span></li>
-				
-				
-				<li style="color: #1e8bc3; font-weight:bold; text-indent:; text-decoration: none; font-size: 22px"><span style="cursor:pointer">CGI Skills</span>
-				<li style="color: #1e8bc3; font-weight:bold; text-indent:; text-decoration: none; font-size: 19px; padding: 4px 0">&nbsp;&nbsp;&nbsp;&nbsp;<span style="cursor:pointer"><a style="text-decoration:none; color: #1e8bc3" href="anim.html">Animation Skills</a></span></li>
-				<li style="color: #1e8bc3; font-weight:bold; text-indent:; text-decoration: none; font-size: 19px; padding: 4px 0">&nbsp;&nbsp;&nbsp;&nbsp;<span style="cursor:pointer"><a style="text-decoration:none; color: #1e8bc3" href="modelling.html">3d Modelling Skills</a></span></li>
-				<li style="color: #1e8bc3; font-weight:bold; text-indent:; text-decoration: none; font-size: 19px; padding: 4px 0">&nbsp;&nbsp;&nbsp;&nbsp;<span style="cursor:pointer"><a style="text-decoration:none; color: #1e8bc3" href="rig.html">Rigging Skills</a></span></li>
-				<li style="color: #1e8bc3; font-weight:bold; text-indent:; text-decoration: none; font-size: 18.5px; padding: 4px 0">&nbsp;&nbsp;&nbsp;&nbsp;<span style="cursor:pointer"><a style="text-decoration:none; color: #1e8bc3" href="prog.html">Programming Skills</a></span></li>
-				<li style="color: #1e8bc3; font-weight:bold; text-indent:; text-decoration: none; font-size: 19px; padding: 4px 0">&nbsp;&nbsp;&nbsp;&nbsp;<span style="cursor:pointer"><a style="text-decoration:none; color: #1e8bc3" href="rend.html">Rendering Skills</a></span></li>
-				
-				
-					
-					
-				</li>
-				
-				
-				<li style="color: #8c0615; font-weight:bold; text-indent:; text-decoration: none; font-size: 22px"><span style="cursor:pointer">Projects</span>
-
-				<li style="color: #8c0615; font-weight:bold; text-indent:; text-decoration: none; font-size: 19px; padding: 4px 0">&nbsp;&nbsp;&nbsp;&nbsp;<span style="cursor:pointer"><a style="text-decoration:none; color: #8c0615" href="vr.html">Virtual Reality</a></span></li>
-				<li style="color: #8c0615; font-weight:bold; text-indent:; text-decoration: none; font-size: 19px; padding: 4px 0">&nbsp;&nbsp;&nbsp;&nbsp;<span style="cursor:pointer"><a style="text-decoration:none; color: #8c0615" href="ar.html">Augmented Reality</a></span></li>
-				<li style="color: #8c0615; font-weight:bold; text-indent:; text-decoration: none; font-size: 19px; padding: 4px 0">&nbsp;&nbsp;&nbsp;&nbsp;<span style="cursor:pointer"><a style="text-decoration:none; color: #8c0615" href="mr.html">Mixed Reality</a></span></li>
-				<li style="color: #8c0615; font-weight:bold; text-indent:; text-decoration: none; font-size: 19px; padding: 4px 0">&nbsp;&nbsp;&nbsp;&nbsp;<span style="cursor:pointer"><a style="text-decoration:none; color: #8c0615" href="proj3d.html">3D Projection</a></span></li>
-					
-					
-				</li>
-				
-				
-				
-				
-				
-				
-				
-			</ul>
-		</div>
-  
-  
-		
-		<svg version="1.1" id="blob"xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-			<path id="blob-path" d="M60,500H0V0h60c0,0,20,172,20,250S60,900,60,500z"/>
-		</svg>
-	</div>
+ <div id="container">
+  <ul id="menu">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="contacts.html">Contacts</a></li>
+    <li><a href="cv.html">CV</a></li>
+    <li><a class="ai-video" href="ai-video.html">Ai Video</a></li>
+    <li><a href="#">CGI Skills</a>
+      <ul>
+        <li><a href="anim.html">Animation Skills</a></li>
+        <li><a href="modelling.html">3D Modelling Skills</a></li>
+        <li><a href="rig.html">Rigging Skills</a></li>
+        <li><a href="prog.html">Programming Skills</a></li>
+        <li><a href="rend.html">Rendering Skills</a></li>
+      </ul>
+    </li>
+    <li><a href="#">Projects</a>
+      <ul>
+        <li><a href="vr.html">Virtual Reality</a></li>
+        <li><a href="ar.html">Augmented Reality</a></li>
+        <li><a href="mr.html">Mixed Reality</a></li>
+        <li><a href="proj3d.html">3D Projection</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>
  
  
  <div id="" style="overflow:scroll; height:100%;">

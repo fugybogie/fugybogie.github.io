@@ -1,0 +1,194 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: #131517;
+}
+
+#container {
+    position: relative;
+    width: 100%;
+    height: 32px;
+    background: #131517;
+}
+
+#container:after {
+    content: "";
+    display: block;
+    clear: both;
+    height: 0;
+}
+
+#menu {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 32px;
+    padding: 0 16px;
+    margin: 0;
+    list-style: none;
+    background: #131517;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+#menu,
+#menu ul {
+    list-style: none;
+}
+
+#menu > li {
+    position: relative;
+    float: none;
+    border: none;
+    box-shadow: none;
+    perspective: 1000px;
+}
+
+#menu > li:first-child {
+    border: none;
+    box-shadow: none;
+}
+
+#menu a {
+    display: block;
+    position: relative;
+    z-index: 10;
+    padding: 9px 11px;
+    text-decoration: none;
+    color: #626466;
+    line-height: 1;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: -0.02em;
+    background: transparent;
+    text-shadow: none;
+    transition: color .2s ease, background .2s ease;
+}
+
+#menu > li:hover > a {
+    background: transparent;
+    color: #d4d4d4;
+    text-shadow: none;
+}
+
+#menu li ul {
+    position: absolute;
+    top: 32px;
+    left: 0;
+    z-index: 1000;
+    width: 190px;
+    padding: 0;
+    opacity: 0;
+    visibility: hidden;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background: transparent;
+    overflow: hidden;
+    transform-origin: 50% 0%;
+}
+
+#menu li:hover ul {
+    padding: 8px 0;
+    background: #202224;
+    opacity: 1;
+    visibility: visible;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, .35);
+    animation-name: swingdown;
+    animation-duration: .6s;
+    animation-timing-function: ease;
+}
+
+@keyframes swingdown {
+    0% {
+        opacity: .99999;
+        transform: rotateX(90deg);
+    }
+
+    30% {
+        transform: rotateX(-20deg) rotateY(5deg);
+        animation-timing-function: ease-in-out;
+    }
+
+    65% {
+        transform: rotateX(20deg) rotateY(-3deg);
+        animation-timing-function: ease-in-out;
+    }
+
+    100% {
+        transform: rotateX(0);
+        animation-timing-function: ease-in-out;
+    }
+}
+
+#menu li li a {
+    padding: 8px 15px;
+    font-weight: 500;
+    font-size: 13px;
+    color: #777a7d;
+    text-shadow: none;
+    border: none;
+    transition: color .15s linear, background .15s linear;
+}
+
+#menu li li a:hover {
+    color: #e1e1e1;
+    border: none;
+    background: rgba(255, 255, 255, .03);
+}
+
+
+/* Final navigation positioning / stacking fix */
+#container {
+    position: relative;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    overflow: visible;
+    z-index: 2147483646;
+}
+
+#menu {
+    position: relative;
+    width: auto;
+    margin: 0 auto;
+    overflow: visible;
+    z-index: 2147483647;
+}
+
+#menu > li {
+    position: relative;
+    overflow: visible;
+}
+
+#menu li ul {
+    z-index: 2147483647;
+}
+
+/* Viewport centering fix for legacy Muse fixed-width pages */
+body > #container {
+    left: 50vw !important;
+    transform: translateX(-50%) !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    display: flex !important;
+    justify-content: center !important;
+    overflow: visible !important;
+}
+body > #container > #menu {
+    width: max-content !important;
+    margin: 0 !important;
+    flex: 0 0 auto !important;
+    overflow: visible !important;
+}
