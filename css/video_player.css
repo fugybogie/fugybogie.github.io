@@ -1804,3 +1804,47 @@ body > #container > #menu > .home-nav-item {
         left: 54px !important;
     }
 }
+
+
+/* Video card text hover */
+.video-card h2,
+.video-card p {
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.video-card h2:hover,
+.video-card p:hover {
+    color: #c8fe00 !important;
+}
+
+
+/* =========================================================
+   VIDEO/TITLE HOVER — description stays unchanged
+   ========================================================= */
+
+/* Description never behaves like a link */
+.video-card p {
+    cursor: default !important;
+}
+
+.video-card p:hover {
+    color: #8a8d91 !important;
+}
+
+/* Only the bold title behaves like a clickable link */
+.video-card h2 {
+    cursor: pointer !important;
+}
+
+.video-card h2:hover {
+    color: #c8fe00 !important;
+}
+
+/* The video itself also shows the hand cursor */
+.video-card-player,
+.video-card-player .video-js,
+.video-card-player video,
+.video-card-player .vjs-tech {
+    cursor: pointer !important;
+}

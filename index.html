@@ -209,9 +209,9 @@ body > #container > #menu li ul {
 
         <article class="video-card">
           <div class="video-card-player">
-            <video class="video-js" controls preload="metadata"
+            <video class="video-js" autoplay muted loop playsinline preload="auto"
                    poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
-                   data-setup='{}' loop>
+                   data-setup='{"autoplay":true,"muted":true,"loop":true,"controls":false}'>
               <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4" type="video/mp4">
             </video>
           </div>
@@ -291,6 +291,23 @@ body > #container > #menu li ul {
         }
       }, { passive: false });
     })();
+  </script>
+
+
+  <script>
+    window.addEventListener('load', function () {
+      const videos = document.querySelectorAll('.video-card video');
+      const secondVideo = videos[1];
+      if (secondVideo) {
+        secondVideo.muted = true;
+        secondVideo.loop = true;
+        secondVideo.playsInline = true;
+        const attempt = secondVideo.play();
+        if (attempt && typeof attempt.catch === 'function') {
+          attempt.catch(function () {});
+        }
+      }
+    });
   </script>
 
 </body>
