@@ -32,6 +32,7 @@
     }
   </style>
 <link rel="stylesheet" href="css/menu_bare.css">
+<link rel="stylesheet" href="css/video_player.css">
 <style id="new-site-theme">
 html, body {
   background: #131517 !important;
@@ -148,9 +149,23 @@ body > #container > #menu li ul {
 
 <body>
 
+  <div class="cv-top-banner" id="cv-top-banner">
+    <div class="cv-banner-center">
+      <span class="cv-banner-icon">◆</span>
+      <span class="cv-banner-text">Aici este CV-ul meu .pdf</span>
+      <a class="cv-banner-button" href="cv.pdf" target="_blank" rel="noopener">Vizualizează</a>
+    </div>
+    <button class="cv-banner-close" type="button" aria-label="Închide" onclick="document.getElementById('cv-top-banner').remove()">×</button>
+  </div>
+
+
   <div id="container">
+    <a class="site-logo" href="index.html" aria-label="Home">
+      <img src="favicon/logo.png" alt="Logo">
+    </a>
+    <a class="home-fixed-link" href="index.html">Home</a>
   <ul id="menu">
-    <li><a href="index.html">Home</a></li>
+    
     <li><a href="contacts.html">Contacts</a></li>
     <li><a href="cv.html">CV</a></li>
     <li><a class="ai-video" href="ai-video.html">Ai Video</a></li>
@@ -173,6 +188,110 @@ body > #container > #menu li ul {
     </li>
   </ul>
 </div>
+
+  <main class="video-showcase">
+    <div class="video-carousel-shell">
+      <button class="carousel-arrow carousel-arrow-left" type="button" aria-label="Previous videos">&#10094;</button>
+
+      <div class="video-carousel" id="video-carousel">
+
+        <article class="video-card">
+          <div class="video-card-player">
+            <video class="video-js" controls preload="metadata"
+                   poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
+                   data-setup='{}' loop>
+              <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4" type="video/mp4">
+            </video>
+          </div>
+          <h2>AI VIDEO PRODUCTION</h2>
+          <p>Cinematic AI video, motion and visual storytelling.</p>
+        </article>
+
+        <article class="video-card">
+          <div class="video-card-player">
+            <video class="video-js" controls preload="metadata"
+                   poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
+                   data-setup='{}' loop>
+              <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4" type="video/mp4">
+            </video>
+          </div>
+          <h2>CHARACTER ANIMATION</h2>
+          <p>AI-driven character performance, movement and animation.</p>
+        </article>
+
+        <article class="video-card">
+          <div class="video-card-player">
+            <video class="video-js" controls preload="metadata"
+                   poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
+                   data-setup='{}' loop>
+              <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4" type="video/mp4">
+            </video>
+          </div>
+          <h2>VFX &amp; CGI</h2>
+          <p>Visual effects, CGI integration and cinematic environments.</p>
+        </article>
+
+        <article class="video-card">
+          <div class="video-card-player">
+            <video class="video-js" controls preload="metadata"
+                   poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
+                   data-setup='{}' loop>
+              <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4" type="video/mp4">
+            </video>
+          </div>
+          <h2>GENERATIVE FILM</h2>
+          <p>Experimental filmmaking using modern generative workflows.</p>
+        </article>
+
+        <article class="video-card">
+          <div class="video-card-player">
+            <video class="video-js" controls preload="metadata"
+                   poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
+                   data-setup='{}' loop>
+              <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4" type="video/mp4">
+            </video>
+          </div>
+          <h2>CREATIVE TECHNOLOGY</h2>
+          <p>New visual workflows combining AI, 3D and production tools.</p>
+        </article>
+
+      </div>
+
+      <button class="carousel-arrow carousel-arrow-right" type="button" aria-label="Next videos">&#10095;</button>
+    </div>
+  </main>
+
+
+  <script src="https://vjs.zencdn.net/8.23.4/video.min.js"></script>
+
+
+  <script>
+    (() => {
+      const carousel = document.getElementById('video-carousel');
+      const left = document.querySelector('.carousel-arrow-left');
+      const right = document.querySelector('.carousel-arrow-right');
+
+      function scrollAmount() {
+        const card = carousel.querySelector('.video-card');
+        return card ? card.getBoundingClientRect().width + 20 : 500;
+      }
+
+      left.addEventListener('click', () => {
+        carousel.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
+      });
+
+      right.addEventListener('click', () => {
+        carousel.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+      });
+
+      carousel.addEventListener('wheel', (event) => {
+        if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
+          event.preventDefault();
+          carousel.scrollBy({ left: event.deltaY, behavior: 'auto' });
+        }
+      }, { passive: false });
+    })();
+  </script>
 
 </body>
 </html>
