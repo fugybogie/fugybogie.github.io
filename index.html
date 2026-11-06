@@ -146,7 +146,7 @@ body > #container > #menu li ul {
 </style>
 
 <style>
-#character-video .vjs-control-bar {
+:is(#character-video, #rocky-video) .vjs-control-bar {
   bottom: 0;
   left: 0;
   width: 100%;
@@ -156,31 +156,34 @@ body > #container > #menu li ul {
   box-sizing: border-box;
   background: rgba(0, 0, 0, 0.4);
 }
-#character-video .vjs-control-bar {
+:is(#character-video, #rocky-video) .vjs-control-bar {
   visibility: hidden !important;
   opacity: 0 !important;
   pointer-events: none !important;
   transition: none !important;
 }
-#character-video.timeline-hover .vjs-control-bar {
+:is(#character-video, #rocky-video).timeline-hover .vjs-control-bar {
   display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
   pointer-events: auto !important;
 }
-#character-video .vjs-progress-control {
+:is(#character-video, #rocky-video) .vjs-progress-control {
   flex: 1 1 auto;
   min-width: 0;
 }
-#character-video .vjs-progress-holder {
+:is(#character-video, #rocky-video) .vjs-progress-holder {
   height: 4px;
   margin: 0;
 }
-#character-video .vjs-time-tooltip,
-#character-video .vjs-mouse-display,
-#character-video .vjs-play-progress::before {
+:is(#character-video, #rocky-video) .vjs-time-tooltip,
+:is(#character-video, #rocky-video) .vjs-mouse-display,
+:is(#character-video, #rocky-video) .vjs-play-progress::before {
   display: none;
 }
+</style>
+<style>
+.rocky-credit, .rocky-credit:visited { color: #ffdf00; font-family: Latino, Georgia, serif; }
 </style>
 </head>
 
@@ -234,14 +237,12 @@ body > #container > #menu li ul {
 
         <article class="video-card">
           <div class="video-card-player">
-            <video class="video-js" controls preload="metadata"
-                   poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
-                   data-setup='{}' loop>
-              <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4" type="video/mp4">
+            <video id="rocky-video" class="video-js" controls autoplay muted loop playsinline preload="auto">
+              <source src="https://stream.mux.com/y9dA3gix9b6ALlnWV9SUPfmef003JKQmx6gEJcKL4gZY.m3u8?min_resolution=2160p" type="application/x-mpegURL">
             </video>
           </div>
-          <h2>AI VIDEO PRODUCTION</h2>
-          <p>Cinematic AI video, motion and visual storytelling.</p>
+          <h2>ASAP ROCKY AI VIDEO</h2>
+          <p>I created and edited this AI-generated video featuring <a class="rocky-credit" href="https://www.youtube.com/channel/UC0KAFLxIiaR_FFNYDL3utGw">A$AP Rocky</a> in collaboration with Framebreed.</p>
         </article>
 
         <article class="video-card">
@@ -331,23 +332,25 @@ body > #container > #menu li ul {
 
 
   <script>
-    const characterVideo = videojs('character-video', {
-      bigPlayButton: false,
-      controlBar: { children: ['progressControl'] }
-    });
-    const characterPlayer = characterVideo.el();
-    characterPlayer.addEventListener('pointermove', (event) => {
-      if (event.pointerType === 'mouse') characterPlayer.classList.add('timeline-hover');
-    });
-    characterPlayer.addEventListener('pointerleave', () => {
-      characterPlayer.classList.remove('timeline-hover');
-    });
-    const characterSurface = characterVideo.tech().el();
-    characterSurface.addEventListener('pointerenter', (event) => {
-      if (event.pointerType === 'mouse') characterVideo.muted(false);
-    });
-    characterSurface.addEventListener('pointerleave', (event) => {
-      if (event.pointerType === 'mouse') characterVideo.muted(true);
+    ['character-video', 'rocky-video'].forEach((playerId) => {
+      const characterVideo = videojs(playerId, {
+        bigPlayButton: false,
+        controlBar: { children: ['progressControl'] }
+      });
+      const characterPlayer = characterVideo.el();
+      characterPlayer.addEventListener('pointermove', (event) => {
+        if (event.pointerType === 'mouse') characterPlayer.classList.add('timeline-hover');
+      });
+      characterPlayer.addEventListener('pointerleave', () => {
+        characterPlayer.classList.remove('timeline-hover');
+      });
+      const characterSurface = characterVideo.tech().el();
+      characterSurface.addEventListener('pointerenter', (event) => {
+        if (event.pointerType === 'mouse') characterVideo.muted(false);
+      });
+      characterSurface.addEventListener('pointerleave', (event) => {
+        if (event.pointerType === 'mouse') characterVideo.muted(true);
+      });
     });
   </script>
 </body>
