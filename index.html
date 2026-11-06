@@ -209,10 +209,9 @@ body > #container > #menu li ul {
 
         <article class="video-card">
           <div class="video-card-player" style="position:relative">
-            <iframe
-                   src="https://drive.google.com/file/d/1jgCYg8XqEQhhkWnBNQv1CbI_lU7vP4gS/preview"
-                   title="Character Animation" allow="autoplay; fullscreen"
-                   style="display:block;width:100%;height:100%;border:0" allowfullscreen></iframe>
+            <video id="character-video" class="video-js" controls autoplay muted loop playsinline preload="auto">
+              <source src="https://stream.mux.com/Vc27eIZ17oxEUV302ZPEv2R02NDiD00qis6UU7lM8qG6Xg.m3u8?min_resolution=2160p" type="application/x-mpegURL">
+            </video>
           </div>
           <h2>CHARACTER ANIMATION</h2>
           <p>AI-driven character performance, movement and animation.</p>
@@ -294,5 +293,18 @@ body > #container > #menu li ul {
 
 
 
+  <script>
+    const characterVideo = videojs('character-video', {
+      bigPlayButton: false,
+      controlBar: { children: ['progressControl'] }
+    });
+    const characterSurface = characterVideo.tech().el();
+    characterSurface.addEventListener('pointerenter', (event) => {
+      if (event.pointerType === 'mouse') characterVideo.muted(false);
+    });
+    characterSurface.addEventListener('pointerleave', (event) => {
+      if (event.pointerType === 'mouse') characterVideo.muted(true);
+    });
+  </script>
 </body>
 </html>
