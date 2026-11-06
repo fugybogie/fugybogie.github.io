@@ -339,17 +339,14 @@ body > #container > #menu li ul {
       });
       const characterPlayer = characterVideo.el();
       characterPlayer.addEventListener('pointermove', (event) => {
-        if (event.pointerType === 'mouse') characterPlayer.classList.add('timeline-hover');
+        if (event.pointerType !== 'mouse' || characterPlayer.classList.contains('timeline-hover')) return;
+        characterPlayer.classList.add('timeline-hover');
+        if (!characterVideo.paused()) characterVideo.muted(false);
       });
-      characterPlayer.addEventListener('pointerleave', () => {
+      characterPlayer.addEventListener('pointerleave', (event) => {
+        if (event.pointerType !== 'mouse') return;
         characterPlayer.classList.remove('timeline-hover');
-      });
-      const characterSurface = characterVideo.tech().el();
-      characterSurface.addEventListener('pointerenter', (event) => {
-        if (event.pointerType === 'mouse') characterVideo.muted(false);
-      });
-      characterSurface.addEventListener('pointerleave', (event) => {
-        if (event.pointerType === 'mouse') characterVideo.muted(true);
+        characterVideo.muted(true);
       });
     });
   </script>
