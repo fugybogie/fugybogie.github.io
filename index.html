@@ -156,15 +156,17 @@ body > #container > #menu li ul {
   box-sizing: border-box;
   background: rgba(0, 0, 0, 0.4);
 }
-@media (hover: hover) {
-  #character-video:not(:hover):not(:focus-within) .vjs-control-bar {
-    display: none;
-  }
-  #character-video.vjs-has-started:hover .vjs-control-bar,
-  #character-video.vjs-has-started:focus-within .vjs-control-bar {
-    opacity: 1;
-    visibility: visible;
-  }
+#character-video .vjs-control-bar {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: none !important;
+}
+#character-video.timeline-hover .vjs-control-bar {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
 }
 #character-video .vjs-progress-control {
   flex: 1 1 auto;
@@ -332,6 +334,13 @@ body > #container > #menu li ul {
     const characterVideo = videojs('character-video', {
       bigPlayButton: false,
       controlBar: { children: ['progressControl'] }
+    });
+    const characterPlayer = characterVideo.el();
+    characterPlayer.addEventListener('pointermove', (event) => {
+      if (event.pointerType === 'mouse') characterPlayer.classList.add('timeline-hover');
+    });
+    characterPlayer.addEventListener('pointerleave', () => {
+      characterPlayer.classList.remove('timeline-hover');
     });
     const characterSurface = characterVideo.tech().el();
     characterSurface.addEventListener('pointerenter', (event) => {
