@@ -209,11 +209,10 @@ body > #container > #menu li ul {
 
         <article class="video-card">
           <div class="video-card-player">
-            <video class="video-js" autoplay muted loop playsinline preload="auto"
-                   poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
-                   data-setup='{"autoplay":true,"muted":true,"loop":true,"controls":false}'>
-              <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4" type="video/mp4">
-            </video>
+            <iframe
+                   src="https://www.youtube.com/embed/G5OQI1UwMOc?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=G5OQI1UwMOc&amp;playsinline=1&amp;controls=0"
+                   title="Character Animation" referrerpolicy="strict-origin" allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                   style="display:block;width:100%;height:100%;border:0" allowfullscreen></iframe>
           </div>
           <h2>CHARACTER ANIMATION</h2>
           <p>AI-driven character performance, movement and animation.</p>
@@ -294,21 +293,6 @@ body > #container > #menu li ul {
   </script>
 
 
-  <script>
-    window.addEventListener('load', function () {
-      const videos = document.querySelectorAll('.video-card video');
-      const secondVideo = videos[1];
-      if (secondVideo) {
-        secondVideo.muted = true;
-        secondVideo.loop = true;
-        secondVideo.playsInline = true;
-        const attempt = secondVideo.play();
-        if (attempt && typeof attempt.catch === 'function') {
-          attempt.catch(function () {});
-        }
-      }
-    });
-  </script>
 
 </body>
 </html>
