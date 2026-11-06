@@ -213,7 +213,7 @@ body > #container > #menu li ul {
                    src="https://www.youtube.com/embed/G5OQI1UwMOc?enablejsapi=1&amp;autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=G5OQI1UwMOc&amp;playsinline=1&amp;controls=0"
                    title="Character Animation" referrerpolicy="strict-origin" allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
                    style="display:block;width:100%;height:100%;border:0" allowfullscreen></iframe>
-            <button id="character-audio" type="button" aria-label="Toggle video sound" aria-pressed="false"
+            <button id="character-audio" type="button" aria-label="Play or pause video"
                     style="position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;cursor:pointer"></button>
           </div>
           <h2>CHARACTER ANIMATION</h2>
@@ -305,11 +305,9 @@ body > #container > #menu li ul {
             function setSound(enabled) {
               if (enabled) {
                 player.unMute();
-                player.playVideo();
               } else {
                 player.mute();
               }
-              audio.setAttribute('aria-pressed', String(enabled));
             }
 
             audio.addEventListener('pointerenter', (event) => {
@@ -318,8 +316,13 @@ body > #container > #menu li ul {
             audio.addEventListener('pointerleave', (event) => {
               if (event.pointerType === 'mouse') setSound(false);
             });
-            audio.addEventListener('click', (event) => {
-              setSound(event.pointerType === 'mouse' || audio.getAttribute('aria-pressed') === 'false');
+            audio.addEventListener('click', () => {
+              if (player.getPlayerState() === YT.PlayerState.PLAYING) {
+                player.pauseVideo();
+              } else {
+                setSound(true);
+                player.playVideo();
+              }
             });
             if (audio.matches(':hover')) setSound(true);
           }
