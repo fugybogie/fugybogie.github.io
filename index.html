@@ -156,6 +156,16 @@ body > #container > #menu li ul {
   box-sizing: border-box;
   background: rgba(0, 0, 0, 0.4);
 }
+@media (hover: hover) {
+  #character-video:not(:hover):not(:focus-within) .vjs-control-bar {
+    display: none;
+  }
+  #character-video.vjs-has-started:hover .vjs-control-bar,
+  #character-video.vjs-has-started:focus-within .vjs-control-bar {
+    opacity: 1;
+    visibility: visible;
+  }
+}
 #character-video .vjs-progress-control {
   flex: 1 1 auto;
   min-width: 0;
@@ -238,8 +248,8 @@ body > #container > #menu li ul {
               <source src="https://stream.mux.com/Vc27eIZ17oxEUV302ZPEv2R02NDiD00qis6UU7lM8qG6Xg.m3u8?min_resolution=2160p" type="application/x-mpegURL">
             </video>
           </div>
-          <h2>CHARACTER ANIMATION</h2>
-          <p>AI-driven character performance, movement and animation.</p>
+          <h2>CHARACTER REPLACEMENT 4K</h2>
+          <p>Preserved color space, character identity, accurate lip-sync, natural body movement, and high-quality 4K resolution.</p>
         </article>
 
         <article class="video-card">
