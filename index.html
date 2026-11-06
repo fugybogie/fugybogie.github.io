@@ -145,6 +145,31 @@ body > #container > #menu li ul {
 }
 </style>
 
+<style>
+#character-video .vjs-control-bar {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 24px;
+  margin: 0;
+  padding: 0 12px;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.4);
+}
+#character-video .vjs-progress-control {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+#character-video .vjs-progress-holder {
+  height: 4px;
+  margin: 0;
+}
+#character-video .vjs-time-tooltip,
+#character-video .vjs-mouse-display,
+#character-video .vjs-play-progress::before {
+  display: none;
+}
+</style>
 </head>
 
 <body>
