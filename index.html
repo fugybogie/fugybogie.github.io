@@ -146,7 +146,7 @@ body > #container > #menu li ul {
 </style>
 
 <style>
-:is(#character-video, #rocky-video) .vjs-control-bar {
+:is(#character-video, #rocky-video, #vfx-video) .vjs-control-bar {
   bottom: 0;
   left: 0;
   width: 100%;
@@ -156,29 +156,29 @@ body > #container > #menu li ul {
   box-sizing: border-box;
   background: rgba(0, 0, 0, 0.4);
 }
-:is(#character-video, #rocky-video) .vjs-control-bar {
+:is(#character-video, #rocky-video, #vfx-video) .vjs-control-bar {
   visibility: hidden !important;
   opacity: 0 !important;
   pointer-events: none !important;
   transition: none !important;
 }
-:is(#character-video, #rocky-video).timeline-hover .vjs-control-bar {
+:is(#character-video, #rocky-video, #vfx-video).timeline-hover .vjs-control-bar {
   display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
   pointer-events: auto !important;
 }
-:is(#character-video, #rocky-video) .vjs-progress-control {
+:is(#character-video, #rocky-video, #vfx-video) .vjs-progress-control {
   flex: 1 1 auto;
   min-width: 0;
 }
-:is(#character-video, #rocky-video) .vjs-progress-holder {
+:is(#character-video, #rocky-video, #vfx-video) .vjs-progress-holder {
   height: 4px;
   margin: 0;
 }
-:is(#character-video, #rocky-video) .vjs-time-tooltip,
-:is(#character-video, #rocky-video) .vjs-mouse-display,
-:is(#character-video, #rocky-video) .vjs-play-progress::before {
+:is(#character-video, #rocky-video, #vfx-video) .vjs-time-tooltip,
+:is(#character-video, #rocky-video, #vfx-video) .vjs-mouse-display,
+:is(#character-video, #rocky-video, #vfx-video) .vjs-play-progress::before {
   display: none;
 }
 </style>
@@ -242,7 +242,7 @@ body > #container > #menu li ul {
             </video>
           </div>
           <h2>ASAP ROCKY AI VIDEO</h2>
-          <p>I created and edited this AI-generated video featuring <a class="rocky-credit" href="https://www.youtube.com/channel/UC0KAFLxIiaR_FFNYDL3utGw">A$AP Rocky</a> in collaboration with Framebreed.</p>
+          <p>I created and edited this AI-generated video featuring <a class="rocky-credit" href="https://www.youtube.com/channel/UC0KAFLxIiaR_FFNYDL3utGw">A$AP Rocky</a> in collaboration with <strong>Framebreed</strong>.</p>
         </article>
 
         <article class="video-card">
@@ -257,10 +257,8 @@ body > #container > #menu li ul {
 
         <article class="video-card">
           <div class="video-card-player">
-            <video class="video-js" controls preload="metadata"
-                   poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg"
-                   data-setup='{}' loop>
-              <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4" type="video/mp4">
+            <video id="vfx-video" class="video-js" controls autoplay muted loop playsinline preload="auto">
+              <source src="https://stream.mux.com/rGXgkJ02EdwZplcyQ69600gloNEgJwAGd02RlT1yzmjMxQ.m3u8?min_resolution=2160p" type="application/x-mpegURL">
             </video>
           </div>
           <h2>VFX &amp; CGI</h2>
@@ -332,7 +330,7 @@ body > #container > #menu li ul {
 
 
   <script>
-    ['character-video', 'rocky-video'].forEach((playerId) => {
+    ['character-video', 'rocky-video', 'vfx-video'].forEach((playerId) => {
       const characterVideo = videojs(playerId, {
         bigPlayButton: false,
         controlBar: { children: ['progressControl'] }
