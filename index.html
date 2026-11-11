@@ -194,6 +194,13 @@ body > #container > #menu li ul {
   text-decoration: underline;
 }
 </style>
+<style>
+.additional-video-row { margin-top: 48px; }
+.additional-video-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; width: 100%; }
+.additional-video-grid .video-card { width: auto; min-width: 0; margin: 0; }
+.additional-video-grid .video-placeholder { aspect-ratio: 16 / 9; background: #090a0b; }
+@media (max-width: 768px) { .additional-video-grid { grid-template-columns: 1fr; } }
+</style>
 </head>
 
 <body>
@@ -302,6 +309,22 @@ body > #container > #menu li ul {
 
       <button class="carousel-arrow carousel-arrow-right" type="button" aria-label="Next videos">&#10095;</button>
     </div>
+
+    <section class="video-carousel-shell additional-video-row" aria-label="More video projects">
+      <div class="additional-video-grid">
+        <article class="video-card">
+          <div class="video-card-player video-placeholder" aria-label="Virgin project video placeholder"></div>
+          <h2>Virgin complex AI work</h2>
+          <p>Here is spot link: ------</p>
+        </article>
+        <article class="video-card">
+          <div class="video-card-player video-placeholder" aria-label="Video placeholder"></div>
+        </article>
+        <article class="video-card">
+          <div class="video-card-player video-placeholder" aria-label="Video placeholder"></div>
+        </article>
+      </div>
+    </section>
   </main>
 
 
