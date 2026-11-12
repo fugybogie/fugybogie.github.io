@@ -146,7 +146,7 @@ body > #container > #menu li ul {
 </style>
 
 <style>
-:is(#character-video, #rocky-video, #vfx-video) .vjs-control-bar {
+.video-showcase .video-js .vjs-control-bar {
   bottom: 0;
   left: 0;
   width: 100%;
@@ -156,29 +156,29 @@ body > #container > #menu li ul {
   box-sizing: border-box;
   background: rgba(0, 0, 0, 0.4);
 }
-:is(#character-video, #rocky-video, #vfx-video) .vjs-control-bar {
+.video-showcase .video-js .vjs-control-bar {
   visibility: hidden !important;
   opacity: 0 !important;
   pointer-events: none !important;
   transition: none !important;
 }
-:is(#character-video, #rocky-video, #vfx-video).timeline-hover .vjs-control-bar {
+.video-showcase .video-js.timeline-hover .vjs-control-bar {
   display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
   pointer-events: auto !important;
 }
-:is(#character-video, #rocky-video, #vfx-video) .vjs-progress-control {
+.video-showcase .video-js .vjs-progress-control {
   flex: 1 1 auto;
   min-width: 0;
 }
-:is(#character-video, #rocky-video, #vfx-video) .vjs-progress-holder {
+.video-showcase .video-js .vjs-progress-holder {
   height: 4px;
   margin: 0;
 }
-:is(#character-video, #rocky-video, #vfx-video) .vjs-time-tooltip,
-:is(#character-video, #rocky-video, #vfx-video) .vjs-mouse-display,
-:is(#character-video, #rocky-video, #vfx-video) .vjs-play-progress::before {
+.video-showcase .video-js .vjs-time-tooltip,
+.video-showcase .video-js .vjs-mouse-display,
+.video-showcase .video-js .vjs-play-progress::before {
   display: none;
 }
 </style>
@@ -196,10 +196,6 @@ body > #container > #menu li ul {
 </style>
 <style>
 .additional-video-row { margin-top: 48px; }
-.additional-video-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; width: 100%; }
-.additional-video-grid .video-card { width: auto; min-width: 0; margin: 0; }
-.additional-video-grid .video-placeholder { aspect-ratio: 16 / 9; background: #090a0b; }
-@media (max-width: 768px) { .additional-video-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 
@@ -311,19 +307,25 @@ body > #container > #menu li ul {
     </div>
 
     <section class="video-carousel-shell additional-video-row" aria-label="More video projects">
-      <div class="additional-video-grid">
+      <button class="carousel-arrow carousel-arrow-left" type="button" aria-label="Previous videos">&#10094;</button>
+      <div class="video-carousel" id="additional-video-carousel">
         <article class="video-card">
-          <div class="video-card-player video-placeholder" aria-label="Virgin project video placeholder"></div>
+          <div class="video-card-player">
+            <video id="virgin-video" class="video-js" controls autoplay muted loop playsinline preload="auto">
+              <source src="https://stream.mux.com/T6IbPsFg02aLnWgwAJ6CFL4E8nX38Ywr32pcY00oqRTU8.m3u8?min_resolution=2160p" type="application/x-mpegURL">
+            </video>
+          </div>
           <h2>Virgin complex AI work</h2>
           <p>Here is spot link: ------</p>
         </article>
         <article class="video-card">
-          <div class="video-card-player video-placeholder" aria-label="Video placeholder"></div>
+          <div class="video-card-player" aria-label="Video placeholder"><video class="video-js" controls muted loop playsinline preload="metadata"></video></div>
         </article>
         <article class="video-card">
-          <div class="video-card-player video-placeholder" aria-label="Video placeholder"></div>
+          <div class="video-card-player" aria-label="Video placeholder"><video class="video-js" controls muted loop playsinline preload="metadata"></video></div>
         </article>
       </div>
+      <button class="carousel-arrow carousel-arrow-right" type="button" aria-label="Next videos">&#10095;</button>
     </section>
   </main>
 
@@ -332,38 +334,40 @@ body > #container > #menu li ul {
 
 
   <script>
-    (() => {
-      const carousel = document.getElementById('video-carousel');
-      const left = document.querySelector('.carousel-arrow-left');
-      const right = document.querySelector('.carousel-arrow-right');
-
+    document.querySelectorAll('.video-carousel-shell').forEach((shell) => {
+      const carousel = shell.querySelector('.video-carousel');
+      const left = shell.querySelector('.carousel-arrow-left');
+      const right = shell.querySelector('.carousel-arrow-right');
       function scrollAmount() {
         const card = carousel.querySelector('.video-card');
-        return card ? card.getBoundingClientRect().width + 20 : 500;
+        const gap = parseFloat(getComputedStyle(carousel).columnGap) || 0;
+        return card ? card.getBoundingClientRect().width + gap : carousel.clientWidth;
       }
-
-      left.addEventListener('click', () => {
-        carousel.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
-      });
-
-      right.addEventListener('click', () => {
-        carousel.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
-      });
-
+      left.addEventListener('click', () => carousel.scrollBy({ left: -scrollAmount(), behavior: 'smooth' }));
+      right.addEventListener('click', () => carousel.scrollBy({ left: scrollAmount(), behavior: 'smooth' }));
       carousel.addEventListener('wheel', (event) => {
         if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
           event.preventDefault();
           carousel.scrollBy({ left: event.deltaY, behavior: 'auto' });
         }
       }, { passive: false });
-    })();
+      const positionArrows = () => {
+        const player = carousel.querySelector('.video-card-player');
+        if (!player) return;
+        const top = player.getBoundingClientRect().height / 2 - left.offsetHeight / 2;
+        left.style.top = right.style.top = top + 'px';
+      };
+      new ResizeObserver(positionArrows).observe(carousel);
+      positionArrows();
+    });
   </script>
 
 
 
   <script>
-    ['character-video', 'rocky-video', 'vfx-video'].forEach((playerId) => {
-      const characterVideo = videojs(playerId, {
+    document.querySelectorAll('.video-showcase video').forEach((element) => {
+      element.removeAttribute('data-setup');
+      const characterVideo = videojs(element, {
         bigPlayButton: false,
         controlBar: { children: ['progressControl'] }
       });
