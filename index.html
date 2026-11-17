@@ -304,7 +304,11 @@ body > #container > #menu li ul {
       <button class="carousel-arrow carousel-arrow-left" type="button" aria-label="Previous videos">&#10094;</button>
       <div class="video-carousel" id="additional-video-carousel">
         <article class="video-card">
-          <div class="video-card-player" aria-label="Video placeholder"><video class="video-js" controls muted loop playsinline preload="metadata"></video></div>
+          <div class="video-card-player">
+            <video id="lower-left-video" class="video-js" controls autoplay muted loop playsinline preload="auto">
+              <source src="https://stream.mux.com/S6BZPJtpViJfhzJ0002s00ZqT01ziBgnSEZzZ2t9LOGJoMU.m3u8?min_resolution=2160p" type="application/x-mpegURL">
+            </video>
+          </div>
           <h2>Text</h2>
           <p>Description</p>
         </article>
