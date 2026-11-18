@@ -322,7 +322,11 @@ body > #container > #menu li ul {
           <p>Description</p>
         </article>
         <article class="video-card">
-          <div class="video-card-player" aria-label="Video placeholder"><video class="video-js" controls muted loop playsinline preload="metadata"></video></div>
+          <div class="video-card-player">
+            <video id="lower-right-video" class="video-js" controls autoplay muted loop playsinline preload="auto">
+              <source src="https://stream.mux.com/B3sVkPon4pFcBzuysFDOzQmniydFZ00PNTgb9r9mQfW00.m3u8?min_resolution=2160p" type="application/x-mpegURL">
+            </video>
+          </div>
           <h2>Text</h2>
           <p>Description</p>
         </article>
