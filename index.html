@@ -198,19 +198,6 @@ body > #container > #menu li ul {
 .additional-video-row { margin-top: 48px; }
 </style>
 
-<style id="visible-video-layout">
-/* Keep original card/player dimensions from css/video_player.css.
-   Wrap extra cards instead of clipping them inside a carousel. */
-.video-showcase .video-carousel {
-  display:flex !important;
-  flex-wrap:wrap !important;
-  overflow:visible !important;
-  transform:none !important;
-  scroll-snap-type:none !important;
-}
-.video-showcase .video-card { flex-shrink:0 !important; }
-.video-showcase .video-carousel-shell { overflow:visible !important; }
-</style>
 </head>
 
 <body>
@@ -257,6 +244,7 @@ body > #container > #menu li ul {
 
   <main class="video-showcase">
     <div class="video-carousel-shell">
+      <button class="carousel-arrow carousel-arrow-left" type="button" aria-label="Previous videos">&#10094;</button>
 
       <div class="video-carousel" id="video-carousel">
 
@@ -301,9 +289,11 @@ body > #container > #menu li ul {
         </article>
 
       </div>
+      <button class="carousel-arrow carousel-arrow-right" type="button" aria-label="Next videos">&#10095;</button>
     </div>
 
     <section class="video-carousel-shell additional-video-row" aria-label="More video projects">
+      <button class="carousel-arrow carousel-arrow-left" type="button" aria-label="Previous videos">&#10094;</button>
       <div class="video-carousel" id="additional-video-carousel">
         <article class="video-card">
           <div class="video-card-player">
@@ -342,12 +332,37 @@ body > #container > #menu li ul {
           <p>Description</p>
         </article>
       </div>
+      <button class="carousel-arrow carousel-arrow-right" type="button" aria-label="Next videos">&#10095;</button>
     </section>
   </main>
 
 
   <script src="https://vjs.zencdn.net/8.23.4/video.min.js"></script>
 
+
+
+  <script>
+    document.querySelectorAll('.video-carousel-shell').forEach((shell) => {
+      const carousel = shell.querySelector('.video-carousel');
+      const left = shell.querySelector('.carousel-arrow-left');
+      const right = shell.querySelector('.carousel-arrow-right');
+      const scrollAmount = () => {
+        const card = carousel.querySelector('.video-card');
+        const gap = parseFloat(getComputedStyle(carousel).columnGap) || 0;
+        return card ? card.getBoundingClientRect().width + gap : carousel.clientWidth;
+      };
+      left.addEventListener('click', () => carousel.scrollBy({ left: -scrollAmount(), behavior: 'smooth' }));
+      right.addEventListener('click', () => carousel.scrollBy({ left: scrollAmount(), behavior: 'smooth' }));
+      const positionArrows = () => {
+        const player = carousel.querySelector('.video-card-player');
+        if (!player) return;
+        const top = player.getBoundingClientRect().height / 2 - left.offsetHeight / 2;
+        left.style.top = right.style.top = top + 'px';
+      };
+      new ResizeObserver(positionArrows).observe(carousel);
+      positionArrows();
+    });
+  </script>
 
   <script>
     const videoStates = new Map();
