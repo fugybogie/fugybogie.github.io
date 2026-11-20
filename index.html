@@ -198,16 +198,18 @@ body > #container > #menu li ul {
 .additional-video-row { margin-top: 48px; }
 </style>
 
-<style id="visible-video-grid">
-.video-showcase { width:100%; max-width:1920px; margin:0 auto; padding:24px; box-sizing:border-box; }
-.video-showcase .video-carousel-shell { width:100%; max-width:none; overflow:visible; padding:0; box-sizing:border-box; }
-.video-showcase .video-carousel { display:grid !important; grid-template-columns:repeat(4,minmax(0,1fr)); gap:24px; width:100% !important; max-width:none; overflow:visible !important; transform:none !important; }
-.video-showcase .video-card { width:100% !important; min-width:0 !important; max-width:none !important; margin:0; box-sizing:border-box; }
-.video-showcase .video-card-player { width:100%; aspect-ratio:16/9; overflow:hidden; }
-.video-showcase .video-card-player > .video-js { width:100% !important; height:100% !important; }
-.video-showcase .video-js video, .video-showcase .vjs-poster img { object-fit:contain; }
-@media(max-width:1100px) { .video-showcase .video-carousel { grid-template-columns:repeat(2,minmax(0,1fr)); } }
-@media(max-width:600px) { .video-showcase { padding:16px; } .video-showcase .video-carousel { grid-template-columns:minmax(0,1fr); } }
+<style id="visible-video-layout">
+/* Keep original card/player dimensions from css/video_player.css.
+   Wrap extra cards instead of clipping them inside a carousel. */
+.video-showcase .video-carousel {
+  display:flex !important;
+  flex-wrap:wrap !important;
+  overflow:visible !important;
+  transform:none !important;
+  scroll-snap-type:none !important;
+}
+.video-showcase .video-card { flex-shrink:0 !important; }
+.video-showcase .video-carousel-shell { overflow:visible !important; }
 </style>
 </head>
 
@@ -260,8 +262,8 @@ body > #container > #menu li ul {
 
         <article class="video-card">
           <div class="video-card-player">
-            <video id="virgin-top-video" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/L9RUwSPIyZstcrBxkE2PUh1mkz7oFJyZz9EdXFW02AZ00/thumbnail.jpg?width=960">
-              <source data-src="https://stream.mux.com/L9RUwSPIyZstcrBxkE2PUh1mkz7oFJyZz9EdXFW02AZ00.m3u8?max_resolution=1080p" type="application/x-mpegURL">
+            <video id="virgin-top-video" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/L9RUwSPIyZstcrBxkE2PUh1mkz7oFJyZz9EdXFW02AZ00/thumbnail.jpg?width=1920">
+              <source data-src="https://stream.mux.com/L9RUwSPIyZstcrBxkE2PUh1mkz7oFJyZz9EdXFW02AZ00.m3u8?min_resolution=1080p&amp;max_resolution=1080p" type="application/x-mpegURL">
             </video>
           </div>
           <h2>Virgin complex AI work</h2>
@@ -270,8 +272,8 @@ body > #container > #menu li ul {
 
         <article class="video-card">
           <div class="video-card-player" style="position:relative">
-            <video id="character-video" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/QOHmjikAvqVq026r8Lv1tYBSvGYbE01tDCO1N9Ebj6ue4/thumbnail.jpg?width=960">
-              <source data-src="https://stream.mux.com/QOHmjikAvqVq026r8Lv1tYBSvGYbE01tDCO1N9Ebj6ue4.m3u8?max_resolution=1080p" type="application/x-mpegURL">
+            <video id="character-video" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/QOHmjikAvqVq026r8Lv1tYBSvGYbE01tDCO1N9Ebj6ue4/thumbnail.jpg?width=1920">
+              <source data-src="https://stream.mux.com/QOHmjikAvqVq026r8Lv1tYBSvGYbE01tDCO1N9Ebj6ue4.m3u8?min_resolution=1080p&amp;max_resolution=1080p" type="application/x-mpegURL">
             </video>
           </div>
           <h2>CHARACTER REPLACEMENT 4K</h2>
@@ -280,8 +282,8 @@ body > #container > #menu li ul {
 
         <article class="video-card">
           <div class="video-card-player">
-            <video id="rocky-video" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/aKX2ti01YVBneFemUH2te01eHfxu9EJAuSgyhYYWihbs00/thumbnail.jpg?width=960">
-              <source data-src="https://stream.mux.com/aKX2ti01YVBneFemUH2te01eHfxu9EJAuSgyhYYWihbs00.m3u8?max_resolution=1080p" type="application/x-mpegURL">
+            <video id="rocky-video" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/aKX2ti01YVBneFemUH2te01eHfxu9EJAuSgyhYYWihbs00/thumbnail.jpg?width=1920">
+              <source data-src="https://stream.mux.com/aKX2ti01YVBneFemUH2te01eHfxu9EJAuSgyhYYWihbs00.m3u8?min_resolution=1080p&amp;max_resolution=1080p" type="application/x-mpegURL">
             </video>
           </div>
           <h2>ASAP ROCKY AI VIDEO</h2>
@@ -290,8 +292,8 @@ body > #container > #menu li ul {
 
         <article class="video-card">
           <div class="video-card-player">
-            <video id="top-fourth-video" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/rvCHafaC2ZfqCLWgYxizVDRcHvhMyZA302FrAqY00Rfaw/thumbnail.jpg?width=960">
-              <source data-src="https://stream.mux.com/rvCHafaC2ZfqCLWgYxizVDRcHvhMyZA302FrAqY00Rfaw.m3u8?max_resolution=1080p" type="application/x-mpegURL">
+            <video id="top-fourth-video" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/rvCHafaC2ZfqCLWgYxizVDRcHvhMyZA302FrAqY00Rfaw/thumbnail.jpg?width=1920">
+              <source data-src="https://stream.mux.com/rvCHafaC2ZfqCLWgYxizVDRcHvhMyZA302FrAqY00Rfaw.m3u8?min_resolution=1080p&amp;max_resolution=1080p" type="application/x-mpegURL">
             </video>
           </div>
           <h2>Text</h2>
@@ -305,8 +307,8 @@ body > #container > #menu li ul {
       <div class="video-carousel" id="additional-video-carousel">
         <article class="video-card">
           <div class="video-card-player">
-            <video id="lower-left-video" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/U5LTzeINvrCMagW6Wz021Fx01WECo9rIPiqVTehBdqRgo/thumbnail.jpg?width=960">
-              <source data-src="https://stream.mux.com/U5LTzeINvrCMagW6Wz021Fx01WECo9rIPiqVTehBdqRgo.m3u8?max_resolution=1080p" type="application/x-mpegURL">
+            <video id="lower-left-video" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/U5LTzeINvrCMagW6Wz021Fx01WECo9rIPiqVTehBdqRgo/thumbnail.jpg?width=1920">
+              <source data-src="https://stream.mux.com/U5LTzeINvrCMagW6Wz021Fx01WECo9rIPiqVTehBdqRgo.m3u8?min_resolution=1080p&amp;max_resolution=1080p" type="application/x-mpegURL">
             </video>
           </div>
           <h2>Text</h2>
@@ -314,8 +316,8 @@ body > #container > #menu li ul {
         </article>
         <article class="video-card">
           <div class="video-card-player">
-            <video id="lower-middle-video" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/zXN00TIczRQfqpq00txD7300QEx02TBRg201UINZFLyYU7JU/thumbnail.jpg?width=960">
-              <source data-src="https://stream.mux.com/zXN00TIczRQfqpq00txD7300QEx02TBRg201UINZFLyYU7JU.m3u8?max_resolution=1080p" type="application/x-mpegURL">
+            <video id="lower-middle-video" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/zXN00TIczRQfqpq00txD7300QEx02TBRg201UINZFLyYU7JU/thumbnail.jpg?width=1920">
+              <source data-src="https://stream.mux.com/zXN00TIczRQfqpq00txD7300QEx02TBRg201UINZFLyYU7JU.m3u8?min_resolution=1080p&amp;max_resolution=1080p" type="application/x-mpegURL">
             </video>
           </div>
           <h2>Text</h2>
@@ -323,8 +325,8 @@ body > #container > #menu li ul {
         </article>
         <article class="video-card">
           <div class="video-card-player">
-            <video id="lower-right-video" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/B3sVkPon4pFcBzuysFDOzQmniydFZ00PNTgb9r9mQfW00/thumbnail.jpg?width=960">
-              <source data-src="https://stream.mux.com/B3sVkPon4pFcBzuysFDOzQmniydFZ00PNTgb9r9mQfW00.m3u8?max_resolution=1080p" type="application/x-mpegURL">
+            <video id="lower-right-video" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/B3sVkPon4pFcBzuysFDOzQmniydFZ00PNTgb9r9mQfW00/thumbnail.jpg?width=1920">
+              <source data-src="https://stream.mux.com/B3sVkPon4pFcBzuysFDOzQmniydFZ00PNTgb9r9mQfW00.m3u8?min_resolution=1080p&amp;max_resolution=1080p" type="application/x-mpegURL">
             </video>
           </div>
           <h2>Text</h2>
@@ -332,8 +334,8 @@ body > #container > #menu li ul {
         </article>
         <article class="video-card">
           <div class="video-card-player">
-            <video id="lower-fourth-video" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/5Am9gbtQXx4p00m5VAngxlmcbESM314FebFUVnBKpx1k/thumbnail.jpg?width=960">
-              <source data-src="https://stream.mux.com/5Am9gbtQXx4p00m5VAngxlmcbESM314FebFUVnBKpx1k.m3u8?max_resolution=1080p" type="application/x-mpegURL">
+            <video id="lower-fourth-video" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/5Am9gbtQXx4p00m5VAngxlmcbESM314FebFUVnBKpx1k/thumbnail.jpg?width=1920">
+              <source data-src="https://stream.mux.com/5Am9gbtQXx4p00m5VAngxlmcbESM314FebFUVnBKpx1k.m3u8?min_resolution=1080p&amp;max_resolution=1080p" type="application/x-mpegURL">
             </video>
           </div>
           <h2>Text</h2>
