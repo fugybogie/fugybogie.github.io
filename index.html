@@ -213,6 +213,19 @@ body::-webkit-scrollbar,
   height: 0 !important;
 }
 </style>
+
+<style id="local-ai-text-pulse">
+.local-ai-pulse {
+  animation: local-ai-brightness 1.05s ease-in-out infinite;
+}
+@keyframes local-ai-brightness {
+  0%, 100% { color: #a9a9a9; text-shadow: none; }
+  45%, 55% { color: #ffffff; text-shadow: 0 0 7px rgba(255,255,255,0.55); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .local-ai-pulse { animation: none; color: #ffffff; }
+}
+</style>
 </head>
 
 <body>
@@ -280,7 +293,7 @@ body::-webkit-scrollbar,
             </video>
           </div>
           <h2>AI CHARACTER REPLACEMENT 4K</h2>
-          <p>Preserved color space, character identity, accurate lip-sync, natural body movement, and high-quality 4K resolution. Created exclusively with AI models running locally on my computer.</p>
+          <p>Preserved color space, character identity, accurate lip-sync, natural body movement, and high-quality 4K resolution. Created <span class="local-ai-pulse">exclusively with AI models running locally on my computer</span>.</p>
         </article>
 
         <article class="video-card">
@@ -290,7 +303,7 @@ body::-webkit-scrollbar,
             </video>
           </div>
           <h2>ASAP ROCKY AI MUSIC VIDEO</h2>
-          <p>Created and edited this AI-generated video featuring <a class="rocky-credit" href="https://www.youtube.com/channel/UC0KAFLxIiaR_FFNYDL3utGw"><strong>A$AP Rocky</strong></a>, using only AI models running locally on my computer. In collaboration with <strong>Framebreed</strong>.</p>
+          <p>Created and edited this AI-generated video featuring <a class="rocky-credit" href="https://www.youtube.com/channel/UC0KAFLxIiaR_FFNYDL3utGw"><strong>A$AP Rocky</strong></a>, using only AI models running locally on my computer. In collaboration with <strong>Framebreed</strong>. <a href="https://youtu.be/lCp0BmcFPQ8?si=cfaMvUsFdgGi5j-V" target="_blank" rel="noopener noreferrer" style="color: #4da3ff !important;">Full music video is here</a>.</p>
         </article>
 
         <article class="video-card">
