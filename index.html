@@ -198,6 +198,21 @@ body > #container > #menu li ul {
 .additional-video-row { margin-top: 48px; }
 </style>
 
+
+<style id="hide-page-scrollbars">
+/* Hide scrollbar chrome while keeping native scrolling available. */
+html, body, .video-showcase .video-carousel {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.video-showcase .video-carousel::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+</style>
 </head>
 
 <body>
