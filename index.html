@@ -226,6 +226,23 @@ body::-webkit-scrollbar,
   .local-ai-pulse { animation: none; color: #ffffff; }
 }
 </style>
+<style id="more-videos-cue">
+.empty-video-slot { aspect-ratio: 16 / 9; background: #202327; border-radius: 8px; overflow: hidden; }
+.empty-video-slot video { width: 100%; height: 100%; background: #202327; }
+#more-videos-arrow {
+  position: fixed; left: 50%; bottom: max(18px, env(safe-area-inset-bottom));
+  width: 76px; height: 66px; margin-left: -38px; padding: 8px;
+  z-index: 2147483647; border: 0; background: transparent; color: rgba(255,255,255,.48);
+  cursor: pointer; filter: drop-shadow(0 2px 5px rgba(0,0,0,.65));
+  animation: more-videos-bounce 1.4s ease-in-out infinite;
+}
+#more-videos-arrow[hidden] { display: none !important; }
+#more-videos-arrow svg { width: 100%; height: 100%; }
+#more-videos-arrow:hover, #more-videos-arrow:focus-visible { color: rgba(255,255,255,.9); }
+#more-videos-arrow:focus-visible { outline: 2px solid white; border-radius: 12px; }
+@keyframes more-videos-bounce { 0%,100% { transform: translateY(-6px); } 50% { transform: translateY(6px); } }
+@media (prefers-reduced-motion: reduce) { #more-videos-arrow { animation: none; } }
+</style>
 </head>
 
 <body>
@@ -362,6 +379,32 @@ body::-webkit-scrollbar,
       </div>
       <button class="carousel-arrow carousel-arrow-right" type="button" aria-label="Next videos">&#10095;</button>
     </section>
+    <section class="video-carousel-shell additional-video-row" aria-label="Additional video projects">
+      <button class="carousel-arrow carousel-arrow-left" type="button" aria-label="Previous videos">&#10094;</button>
+      <div class="video-carousel" id="third-video-carousel">
+        <article class="video-card">
+          <div class="video-card-player empty-video-slot" aria-label="Video placeholder"><video class="video-js" id="third-row-video-1" muted playsinline preload="none" aria-label="Video not added yet"></video></div>
+          <h2>Text</h2>
+          <p>Description</p>
+        </article>
+        <article class="video-card">
+          <div class="video-card-player empty-video-slot" aria-label="Video placeholder"><video class="video-js" id="third-row-video-2" muted playsinline preload="none" aria-label="Video not added yet"></video></div>
+          <h2>Text</h2>
+          <p>Description</p>
+        </article>
+        <article class="video-card">
+          <div class="video-card-player empty-video-slot" aria-label="Video placeholder"><video class="video-js" id="third-row-video-3" muted playsinline preload="none" aria-label="Video not added yet"></video></div>
+          <h2>Text</h2>
+          <p>Description</p>
+        </article>
+        <article class="video-card">
+          <div class="video-card-player empty-video-slot" aria-label="Video placeholder"><video class="video-js" id="third-row-video-4" muted playsinline preload="none" aria-label="Video not added yet"></video></div>
+          <h2>Text</h2>
+          <p>Description</p>
+        </article>
+      </div>
+      <button class="carousel-arrow carousel-arrow-right" type="button" aria-label="Next videos">&#10095;</button>
+    </section>
   </main>
 
 
@@ -450,6 +493,29 @@ body::-webkit-scrollbar,
         else if (visible) player.play().catch(() => {});
       });
     });
+  </script>
+  <button id="more-videos-arrow" type="button" aria-label="Scroll to more videos" title="More videos" hidden>
+    <svg viewBox="0 0 64 56" aria-hidden="true"><path d="M12 14 L32 36 L52 14" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <script>
+    (() => {
+      const cue = document.getElementById('more-videos-arrow');
+      const rows = [...document.querySelectorAll('.video-showcase .video-carousel-shell')];
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const updateCue = () => {
+        cue.hidden = document.documentElement.scrollHeight - (window.scrollY + window.innerHeight) <= 12;
+      };
+      cue.addEventListener('click', () => {
+        const next = rows.find(row => row.getBoundingClientRect().top > 48);
+        const top = next ? window.scrollY + next.getBoundingClientRect().top - 16 : document.documentElement.scrollHeight;
+        window.scrollTo({ top, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+      });
+      window.addEventListener('scroll', updateCue, { passive: true });
+      window.addEventListener('resize', updateCue);
+      window.addEventListener('load', updateCue);
+      new ResizeObserver(updateCue).observe(document.body);
+      updateCue();
+    })();
   </script>
 </body>
 </html>
