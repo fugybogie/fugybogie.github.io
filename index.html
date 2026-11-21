@@ -234,12 +234,24 @@ body::-webkit-scrollbar,
   width: 76px; height: 66px; margin-left: -38px; padding: 8px;
   z-index: 2147483647 !important; border: 0; background: transparent; color: rgba(255,255,255,.65);
   cursor: pointer; filter: drop-shadow(0 2px 5px rgba(0,0,0,.65));
-  animation: more-videos-bounce 1.4s ease-in-out infinite;
+  animation: more-videos-bounce 1.4s ease-in-out infinite, more-videos-pulse 1.4s ease-in-out infinite;
 }
 #more-videos-arrow[hidden] { display: none !important; }
 #more-videos-arrow svg { width: 100%; height: 100%; }
 #more-videos-arrow:hover, #more-videos-arrow:focus-visible { color: rgba(255,255,255,.9); }
 #more-videos-arrow:focus-visible { outline: 2px solid white; border-radius: 12px; }
+#previous-videos-arrow {
+  position: fixed !important; left: 50% !important; top: max(18px, env(safe-area-inset-top)) !important; bottom: auto !important;
+  width: 76px; height: 66px; margin-left: -38px; padding: 8px;
+  z-index: 2147483647 !important; border: 0; background: transparent; color: white;
+  cursor: pointer; filter: drop-shadow(0 2px 5px rgba(0,0,0,.65));
+  animation: more-videos-bounce 1.4s ease-in-out infinite, more-videos-pulse 1.4s ease-in-out infinite;
+}
+#previous-videos-arrow[hidden] { display: none !important; }
+#previous-videos-arrow svg { width: 100%; height: 100%; transform: rotate(180deg); }
+#previous-videos-arrow:focus-visible { outline: 2px solid white; border-radius: 12px; }
+@keyframes more-videos-pulse { 0%,100% { opacity: .3; color: #c4c4c4; } 50% { opacity: 1; color: #fff; } }
+@media (prefers-reduced-motion: reduce) { #previous-videos-arrow { animation: none; } }
 @keyframes more-videos-bounce { 0%,100% { transform: translateY(-6px); } 50% { transform: translateY(6px); } }
 @media (prefers-reduced-motion: reduce) { #more-videos-arrow { animation: none; } }
 </style>
@@ -497,20 +509,34 @@ body::-webkit-scrollbar,
   <button id="more-videos-arrow" type="button" aria-label="Scroll to more videos" title="More videos" hidden>
     <svg viewBox="0 0 64 56" aria-hidden="true"><path d="M12 14 L32 36 L52 14" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
+  <button id="previous-videos-arrow" type="button" aria-label="Scroll to previous video row" title="Previous videos" hidden>
+    <svg viewBox="0 0 64 56" aria-hidden="true"><path d="M12 14 L32 36 L52 14" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
   <script>
     (() => {
-      const cue = document.getElementById('more-videos-arrow');
+      const down = document.getElementById('more-videos-arrow');
+      const up = document.getElementById('previous-videos-arrow');
       const rows = [...document.querySelectorAll('.video-showcase .video-carousel-shell')];
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-      const updateCue = () => {
-        const bottom = Math.max(...rows.map(row => row.getBoundingClientRect().bottom));
-        cue.hidden = bottom <= window.innerHeight + 12;
+      const bounds = row => {
+        const players = [...row.querySelectorAll('.video-card-player')];
+        return { top: Math.min(...players.map(p => p.getBoundingClientRect().top)),
+                 bottom: Math.max(...players.map(p => p.getBoundingClientRect().bottom)) };
       };
-      cue.addEventListener('click', () => {
-        const next = rows.find(row => row.getBoundingClientRect().top > 48);
-        const top = next ? window.scrollY + next.getBoundingClientRect().top - 16 : document.documentElement.scrollHeight;
-        window.scrollTo({ top, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
-      });
+      const nextRow = () => rows.find(row => bounds(row).bottom > window.innerHeight + 12);
+      const previousRow = () => [...rows].reverse().find(row => bounds(row).top < -12);
+      const updateCue = () => {
+        down.hidden = !nextRow();
+        up.hidden = !previousRow();
+      };
+      const scrollToRow = (row, direction) => {
+        if (!row) return;
+        const rect = bounds(row);
+        const top = window.scrollY + (direction === 'down' ? rect.bottom - window.innerHeight : rect.top);
+        window.scrollTo({ top: Math.max(0, top), behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+      };
+      down.addEventListener('click', () => scrollToRow(nextRow(), 'down'));
+      up.addEventListener('click', () => scrollToRow(previousRow(), 'up'));
       window.addEventListener('scroll', updateCue, { passive: true });
       window.addEventListener('resize', updateCue);
       window.addEventListener('load', updateCue);
