@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animation</title>
+
+  
+
+  <style>
+    html, body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+      background: #131517;
+    }
+
+    /* Center the menu bar at the top */
+    #container {
+      display: flex;
+      justify-content: center;
+    }
+
+    #menu {
+      width: auto;
+    }
+
+    /* Ai Video highlight */
+    #menu > li > a.ai-video {
+      color: #d1fe17;
+      font-weight: 600;
+    }
+  </style>
+<link rel="stylesheet" href="css/menu_bare.css">
+<link rel="stylesheet" href="css/video_player.css">
+<style id="new-site-theme">
+html, body {
+  background: #131517 !important;
+  background-color: #131517 !important;
+  background-image: none !important;
+}
+#container { display:flex; justify-content:center; }
+#menu { width:auto; }
+#menu > li > a.ai-video { color:#d1fe17; font-weight:600; }
+</style>
+
+<style id="menu-layout-fix">
+html, body {
+  background: #131517 !important;
+  background-color: #131517 !important;
+  background-image: none !important;
+}
+
+/* Keep the menu itself above all legacy Muse content/images. */
+body > #container {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: 100% !important;
+  max-width: none !important;
+  height: 32px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  float: none !important;
+  transform: none !important;
+  z-index: 2147483646 !important;
+  overflow: visible !important;
+  background: #131517 !important;
+}
+
+body > #container > #menu {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  width: auto !important;
+  max-width: none !important;
+  height: 32px !important;
+  margin: 0 auto !important;
+  padding: 0 16px !important;
+  display: flex !important;
+  float: none !important;
+  overflow: visible !important;
+  z-index: 2147483647 !important;
+  background: #131517 !important;
+}
+
+body > #container > #menu > li {
+  position: relative !important;
+  float: none !important;
+  overflow: visible !important;
+}
+
+body > #container > #menu li ul {
+  position: absolute !important;
+  top: 32px !important;
+  left: 0 !important;
+  z-index: 2147483647 !important;
+}
+
+body > #container > #menu > li > a.ai-video {
+  color: #d1fe17 !important;
+  font-weight: 600 !important;
+}
+
+/* Legacy Muse wrappers/images must stay below the navigation. */
+body > #container ~ * {
+  position: relative;
+  z-index: 1;
+}
+</style>
+
+
+<style id="viewport-center-fix">
+body > #container {
+  position: relative !important;
+  left: 50vw !important;
+  transform: translateX(-50%) !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  overflow: visible !important;
+  z-index: 2147483646 !important;
+  background: #131517 !important;
+}
+body > #container > #menu {
+  width: max-content !important;
+  margin: 0 !important;
+  padding: 0 16px !important;
+  flex: 0 0 auto !important;
+  overflow: visible !important;
+  z-index: 2147483647 !important;
+}
+body > #container > #menu li ul {
+  z-index: 2147483647 !important;
+}
+</style>
+
+<style>
+.video-showcase .video-js .vjs-control-bar {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 24px;
+  margin: 0;
+  padding: 0 12px;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.4);
+}
+.video-showcase .video-js .vjs-control-bar {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: none !important;
+}
+.video-showcase .video-js.timeline-hover .vjs-control-bar {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+.video-showcase .video-js .vjs-progress-control {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.video-showcase .video-js .vjs-progress-holder {
+  height: 4px;
+  margin: 0;
+}
+.video-showcase .video-js .vjs-time-tooltip,
+.video-showcase .video-js .vjs-mouse-display,
+.video-showcase .video-js .vjs-play-progress::before {
+  display: none;
+}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&amp;display=swap">
+<style>
+.rocky-credit, .rocky-credit:visited {
+  color: #ffdf00;
+  font-family: "Space Grotesk", Arial, sans-serif;
+  font-weight: 600;
+  text-decoration: none;
+}
+.rocky-credit:hover, .rocky-credit:focus-visible {
+  text-decoration: underline;
+}
+</style>
+<style>
+.additional-video-row { margin-top: 48px; }
+</style>
+
+
+<style id="hide-page-scrollbars">
+/* Hide scrollbar chrome while keeping native scrolling available. */
+html, body, .video-showcase .video-carousel {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.video-showcase .video-carousel::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+</style>
+
+<style id="local-ai-text-pulse">
+.local-ai-pulse {
+  animation: local-ai-brightness 1.05s ease-in-out infinite;
+}
+@keyframes local-ai-brightness {
+  0%, 100% { color: #a9a9a9; text-shadow: none; }
+  45%, 55% { color: #ffffff; text-shadow: 0 0 7px rgba(255,255,255,0.55); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .local-ai-pulse { animation: none; color: #ffffff; }
+}
+</style>
+<style id="more-videos-cue">
+.empty-video-slot { aspect-ratio: 16 / 9; background: #202327; border-radius: 8px; overflow: hidden; }
+.empty-video-slot video { width: 100%; height: 100%; background: #202327; }
+#more-videos-arrow {
+  position: fixed !important; left: 50% !important; top: auto !important; bottom: max(18px, env(safe-area-inset-bottom)) !important;
+  width: 76px; height: 66px; margin-left: -38px; padding: 8px;
+  z-index: 2147483647 !important; border: 0; background: transparent; color: rgba(255,255,255,.65);
+  cursor: pointer; filter: drop-shadow(0 2px 5px rgba(0,0,0,.65));
+  animation: more-videos-bounce 1.4s ease-in-out infinite, more-videos-pulse 1.4s ease-in-out infinite;
+}
+#more-videos-arrow[hidden] { display: none !important; }
+#more-videos-arrow svg { width: 100%; height: 100%; }
+#more-videos-arrow:hover, #more-videos-arrow:focus-visible { color: rgba(255,255,255,.9); }
+#more-videos-arrow:focus-visible { outline: 2px solid white; border-radius: 12px; }
+#previous-videos-arrow {
+  position: fixed !important; left: 50% !important; top: max(18px, env(safe-area-inset-top)) !important; bottom: auto !important;
+  width: 76px; height: 66px; margin-left: -38px; padding: 8px;
+  z-index: 2147483647 !important; border: 0; background: transparent; color: white;
+  cursor: pointer; filter: drop-shadow(0 2px 5px rgba(0,0,0,.65));
+  animation: more-videos-bounce 1.4s ease-in-out infinite, more-videos-pulse 1.4s ease-in-out infinite;
+}
+#previous-videos-arrow[hidden] { display: none !important; }
+#previous-videos-arrow svg { width: 100%; height: 100%; transform: rotate(180deg); }
+#previous-videos-arrow:focus-visible { outline: 2px solid white; border-radius: 12px; }
+@keyframes more-videos-pulse { 0%,100% { opacity: .3; color: #c4c4c4; } 50% { opacity: 1; color: #fff; } }
+@media (prefers-reduced-motion: reduce) { #previous-videos-arrow { animation: none; } }
+@keyframes more-videos-bounce { 0%,100% { transform: translateY(-6px); } 50% { transform: translateY(6px); } }
+@media (prefers-reduced-motion: reduce) { #more-videos-arrow { animation: none; } }
+</style>
+<style id="animation-grid">
+/* Animation page: videos wrap into rows of 4 instead of a sideways-scrolling strip */
+.animation-grid-page .video-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+  padding: 0 20px 40px;
+  box-sizing: border-box;
+}
+.animation-grid-page .video-grid .video-card { flex: none; width: auto; min-width: 0; }
+@media (max-width: 1200px) { .animation-grid-page .video-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px)  { .animation-grid-page .video-grid { grid-template-columns: 1fr; gap: 12px; padding: 0 12px 32px; } }
+.animation-grid-page .video-section { margin-top: 56px; }
+.animation-grid-page .section-title {
+  margin: 0 20px 22px;
+  color: #ffffff;
+  font-family: "Space Grotesk", Arial, sans-serif;
+  font-size: 38px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.animation-grid-page .section-title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.18);
+}
+@media (max-width: 600px) {
+  .animation-grid-page .video-section { margin-top: 40px; }
+  .animation-grid-page .section-title { margin: 0 12px 16px; font-size: 30px; }
+}
+.animation-grid-page .yt-player iframe {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  border: 0; display: block;
+}
+.animation-grid-page .yt-facade {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  padding: 0; border: 0; background: #000; cursor: pointer;
+}
+.animation-grid-page .yt-facade img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.animation-grid-page .yt-play {
+  position: absolute; left: 50%; top: 50%; width: 68px; height: 48px; transform: translate(-50%,-50%);
+  background: rgba(20,20,20,.8); border-radius: 12px; transition: background .15s;
+}
+.animation-grid-page .yt-play::after {
+  content: ""; position: absolute; left: 27px; top: 14px;
+  border-style: solid; border-width: 10px 0 10px 17px; border-color: transparent transparent transparent #fff;
+}
+.animation-grid-page .yt-facade:hover .yt-play,
+.animation-grid-page .yt-facade:focus-visible .yt-play { background: #ff0000; }
+</style>
+</head>
+
+<body>
+
+  <div class="cv-top-banner" id="cv-top-banner">
+    <div class="cv-banner-center">
+      <span class="cv-banner-icon">◆</span>
+      <span class="cv-banner-text">Aici este CV-ul meu .pdf</span>
+      <a class="cv-banner-button" href="cv.pdf" target="_blank" rel="noopener">Vizualizează</a>
+    </div>
+    <button class="cv-banner-close" type="button" aria-label="Închide" onclick="document.getElementById('cv-top-banner').remove()">×</button>
+  </div>
+
+
+  <div id="container">
+    <a class="site-logo" href="index.html" aria-label="Home">
+      <img src="favicon/logo.png" alt="Logo">
+    </a>
+    <a class="home-fixed-link" href="index.html">Home</a>
+  <ul id="menu">
+    
+    <li><a href="contacts.html">Contacts</a></li>
+    <li><a href="index.html">Home</a></li>
+    <li><a class="ai-video" href="animation.html" aria-current="page">Animation</a></li>
+    <li><a href="#">CGI Skills</a>
+      <ul>
+        <li><a href="anim.html">Animation Skills</a></li>
+        <li><a href="modelling.html">3D Modelling Skills</a></li>
+        <li><a href="rig.html">Rigging Skills</a></li>
+        <li><a href="prog.html">Programming Skills</a></li>
+        <li><a href="rend.html">Rendering Skills</a></li>
+      </ul>
+    </li>
+    <li><a href="#">Projects</a>
+      <ul>
+        <li><a href="vr.html">Virtual Reality</a></li>
+        <li><a href="ar.html">Augmented Reality</a></li>
+        <li><a href="mr.html">Mixed Reality</a></li>
+        <li><a href="proj3d.html">3D Projection</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+  <main class="video-showcase animation-grid-page">
+    <div class="video-grid">
+        <article class="video-card">
+          <div class="video-card-player">
+            <video id="animation-video-1" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/1HjHatW00feo3KSj2y7SCSugypA02MPn2gCsVaGOX02x8Y/thumbnail.jpg?width=1920">
+              <source data-src="https://stream.mux.com/1HjHatW00feo3KSj2y7SCSugypA02MPn2gCsVaGOX02x8Y.m3u8?min_resolution=1080p&amp;max_resolution=1080p" type="application/x-mpegURL">
+            </video>
+          </div>
+        </article>
+        <article class="video-card">
+          <div class="video-card-player">
+            <video class="video-js" id="third-row-video-3" controls muted loop playsinline preload="none" poster="https://image.mux.com/p01j01ZDWWMVEpoCLsJC9x9UDp72gzYC6ltRYfAoQjgv4/thumbnail.jpg?width=1920">
+              <source data-src="https://stream.mux.com/p01j01ZDWWMVEpoCLsJC9x9UDp72gzYC6ltRYfAoQjgv4.m3u8?min_resolution=1080p&amp;max_resolution=1080p" type="application/x-mpegURL">
+            </video>
+          </div>
+        </article>
+        <article class="video-card">
+          <div class="video-card-player">
+            <video id="animation-video-3" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/pwlXqMeItYF9vZIceD9IYRw00z9QmRZzFJAIiWtpZ8M8/thumbnail.jpg?width=1920">
+              <source data-src="https://stream.mux.com/pwlXqMeItYF9vZIceD9IYRw00z9QmRZzFJAIiWtpZ8M8.m3u8?min_resolution=1080p&amp;max_resolution=1080p" type="application/x-mpegURL">
+            </video>
+          </div>
+        </article>
+        <article class="video-card">
+          <div class="video-card-player">
+            <video id="animation-video-4" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/TUDQgVoy011eth00sZ2xFTKhKviyFLUkwW40002s8eaevP00/thumbnail.jpg?width=1920">
+              <source data-src="https://stream.mux.com/TUDQgVoy011eth00sZ2xFTKhKviyFLUkwW40002s8eaevP00.m3u8?min_resolution=1080p&amp;max_resolution=1080p" type="application/x-mpegURL">
+            </video>
+          </div>
+        </article>
+    </div>
+
+    <section class="video-section" id="rig" aria-labelledby="rig-title">
+      <h2 class="section-title" id="rig-title">Rig</h2>
+      <div class="video-grid" id="rig-grid">
+        <article class="video-card">
+          <div class="video-card-player yt-player" data-yt="OKDucsHiv-w">
+            <button class="yt-facade" type="button" aria-label="Play Rig video 1">
+              <img src="https://i.ytimg.com/vi/OKDucsHiv-w/hqdefault.jpg" alt="" loading="lazy">
+              <span class="yt-play" aria-hidden="true"></span>
+            </button>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+
+  <script src="https://vjs.zencdn.net/8.23.4/video.min.js"></script>
+
+
+
+  <script>
+    document.querySelectorAll('.video-carousel-shell').forEach((shell) => {
+      const carousel = shell.querySelector('.video-carousel');
+      const left = shell.querySelector('.carousel-arrow-left');
+      const right = shell.querySelector('.carousel-arrow-right');
+      const scrollAmount = () => {
+        const card = carousel.querySelector('.video-card');
+        const gap = parseFloat(getComputedStyle(carousel).columnGap) || 0;
+        return card ? card.getBoundingClientRect().width + gap : carousel.clientWidth;
+      };
+      left.addEventListener('click', () => carousel.scrollBy({ left: -scrollAmount(), behavior: 'smooth' }));
+      right.addEventListener('click', () => carousel.scrollBy({ left: scrollAmount(), behavior: 'smooth' }));
+      const positionArrows = () => {
+        const player = carousel.querySelector('.video-card-player');
+        if (!player) return;
+        const top = player.getBoundingClientRect().height / 2 - left.offsetHeight / 2;
+        left.style.top = right.style.top = top + 'px';
+      };
+      new ResizeObserver(positionArrows).observe(carousel);
+      positionArrows();
+    });
+  </script>
+
+  <script>
+    const videoStates = new Map();
+    function startVisibleVideo(element) {
+      let state = videoStates.get(element);
+      if (!state) {
+        const source = element.querySelector('source[data-src]');
+        if (!source) return;
+        const url = source.dataset.src;
+        source.remove();
+        const player = videojs(element, {
+          autoplay: false, muted: true, preload: 'none',
+          bigPlayButton: false,
+          controlBar: { children: ['progressControl'] }
+        });
+        state = { player, visible: true };
+        videoStates.set(element, state);
+        const wrapper = player.el();
+        wrapper.addEventListener('pointermove', (event) => {
+          if (event.pointerType !== 'mouse') return;
+          wrapper.classList.add('timeline-hover');
+          if (!player.paused()) player.muted(false);
+        });
+        wrapper.addEventListener('pointerleave', (event) => {
+          if (event.pointerType !== 'mouse') return;
+          wrapper.classList.remove('timeline-hover');
+          player.muted(true);
+        });
+        player.on('play', () => {
+          if (!state.visible || document.hidden) player.pause();
+        });
+        player.src({ src: url, type: 'application/x-mpegURL' });
+      }
+      state.visible = true;
+      if (!document.hidden) state.player.play().catch(() => {});
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(({ target, isIntersecting }) => {
+        if (isIntersecting) startVisibleVideo(target._video);
+        else {
+          const state = videoStates.get(target._video);
+          if (state) { state.visible = false; state.player.pause(); state.player.muted(true); }
+        }
+      });
+    }, { rootMargin: '0px', threshold: 0 });
+    document.querySelectorAll('.video-card-player').forEach((container) => {
+      const video = container.querySelector('video');
+      // Observe the stable container because Video.js moves the original video element.
+      if (video) {
+        container._video = video;
+        observer.observe(container);
+      }
+    });
+    document.addEventListener('visibilitychange', () => {
+      videoStates.forEach(({ player, visible }) => {
+        if (document.hidden) { player.pause(); player.muted(true); }
+        else if (visible) player.play().catch(() => {});
+      });
+    });
+  </script>
+  <button id="more-videos-arrow" type="button" aria-label="Scroll to more videos" title="More videos" hidden>
+    <svg viewBox="0 0 64 56" aria-hidden="true"><path d="M12 14 L32 36 L52 14" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <button id="previous-videos-arrow" type="button" aria-label="Scroll to previous video row" title="Previous videos" hidden>
+    <svg viewBox="0 0 64 56" aria-hidden="true"><path d="M12 14 L32 36 L52 14" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <script>
+    (() => {
+      const down = document.getElementById('more-videos-arrow');
+      const up = document.getElementById('previous-videos-arrow');
+      const rows = [...document.querySelectorAll('.video-showcase .video-carousel-shell')];
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const bounds = row => {
+        const players = [...row.querySelectorAll('.video-card-player')];
+        return { top: Math.min(...players.map(p => p.getBoundingClientRect().top)),
+                 bottom: Math.max(...players.map(p => p.getBoundingClientRect().bottom)) };
+      };
+      const nextRow = () => rows.find(row => bounds(row).bottom > window.innerHeight + 12);
+      const previousRow = () => [...rows].reverse().find(row => bounds(row).top < -12);
+      const updateCue = () => {
+        down.hidden = !nextRow();
+        up.hidden = !previousRow();
+      };
+      const scrollToRow = (row, direction) => {
+        if (!row) return;
+        const rect = bounds(row);
+        const top = window.scrollY + (direction === 'down' ? rect.bottom - window.innerHeight : rect.top);
+        window.scrollTo({ top: Math.max(0, top), behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+      };
+      down.addEventListener('click', () => scrollToRow(nextRow(), 'down'));
+      up.addEventListener('click', () => scrollToRow(previousRow(), 'up'));
+      window.addEventListener('scroll', updateCue, { passive: true });
+      window.addEventListener('resize', updateCue);
+      window.addEventListener('load', updateCue);
+      new ResizeObserver(updateCue).observe(document.body);
+      updateCue();
+    })();
+  </script>
+  <script>
+    // YouTube players: show the thumbnail first, load the real player on click.
+    // When the page is opened straight from a folder (file://), YouTube refuses to embed (error 153),
+    // so in that case the video opens on YouTube in a new tab instead.
+    document.querySelectorAll('.yt-player[data-yt]').forEach((box) => {
+      const id = box.dataset.yt;
+      box.querySelector('.yt-facade').addEventListener('click', () => {
+        if (location.protocol === 'file:') {
+          window.open('https://www.youtube.com/watch?v=' + id, '_blank', 'noopener');
+          return;
+        }
+        const f = document.createElement('iframe');
+        f.src = 'https://www.youtube-nocookie.com/embed/' + id + '?rel=0&autoplay=1';
+        f.title = 'YouTube video';
+        f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        f.referrerPolicy = 'strict-origin-when-cross-origin';
+        f.allowFullscreen = true;
+        box.innerHTML = '';
+        box.appendChild(f);
+      });
+    });
+  </script>
+</body>
+</html>
