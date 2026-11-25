@@ -357,6 +357,17 @@ body > #container > #menu > li > a.ai-video,
 body > #container > #menu > li > a[aria-current="page"] { color: #d1fe17 !important; font-weight: 800 !important; }
 /* logo vertically centred in the top bar (the old translateY(-50%) pushed it up) */
 body > #container > .site-logo { position: relative !important; top: -2px !important; transform: none !important; align-self: center !important; flex: 0 0 auto; }
+/* subtle soft lights inside the top bar, also when the page is at the very top */
+body > #container { isolation: isolate; }
+body > #container::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(ellipse 14% 160% at 9% 30%, rgba(255,255,255,.07), transparent 70%),
+    radial-gradient(ellipse 18% 190% at 33% 0%, rgba(255,255,255,.05), transparent 70%),
+    radial-gradient(ellipse 16% 170% at 58% 20%, rgba(255,255,255,.06), transparent 70%),
+    radial-gradient(ellipse 20% 200% at 82% 10%, rgba(255,255,255,.05), transparent 70%),
+    linear-gradient(180deg, rgba(255,255,255,.03), transparent);
+}
 </style>
 </head>
 <body>
