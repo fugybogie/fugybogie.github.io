@@ -387,6 +387,46 @@ body::-webkit-scrollbar,
   .animation-grid-page .section-title.is-active::after { animation: none; }
 }
 </style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&amp;display=swap">
+<style id="hf-nav">
+/* Left-aligned sticky top bar, same as Home and Contacts */
+:root { --hf-line: rgba(255,255,255,.07); --hf-card: #17181b; }
+/* ---- top bar ---- */
+body > #container {
+  position: sticky !important; top: 0 !important; left: 0 !important; transform: none !important;
+  width: 100% !important; max-width: none !important; height: 60px !important;
+  display: flex !important; align-items: center !important; justify-content: flex-start !important;
+  padding: 0 20px !important; box-sizing: border-box !important; gap: 18px;
+  background: rgba(19,21,23,.85) !important; -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--hf-line);
+}
+body > #container > .site-logo { position: static !important; display: flex; align-items: center; flex: 0 0 auto; }
+body > #container > .site-logo img { width: 34px !important; height: 34px !important; border-radius: 9px; }
+body > #container > .home-fixed-link { display: none !important; }
+body > #container > #menu {
+  position: static !important; height: 60px !important; padding: 0 !important; margin: 0 !important;
+  display: flex !important; align-items: center !important; gap: 4px; background: transparent !important; width: auto !important;
+}
+body > #container > #menu > li { height: 60px; display: flex !important; align-items: center; }
+body > #container > #menu > li > a {
+  font: 600 14px/1 Inter, Arial, sans-serif !important; color: #a1a3a8 !important; padding: 9px 12px !important;
+  border-radius: 9px; transition: color .15s, background .15s; background: transparent !important;
+}
+body > #container > #menu > li > a:hover { color: #fff !important; background: rgba(255,255,255,.06) !important; }
+body > #container > #menu > li > a.ai-video { color: #fff !important; font-weight: 800 !important; }
+body > #container > #menu li ul { top: 52px !important; background: var(--hf-card) !important; border: 1px solid var(--hf-line);
+  border-radius: 12px; padding: 6px !important; box-shadow: 0 18px 40px rgba(0,0,0,.5); }
+body > #container > #menu li li a { border-radius: 8px; font: 500 14px Inter, Arial, sans-serif !important; }
+@media (max-width: 900px) { body > #container { overflow-x: auto !important; scrollbar-width: none; } }
+</style>
+<style id="nav-center">
+/* Menu centred in the top bar on every page; the current page is lime */
+@media (min-width: 901px) {
+  body > #container > #menu { position: absolute !important; left: 50% !important; top: 0 !important; transform: translateX(-50%) !important; }
+}
+body > #container > #menu > li > a.ai-video,
+body > #container > #menu > li > a[aria-current="page"] { color: #d1fe17 !important; font-weight: 800 !important; }
+</style>
 </head>
 
 <body>
