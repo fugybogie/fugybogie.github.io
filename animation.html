@@ -428,17 +428,89 @@ body > #container > #menu > li > a.ai-video,
 body > #container > #menu > li > a[aria-current="page"] { color: #d1fe17 !important; font-weight: 800 !important; }
 </style>
 <style id="featured-row">
-/* First Animation row: big feature video on the left (half the width), and on the right a 2 x 2 grid
-   of smaller videos whose two rows together are exactly as tall as the big one. */
-@media (min-width: 901px) {
+/* First Animation row: big feature video + a 2 x 2 grid of smaller videos (together 75% of the width),
+   and an intro panel filling the rest of the row. */
+@media (min-width: 1101px) {
   .animation-grid-page > .video-grid {
-    grid-template-columns: calc((100% - 4.44px) / 2) repeat(2, calc((100% - 4.44px) / 4 - 17.78px));
-    grid-template-rows: auto auto; justify-content: start; align-items: start; gap: 20px;
-    /* whole block 25% smaller, aligned left with the Rig videos */
-    box-sizing: border-box; width: calc((100% - 40px) * 0.75); margin-left: 20px; margin-right: auto;
-    padding-left: 0; padding-right: 0;
+    grid-template-columns: calc((100% * .75 - 4.44px) / 2) repeat(2, calc((100% * .75 - 4.44px) / 4 - 17.78px)) minmax(0, 1fr);
+    grid-template-rows: auto auto; align-items: start; gap: 20px;
   }
   .animation-grid-page > .video-grid > .video-card:first-child { grid-row: 1 / span 2; }
+  .animation-grid-page > .video-grid > .anim-intro { grid-column: 4; grid-row: 1 / span 2; align-self: stretch; }
+}
+@media (max-width: 1100px) { .animation-grid-page > .video-grid > .anim-intro { grid-column: 1 / -1; } }
+</style>
+<style id="anim-refine">
+/* Animation page design pass: same canvas as Home/Contacts, sections as rounded panels,
+   cards with hairline borders and a lime hover ring, a proper "coming soon" placeholder. */
+:root { --ap-bg: #0a0a0b; --ap-panel: #111214; --ap-card: #17181b; --ap-line: rgba(255,255,255,.07); --ap-muted: #8b8d93; --ap-lime: #d1fe17; }
+html, body { background: var(--ap-bg) !important; background-color: var(--ap-bg) !important; }
+body > #container { background: rgba(10,10,11,.82) !important; }
+
+.animation-grid-page { padding-bottom: 40px; }
+.animation-grid-page .section-title--first { margin: 18px 20px 20px !important; }
+.animation-grid-page > .video-grid { padding: 0 20px !important; }
+
+/* Rig and Unreal sections become rounded panels */
+.animation-grid-page .video-section {
+  margin: 28px 16px 0 !important; padding: 26px 0 26px; border-radius: 22px;
+  background: var(--ap-panel); border: 1px solid var(--ap-line);
+}
+.animation-grid-page .video-section .section-title { margin: 0 24px 22px !important; }
+.animation-grid-page .video-section .video-grid { padding: 0 24px !important; }
+
+/* cards */
+.animation-grid-page .video-card-player {
+  border-radius: 14px !important; overflow: hidden; border: 1px solid var(--ap-line); background: #000;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.animation-grid-page .video-card:hover .video-card-player {
+  transform: translateY(-3px); box-shadow: 0 18px 40px rgba(0,0,0,.55), 0 0 0 1px rgba(209,254,23,.35);
+}
+.animation-grid-page .empty-video-slot {
+  background: repeating-linear-gradient(135deg, #131417 0 12px, #16171a 12px 24px) !important;
+  border: 1px dashed rgba(255,255,255,.14) !important; display: grid; place-items: center;
+}
+.animation-grid-page .empty-video-slot video { opacity: 0; }
+.animation-grid-page .empty-video-slot::after {
+  content: "Coming soon"; position: absolute; inset: 0; display: grid; place-items: center;
+  color: #6b6f75; font: 700 13px/1 Inter, Arial, sans-serif; letter-spacing: .16em; text-transform: uppercase;
+}
+.animation-grid-page .video-card:hover .empty-video-slot { transform: none; box-shadow: none; }
+
+/* intro panel next to the featured videos */
+.animation-grid-page .anim-intro {
+  position: relative; overflow: hidden; isolation: isolate; box-sizing: border-box;
+  display: flex; flex-direction: column; justify-content: center; gap: 14px;
+  padding: 28px 26px; border-radius: 18px; border: 1px solid var(--ap-line); color: #f4f4f5;
+  background: radial-gradient(ellipse 90% 70% at 50% 120%, rgba(209,254,23,.14), transparent 60%),
+              radial-gradient(ellipse 60% 50% at 100% 0%, rgba(120,90,255,.16), transparent 70%), linear-gradient(180deg,#121316,#0c0c0e);
+}
+.animation-grid-page .anim-intro::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: .3;
+  background-image: radial-gradient(rgba(255,255,255,.35) 1px, transparent 1.2px); background-size: 20px 20px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 40% 40%, #000, transparent 75%); mask-image: radial-gradient(ellipse 80% 70% at 40% 40%, #000, transparent 75%); }
+.animation-grid-page .anim-kicker { align-self: flex-start; padding: 5px 10px; border-radius: 7px; background: var(--ap-lime); color: #0a0a0b;
+  font: 900 11px/1 Inter, Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase; font-style: italic; transform: skew(-6deg); }
+.animation-grid-page .anim-intro h2 { margin: 0; font: 900 clamp(22px, 1.9vw, 32px)/1 Inter, Arial, sans-serif; letter-spacing: -.02em; text-transform: uppercase; }
+.animation-grid-page .anim-intro p { margin: 0; color: var(--ap-muted); font: 500 14px/1.55 Inter, Arial, sans-serif; }
+.animation-grid-page .anim-stats { list-style: none; margin: 4px 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.animation-grid-page .anim-stats li { padding: 12px 14px; border-radius: 12px; background: rgba(255,255,255,.04); border: 1px solid var(--ap-line); }
+.animation-grid-page .anim-stats strong { display: block; font: 900 26px/1 Inter, Arial, sans-serif; color: #fff; }
+.animation-grid-page .anim-stats span { display: block; margin-top: 6px; color: var(--ap-muted); font: 600 12px/1.2 Inter, Arial, sans-serif; }
+.animation-grid-page .anim-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+.animation-grid-page .anim-btn { display: inline-flex; align-items: center; padding: 10px 16px; border-radius: 10px; text-decoration: none;
+  font: 700 14px/1 Inter, Arial, sans-serif; color: #e7e7ea; background: rgba(255,255,255,.06); border: 1px solid var(--ap-line); transition: filter .15s, background .15s; }
+.animation-grid-page .anim-btn:hover { background: rgba(255,255,255,.1); }
+.animation-grid-page .anim-btn--lime { background: var(--ap-lime); color: #0a0a0b; border-color: var(--ap-lime); }
+.animation-grid-page .anim-btn--lime:hover { filter: brightness(1.08); background: var(--ap-lime); }
+.animation-grid-page .anim-btn:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+html { scroll-padding-top: 80px; }
+
+@media (max-width: 600px) {
+  .animation-grid-page .video-section { margin: 20px 8px 0 !important; padding: 20px 0; border-radius: 18px; }
+  .animation-grid-page .video-section .section-title { margin: 0 14px 16px !important; }
+  .animation-grid-page .video-section .video-grid { padding: 0 14px !important; }
+  .animation-grid-page > .video-grid { padding: 0 12px !important; }
 }
 </style>
 </head>
@@ -520,6 +592,19 @@ body > #container > #menu > li > a[aria-current="page"] { color: #d1fe17 !import
         <article class="video-card">
           <div class="video-card-player empty-video-slot" aria-label="Video placeholder"><video class="video-js" muted playsinline preload="none" aria-label="Video not added yet"></video></div>
         </article>
+        <aside class="anim-intro" aria-label="About this page">
+          <span class="anim-kicker">Showreel</span>
+          <h2>Selected animation work</h2>
+          <p>The featured clips rotate every 10 seconds. Below you'll find my character rigs and the Unreal Engine rigs and assets.</p>
+          <ul class="anim-stats">
+            <li><strong data-count="#rig-grid">0</strong><span>Rig videos</span></li>
+            <li><strong data-count="#unreal-grid">0</strong><span>Unreal Engine</span></li>
+          </ul>
+          <div class="anim-links">
+            <a class="anim-btn anim-btn--lime" href="#rig">Rig &darr;</a>
+            <a class="anim-btn" href="#unreal">Unreal Engine &darr;</a>
+          </div>
+        </aside>
     </div>
 
     <section class="video-section" id="rig" aria-labelledby="rig-title">
@@ -1327,6 +1412,13 @@ body > #container > #menu > li > a[aria-current="page"] { color: #d1fe17 !import
       new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(grid);
       setInterval(swap, INTERVAL);
     })();
+  </script>
+  <script>
+    // Intro panel: show how many videos each section holds.
+    document.querySelectorAll('.anim-stats [data-count]').forEach((el) => {
+      const g = document.querySelector(el.dataset.count);
+      if (g) el.textContent = g.querySelectorAll('.video-card').length;
+    });
   </script>
 </body>
 </html>
