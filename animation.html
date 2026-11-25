@@ -348,7 +348,10 @@ body::-webkit-scrollbar,
 @media (prefers-reduced-motion: reduce) { .animation-grid-page .uncover-cue > span { animation: none; } }
 /* Section titles: the section you are looking at gets its title glided to the centre,
    with lines on both sides and a magic glowing pulse; the others sit on the left, calm. */
-.animation-grid-page .section-title--first { margin: 10px 20px 24px; }
+.animation-grid-page .section-title--first { margin: 10px 20px 48px; }
+/* First row of Animation videos sits exactly midway between the "Animation" and "Rig" titles */
+.animation-grid-page > .video-grid { padding-bottom: 0; }
+.animation-grid-page #rig { margin-top: 48px; }
 .animation-grid-page .section-title::before {
   content: ""; height: 1px; flex: 0 1 0px; min-width: 0;
   background: linear-gradient(to left, rgba(255,255,255,.55), rgba(255,255,255,0));
