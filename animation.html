@@ -310,6 +310,42 @@ body::-webkit-scrollbar,
 }
 .animation-grid-page .yt-facade:hover .yt-play,
 .animation-grid-page .yt-facade:focus-visible .yt-play { background: #ff0000; }
+/* Rig section: everything blurred except a soft clear spot that moves from video to video */
+@property --fx { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --fy { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --rw { syntax: "<length>"; inherits: false; initial-value: 300px; }
+@property --rh { syntax: "<length>"; inherits: false; initial-value: 200px; }
+.animation-grid-page #rig-grid { position: relative; }
+.animation-grid-page .focus-blur {
+  position: absolute; inset: 0; z-index: 20; pointer-events: none;
+  -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px);
+  transition: --fx 1.2s ease-in-out, --fy 1.2s ease-in-out, --rw 1.2s ease-in-out, --rh 1.2s ease-in-out;
+  -webkit-mask-image: radial-gradient(var(--rw) var(--rh) at var(--fx) var(--fy), transparent 0%, transparent 58%, #000 100%);
+          mask-image: radial-gradient(var(--rw) var(--rh) at var(--fx) var(--fy), transparent 0%, transparent 58%, #000 100%);
+}
+/* "Uncover" cue over the blurred Rig videos: same bounce + pulse as the scroll arrow on Home */
+.animation-grid-page .uncover-cue {
+  position: absolute; left: 50%; top: 0; z-index: 30;
+  transform: translate(-50%, -50%);
+  padding: 6px 14px; border: 0; background: transparent; cursor: pointer;
+  font-family: "Space Grotesk", Arial, sans-serif; font-weight: 700; font-size: 64px;
+  letter-spacing: 0.04em; line-height: 1; color: #fff;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.75));
+  transition: top .35s ease-out;
+}
+.animation-grid-page .uncover-cue > span {
+  display: inline-block;
+  animation: more-videos-bounce 1.4s ease-in-out infinite, more-videos-pulse 1.4s ease-in-out infinite;
+}
+.animation-grid-page .uncover-cue:focus-visible { outline: 2px solid #fff; border-radius: 12px; }
+.animation-grid-page .uncover-cue[hidden] { display: none; }
+.animation-grid-page .focus-blur { opacity: 1; }
+.animation-grid-page .focus-blur.is-off { opacity: 0; }
+@keyframes rig-line-pulse { 0%,100% { background: rgba(255,255,255,.18); } 50% { background: rgba(255,255,255,.95); box-shadow: 0 0 8px rgba(255,255,255,.55); } }
+.animation-grid-page #rig.uncovered .section-title::after { animation: rig-line-pulse 1.4s ease-in-out infinite; height: 2px; }
+@media (prefers-reduced-motion: reduce) { .animation-grid-page #rig.uncovered .section-title::after { animation: none; background: rgba(255,255,255,.6); } }
+@media (max-width: 600px) { .animation-grid-page .uncover-cue { font-size: 42px; } }
+@media (prefers-reduced-motion: reduce) { .animation-grid-page .uncover-cue > span { animation: none; } }
 </style>
 </head>
 
@@ -390,6 +426,8 @@ body::-webkit-scrollbar,
     <section class="video-section" id="rig" aria-labelledby="rig-title">
       <h2 class="section-title" id="rig-title">Rig</h2>
       <div class="video-grid" id="rig-grid">
+        <div class="focus-blur" data-focus="0bjt3t1l3x4" aria-hidden="true"></div>
+        <button class="uncover-cue" type="button" aria-label="Uncover all Rig videos">Uncover</button>
         <article class="video-card">
           <div class="video-card-player yt-player" data-yt="kPBn28lFdfQ">
             <button class="yt-facade" type="button" aria-label="Play Rig video 1">
@@ -447,9 +485,9 @@ body::-webkit-scrollbar,
           </div>
         </article>
         <article class="video-card">
-          <div class="video-card-player yt-player" data-yt="YZStm9P0MFU">
+          <div class="video-card-player yt-player" data-yt="9vnQOk6pl24">
             <button class="yt-facade" type="button" aria-label="Play Rig video 8">
-              <img src="https://i.ytimg.com/vi/YZStm9P0MFU/hqdefault.jpg" alt="" loading="lazy">
+              <img src="https://i.ytimg.com/vi/9vnQOk6pl24/hqdefault.jpg" alt="" loading="lazy">
               <span class="yt-play" aria-hidden="true"></span>
             </button>
           </div>
@@ -694,6 +732,14 @@ body::-webkit-scrollbar,
             </button>
           </div>
         </article>
+        <article class="video-card">
+          <div class="video-card-player yt-player" data-yt="YZStm9P0MFU">
+            <button class="yt-facade" type="button" aria-label="Play Rig video 39">
+              <img src="https://i.ytimg.com/vi/YZStm9P0MFU/hqdefault.jpg" alt="" loading="lazy">
+              <span class="yt-play" aria-hidden="true"></span>
+            </button>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -922,6 +968,139 @@ body::-webkit-scrollbar,
         box.appendChild(f);
       });
     });
+  </script>
+  <script>
+    // Rig "searching gaze" blur + "Uncover" cue.
+    // - Covered state: Rig videos blurred, a clear spot starts on the snowman and darts between
+    //   visible videos; "Uncover" pulses in the middle of the visible part of the grid.
+    // - Uncovered (click "Uncover", or scroll below the 2nd Rig row): blur and text fade away,
+    //   only the pulsing line next to the "Rig" title remains.
+    // - Scrolling back up until the top Animation videos are in view resets the covered state,
+    //   starting again on the snowman.
+    (() => {
+      const blur = document.querySelector('.focus-blur[data-focus]');
+      const cue = document.querySelector('.uncover-cue');
+      const section = document.getElementById('rig');
+      const topGrid = document.querySelector('.animation-grid-page .video-grid');
+      if (!blur || !cue || !section) return;
+      const grid = blur.parentElement;
+      const cards = [...grid.querySelectorAll('.yt-player[data-yt]')];
+      const home = Math.max(0, cards.findIndex(c => c.dataset.yt === blur.dataset.focus));
+      cue.innerHTML = '<span>' + cue.textContent + '</span>';
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const rand = (a, b) => a + Math.random() * (b - a);
+
+      let i = home, covered = true, locked = false, timers = [];
+      const later = (fn, ms) => timers.push(setTimeout(fn, ms));
+      const clearAll = () => { timers.forEach(clearTimeout); timers = []; };
+      const cols = () => Math.max(1, Math.round(grid.clientWidth / cards[0].getBoundingClientRect().width));
+
+      const aim = (k, dx = 0, dy = 0, ms = 0, ease = 'cubic-bezier(.34,1.56,.64,1)') => {
+        const t = cards[k].getBoundingClientRect(), g = grid.getBoundingClientRect();
+        blur.style.transition = (ms ? ['--fx','--fy','--rw','--rh'].map(p => `${p} ${ms}ms ${ease}`).join(',') + ',' : '') + 'opacity .6s ease';
+        blur.style.setProperty('--fx', (t.left - g.left + t.width / 2 + dx * t.width) + 'px');
+        blur.style.setProperty('--fy', (t.top - g.top + t.height / 2 + dy * t.height) + 'px');
+        blur.style.setProperty('--rw', (t.width * 0.92) + 'px');
+        blur.style.setProperty('--rh', (t.height * 0.95) + 'px');
+      };
+      const visible = (j) => {
+        const r = cards[j].getBoundingClientRect(), vh = window.innerHeight, vw = window.innerWidth;
+        return Math.min(r.bottom, vh) - Math.max(r.top, 0) > r.height * 0.6 &&
+               Math.min(r.right, vw) - Math.max(r.left, 0) > r.width * 0.6;
+      };
+      const nextIndex = () => {
+        const c = cols(), n = cards.length;
+        const inView = cards.map((_, j) => j).filter(j => j !== i && visible(j));
+        if (!inView.length) return -1;
+        const near = [-1, 1, -c, c, -c - 1, -c + 1, c - 1, c + 1].map(d => i + d)
+          .filter(j => j >= 0 && j < n && j !== i && Math.abs((j % c) - (i % c)) <= 1 && visible(j));
+        const pool = (near.length && Math.random() >= 0.25) ? near : inView;
+        return pool[Math.floor(Math.random() * pool.length)];
+      };
+      const drift = (until) => {
+        if (!covered || locked || performance.now() > until) return;
+        aim(i, rand(-0.07, 0.07), rand(-0.07, 0.07), rand(220, 380), 'ease-in-out');
+        later(() => drift(until), rand(260, 420));
+      };
+      const look = () => {
+        if (!covered || locked) return;
+        const j = nextIndex();
+        if (j < 0) { later(look, 400); return; }
+        i = j;
+        const dart = rand(260, 420);
+        aim(i, 0, 0, dart);
+        const dwell = Math.random() < 0.2 ? rand(1600, 2400) : rand(550, 1100);
+        later(() => drift(performance.now() + dwell - 150), dart);
+        later(look, dart + dwell);
+      };
+      const startGaze = () => {
+        clearAll(); i = home; aim(i, 0, 0, 0);
+        if (reduced || document.hidden) return;
+        later(() => drift(performance.now() + 1500), 50);
+        later(look, 1700);
+      };
+
+      const placeCue = () => {
+        const g = grid.getBoundingClientRect();
+        const top = Math.max(g.top, 0), bottom = Math.min(g.bottom, window.innerHeight);
+        cue.style.visibility = (bottom - top < 120) ? 'hidden' : '';
+        cue.style.top = ((top + bottom) / 2 - g.top) + 'px';
+      };
+
+      const uncover = () => {
+        if (!covered) return;
+        covered = false; clearAll();
+        blur.classList.add('is-off');
+        cue.hidden = true;
+        section.classList.add('uncovered');
+      };
+      const cover = () => {
+        if (covered) return;
+        covered = true; locked = false;
+        blur.classList.remove('is-off');
+        cue.hidden = false;
+        section.classList.remove('uncovered');
+        placeCue();
+        startGaze();
+      };
+
+      cue.addEventListener('click', uncover);
+      cards.forEach((c, k) => c.addEventListener('click', () => {
+        if (!covered) return;
+        locked = true; clearAll(); i = k; aim(i, 0, 0, 450);
+      }, true));
+
+      // Visitor went below the 2nd Rig row = the 3rd row has come into view (after scrolling).
+      const pastSecondRow = () => {
+        const c = cols(), third = cards[2 * c];
+        if (!third || window.scrollY <= 0) return false;
+        return third.getBoundingClientRect().top < window.innerHeight - 40;
+      };
+      // The first row of videos (top Animation videos, above Rig) is mostly on screen.
+      const topRowVisible = () => {
+        if (!topGrid) return false;
+        const t = topGrid.getBoundingClientRect();
+        return Math.min(t.bottom, window.innerHeight) - Math.max(t.top, 0) >= t.height * 0.6;
+      };
+      const onScroll = () => {
+        if (covered) {
+          placeCue();
+          if (pastSecondRow()) uncover();
+        } else if (topRowVisible()) {
+          cover();
+        }
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', () => { placeCue(); aim(i, 0, 0, 0); });
+      new ResizeObserver(() => { placeCue(); aim(i, 0, 0, 0); }).observe(grid);
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) clearAll(); else if (covered && !locked) { later(look, 600); }
+      });
+
+      placeCue();
+      startGaze();
+      onScroll();
+    })();
   </script>
 </body>
 </html>
