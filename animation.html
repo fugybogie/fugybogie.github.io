@@ -348,10 +348,10 @@ body::-webkit-scrollbar,
 @media (prefers-reduced-motion: reduce) { .animation-grid-page .uncover-cue > span { animation: none; } }
 /* Section titles: the section you are looking at gets its title glided to the centre,
    with lines on both sides and a magic glowing pulse; the others sit on the left, calm. */
-.animation-grid-page .section-title--first { margin: 10px 20px 48px; }
+.animation-grid-page .section-title--first { margin: 10px 20px 16px; }
 /* First row of Animation videos sits exactly midway between the "Animation" and "Rig" titles */
 .animation-grid-page > .video-grid { padding-bottom: 0; }
-.animation-grid-page #rig { margin-top: 48px; }
+.animation-grid-page #rig { margin-top: 16px; }
 .animation-grid-page .section-title::before {
   content: ""; height: 1px; flex: 0 1 0px; min-width: 0;
   background: linear-gradient(to left, rgba(255,255,255,.55), rgba(255,255,255,0));
@@ -427,6 +427,20 @@ body > #container > #menu li li a { border-radius: 8px; font: 500 14px Inter, Ar
 body > #container > #menu > li > a.ai-video,
 body > #container > #menu > li > a[aria-current="page"] { color: #d1fe17 !important; font-weight: 800 !important; }
 </style>
+<style id="featured-row">
+/* First Animation row: big feature video on the left (half the width), and on the right a 2 x 2 grid
+   of smaller videos whose two rows together are exactly as tall as the big one. */
+@media (min-width: 901px) {
+  .animation-grid-page > .video-grid {
+    grid-template-columns: calc((100% - 4.44px) / 2) repeat(2, calc((100% - 4.44px) / 4 - 17.78px));
+    grid-template-rows: auto auto; justify-content: start; align-items: start; gap: 20px;
+    /* whole block 25% smaller, aligned left with the Rig videos */
+    box-sizing: border-box; width: calc((100% - 40px) * 0.75); margin-left: 20px; margin-right: auto;
+    padding-left: 0; padding-right: 0;
+  }
+  .animation-grid-page > .video-grid > .video-card:first-child { grid-row: 1 / span 2; }
+}
+</style>
 </head>
 
 <body>
@@ -491,17 +505,20 @@ body > #container > #menu > li > a[aria-current="page"] { color: #d1fe17 !import
         </article>
         <article class="video-card">
           <div class="video-card-player">
+            <video id="animation-video-4" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/TUDQgVoy011eth00sZ2xFTKhKviyFLUkwW40002s8eaevP00/thumbnail.jpg?width=1920">
+              <source data-src="https://stream.mux.com/TUDQgVoy011eth00sZ2xFTKhKviyFLUkwW40002s8eaevP00.m3u8?min_resolution=1080p&amp;max_resolution=1080p" type="application/x-mpegURL">
+            </video>
+          </div>
+        </article>
+        <article class="video-card">
+          <div class="video-card-player">
             <video id="animation-video-3" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/pwlXqMeItYF9vZIceD9IYRw00z9QmRZzFJAIiWtpZ8M8/thumbnail.jpg?width=1920">
               <source data-src="https://stream.mux.com/pwlXqMeItYF9vZIceD9IYRw00z9QmRZzFJAIiWtpZ8M8.m3u8?min_resolution=1080p&amp;max_resolution=1080p" type="application/x-mpegURL">
             </video>
           </div>
         </article>
         <article class="video-card">
-          <div class="video-card-player">
-            <video id="animation-video-4" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/TUDQgVoy011eth00sZ2xFTKhKviyFLUkwW40002s8eaevP00/thumbnail.jpg?width=1920">
-              <source data-src="https://stream.mux.com/TUDQgVoy011eth00sZ2xFTKhKviyFLUkwW40002s8eaevP00.m3u8?min_resolution=1080p&amp;max_resolution=1080p" type="application/x-mpegURL">
-            </video>
-          </div>
+          <div class="video-card-player empty-video-slot" aria-label="Video placeholder"><video class="video-js" muted playsinline preload="none" aria-label="Video not added yet"></video></div>
         </article>
     </div>
 
@@ -1147,6 +1164,8 @@ body > #container > #menu > li > a[aria-current="page"] { color: #d1fe17 !import
       };
 
       cue.addEventListener('click', uncover);
+      // Moving the mouse over the blurred Rig videos uncovers them too (until the top row is shown again).
+      grid.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') uncover(); });
       cards.forEach((c, k) => c.addEventListener('click', () => {
         if (!covered) return;
         locked = true; clearAll(); i = k; aim(i, 0, 0, 450);
@@ -1261,6 +1280,52 @@ body > #container > #menu > li > a[aria-current="page"] { color: #d1fe17 !import
       window.addEventListener('scroll', queue, { passive: true });
       window.addEventListener('resize', queue);
       update();
+    })();
+  </script>
+  <script>
+    // First Animation row: every few seconds one of the small videos on the right glides into the big
+    // spot, and the big one shrinks and glides into the small one's place (FLIP animation).
+    // Keeps going even with the mouse over it or after a click; only waits while the row is off screen or the tab is hidden.
+    (() => {
+      const grid = document.querySelector('.animation-grid-page > .video-grid');
+      if (!grid || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const INTERVAL = 10000, DURATION = 900;
+      let slot = 1, hovering = false, stopped = false, visible = true, busy = false;
+      const cards = () => [...grid.children].filter(el => el.classList.contains('video-card'));
+      const isEmpty = (c) => !!c.querySelector('.empty-video-slot');
+
+      const swap = () => {
+        if (busy || hovering || stopped || !visible || document.hidden) return;
+        if (!window.matchMedia('(min-width: 901px)').matches) return;
+        const list = cards();
+        const smalls = list.slice(1).filter(c => !isEmpty(c));
+        if (!smalls.length) return;
+        const small = list[1 + ((slot - 1) % (list.length - 1))];
+        slot = slot % (list.length - 1) + 1;
+        if (isEmpty(small)) return swap();
+        const big = list[0];
+        busy = true;
+        const before = new Map([big, small].map(el => [el, el.getBoundingClientRect()]));
+        // swap the two cards in the DOM (the first card always takes the big spot)
+        const marker = document.createComment('');
+        grid.replaceChild(marker, small);
+        grid.replaceChild(small, big);
+        grid.replaceChild(big, marker);
+        [big, small].forEach(el => {
+          const a = before.get(el), b = el.getBoundingClientRect();
+          el.style.transformOrigin = '0 0';
+          el.style.zIndex = el === small ? '3' : '2';
+          el.animate([
+            { transform: `translate(${a.left - b.left}px, ${a.top - b.top}px) scale(${a.width / b.width}, ${a.height / b.height})` },
+            { transform: 'none' }
+          ], { duration: DURATION, easing: 'cubic-bezier(.65,0,.35,1)' }).finished.then(() => {
+            el.style.zIndex = ''; el.style.transformOrigin = ''; busy = false;
+          });
+        });
+      };
+
+      new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(grid);
+      setInterval(swap, INTERVAL);
     })();
   </script>
 </body>
