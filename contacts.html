@@ -255,54 +255,106 @@ body::-webkit-scrollbar,
 @keyframes more-videos-bounce { 0%,100% { transform: translateY(-6px); } 50% { transform: translateY(6px); } }
 @media (prefers-reduced-motion: reduce) { #more-videos-arrow { animation: none; } }
 </style>
-<style id="contacts-page">
-.contact-page { max-width: 1100px; margin: 10px auto 80px; padding: 0 20px; box-sizing: border-box; color: #fff;
-  font-family: "Space Grotesk", Arial, sans-serif; }
-.contact-page .section-title { display: flex; align-items: center; gap: 18px; margin: 0 0 40px;
-  font-size: 38px; font-weight: 600; letter-spacing: .02em; line-height: 1; color: #fff; }
-.contact-page .section-title::before, .contact-page .section-title::after { content: ""; flex: 1; height: 1px;
-  animation: title-line-glow 2.4s ease-in-out infinite; }
-.contact-page .section-title::before { background: linear-gradient(to left, rgba(255,255,255,.55), rgba(255,255,255,0)); }
-.contact-page .section-title::after  { background: linear-gradient(to right, rgba(255,255,255,.55), rgba(255,255,255,0)); }
-.contact-page .section-title > span { padding: 0 6px;
-  background: linear-gradient(100deg,#fff 0%,#fff 38%,#e9ffb0 47%,#d1fe17 50%,#e9ffb0 53%,#fff 62%,#fff 100%);
-  background-size: 250% 100%; -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent; color: transparent;
-  animation: title-shimmer 3.2s linear infinite, title-glow 2.4s ease-in-out infinite; }
-@keyframes title-shimmer { 0% { background-position: 125% 0; } 100% { background-position: -125% 0; } }
-@keyframes title-glow { 0%,100% { filter: drop-shadow(0 0 0 rgba(209,254,23,0)); }
-  50% { filter: drop-shadow(0 0 10px rgba(209,254,23,.55)) drop-shadow(0 0 22px rgba(255,255,255,.25)); } }
-@keyframes title-line-glow { 0%,100% { opacity: .35; } 50% { opacity: 1; } }
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&amp;display=swap">
+<style id="hf-style">
+/* Home restyle inspired by higgsfield.ai: near-black canvas, sticky left-aligned top bar,
+   big rounded panels with hairline borders, heavy uppercase headings, lime pills and buttons. */
+:root { --hf-bg: #0a0a0b; --hf-panel: #111214; --hf-card: #17181b; --hf-line: rgba(255,255,255,.07);
+  --hf-text: #f4f4f5; --hf-muted: #8b8d93; --hf-lime: #d1fe17; }
+html, body { background: var(--hf-bg) !important; background-color: var(--hf-bg) !important; }
+body { font-family: Inter, Arial, sans-serif; }
 
-.contact-card { display: grid; grid-template-columns: 320px 1fr; gap: 40px; align-items: start;
-  background: #1a1c1f; border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: 36px; }
-.contact-intro { text-align: center; }
-.contact-intro img { width: 180px; height: 180px; object-fit: cover; border-radius: 50%;
-  border: 2px solid #d1fe17; box-shadow: 0 0 24px rgba(209,254,23,.25); background: #131517; }
-.contact-intro h2 { margin: 22px 0 10px; font-size: 26px; font-weight: 600; }
-.contact-intro p { margin: 0 0 18px; color: #a9a9a9; font-size: 15px; line-height: 1.5; font-family: Arial, sans-serif; }
-.contact-intro a.mail { color: #d1fe17; text-decoration: none; font-weight: 600; word-break: break-all; }
-.contact-intro a.mail:hover, .contact-intro a.mail:focus-visible { text-decoration: underline; }
+/* ---- top bar ---- */
+body > #container {
+  position: sticky !important; top: 0 !important; left: 0 !important; transform: none !important;
+  width: 100% !important; max-width: none !important; height: 60px !important;
+  display: flex !important; align-items: center !important; justify-content: flex-start !important;
+  padding: 0 20px !important; box-sizing: border-box !important; gap: 18px;
+  background: rgba(10,10,11,.82) !important; -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--hf-line);
+}
+body > #container > .site-logo { position: static !important; display: flex; align-items: center; flex: 0 0 auto; }
+body > #container > .site-logo img { width: 34px !important; height: 34px !important; border-radius: 9px; }
+body > #container > .home-fixed-link { display: none !important; }
+body > #container > #menu {
+  position: static !important; height: 60px !important; padding: 0 !important; margin: 0 !important;
+  display: flex !important; align-items: center !important; gap: 4px; background: transparent !important; width: auto !important;
+}
+body > #container > #menu > li { height: 60px; display: flex !important; align-items: center; }
+body > #container > #menu > li > a {
+  font: 600 14px/1 Inter, Arial, sans-serif !important; color: #a1a3a8 !important; padding: 9px 12px !important;
+  border-radius: 9px; transition: color .15s, background .15s; background: transparent !important;
+}
+body > #container > #menu > li > a:hover { color: #fff !important; background: rgba(255,255,255,.06) !important; }
+body > #container > #menu > li > a.ai-video { color: #fff !important; font-weight: 800 !important; }
+body > #container > #menu li ul { top: 52px !important; background: var(--hf-card) !important; border: 1px solid var(--hf-line);
+  border-radius: 12px; padding: 6px !important; box-shadow: 0 18px 40px rgba(0,0,0,.5); }
+body > #container > #menu li li a { border-radius: 8px; font: 500 14px Inter, Arial, sans-serif !important; }
+.hf-top-actions { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+.hf-pill { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 10px;
+  font: 700 14px/1 Inter, Arial, sans-serif; text-decoration: none; transition: filter .15s, background .15s; white-space: nowrap; }
+.hf-pill--ghost { color: #e7e7ea; background: rgba(255,255,255,.06); border: 1px solid var(--hf-line); }
+.hf-pill--ghost:hover { background: rgba(255,255,255,.1); }
+.hf-pill--lime { color: #0a0a0b; background: var(--hf-lime); }
+.hf-pill--lime:hover { filter: brightness(1.08); }
 
-.contact-form { display: grid; gap: 18px; }
-.contact-form label { display: grid; gap: 8px; font-size: 14px; color: #c4c4c4; letter-spacing: .02em; }
-.contact-form input, .contact-form textarea { width: 100%; box-sizing: border-box; padding: 13px 14px;
-  background: #131517; color: #fff; border: 1px solid rgba(255,255,255,.14); border-radius: 9px;
-  font: 15px/1.4 Arial, sans-serif; outline: none; transition: border-color .15s, box-shadow .15s; }
-.contact-form textarea { min-height: 180px; resize: vertical; }
-.contact-form input::placeholder, .contact-form textarea::placeholder { color: #6b6f75; }
-.contact-form input:focus, .contact-form textarea:focus { border-color: #d1fe17; box-shadow: 0 0 0 3px rgba(209,254,23,.18); }
-.contact-form button { justify-self: start; padding: 13px 34px; border: 0; border-radius: 9px; cursor: pointer;
-  background: #d1fe17; color: #111; font: 700 16px "Space Grotesk", Arial, sans-serif; letter-spacing: .03em;
-  transition: transform .12s, box-shadow .15s; }
-.contact-form button:hover, .contact-form button:focus-visible { box-shadow: 0 0 18px rgba(209,254,23,.45); transform: translateY(-1px); }
-.contact-form .hp { display: none; }
+@media (max-width: 900px) {
+  body > #container { overflow-x: auto !important; scrollbar-width: none; }
+  .hf-top-actions .hf-pill--ghost { display: none; }
+}
+</style>
+<style id="contacts-hf">
+.hf-contact { max-width: 1240px; margin: 16px auto 24px; padding: 0 16px; box-sizing: border-box; color: var(--hf-text); }
+.hf-contact-panel { display: grid; grid-template-columns: 1fr 1.15fr; gap: 16px; }
+.hf-card { position: relative; border-radius: 22px; border: 1px solid var(--hf-line); background: var(--hf-panel); padding: 40px; overflow: hidden; isolation: isolate; }
+.hf-card--intro { display: flex; flex-direction: column; justify-content: space-between; gap: 32px;
+  background: radial-gradient(ellipse 80% 70% at 50% 120%, rgba(209,254,23,.14), transparent 60%),
+              radial-gradient(ellipse 50% 50% at 100% 0%, rgba(120,90,255,.16), transparent 70%), linear-gradient(180deg,#121316,#0c0c0e); }
+.hf-card--intro::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: .3;
+  background-image: radial-gradient(rgba(255,255,255,.35) 1px, transparent 1.2px); background-size: 22px 22px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 70% at 40% 40%, #000, transparent 75%); mask-image: radial-gradient(ellipse 70% 70% at 40% 40%, #000, transparent 75%); }
+.hf-card--intro::after { content: ""; position: absolute; left: 8%; right: 8%; bottom: -2px; height: 2px; z-index: -1;
+  background: linear-gradient(90deg, transparent, var(--hf-lime), transparent); box-shadow: 0 0 24px 4px rgba(209,254,23,.45);
+  animation: hf-horizon 3s ease-in-out infinite; }
+@keyframes hf-horizon { 0%,100% { opacity: .55; } 50% { opacity: 1; } }
+.hf-badge { display: inline-block; padding: 5px 10px; border-radius: 7px; background: var(--hf-lime); color: #0a0a0b;
+  font: 900 12px/1 Inter, Arial, sans-serif; letter-spacing: .06em; text-transform: uppercase; font-style: italic; transform: skew(-6deg); }
+.hf-card h1 { margin: 18px 0 0; font: 900 clamp(38px, 4.6vw, 64px)/.95 Inter, Arial, sans-serif; letter-spacing: -.03em; text-transform: uppercase; }
+.hf-card h1 em { font-style: normal; color: transparent; -webkit-text-stroke: 1.5px rgba(255,255,255,.7); }
+.hf-card--intro p { margin: 18px 0 0; max-width: 420px; color: var(--hf-muted); font: 500 16px/1.55 Inter, Arial, sans-serif; }
+.hf-who { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
+.hf-who img { width: 128px; height: 128px; flex: 0 0 auto; border-radius: 26px; object-fit: cover; border: 1px solid var(--hf-line); background: #0a0a0b; }
+.hf-who small { display: block; color: var(--hf-muted); font: 500 13px Inter, Arial, sans-serif; margin-bottom: 4px; }
+.hf-who a { color: var(--hf-text); font: 800 17px Inter, Arial, sans-serif; text-decoration: none; word-break: break-all; }
+.hf-who a:hover, .hf-who a:focus-visible { color: var(--hf-lime); }
 
-@media (max-width: 860px) { .contact-card { grid-template-columns: 1fr; padding: 24px; gap: 28px; } }
-@media (max-width: 600px) { .contact-page { padding: 0 12px; } .contact-page .section-title { font-size: 30px; margin-bottom: 24px; }
-  .contact-form button { justify-self: stretch; } }
-@media (prefers-reduced-motion: reduce) { .contact-page .section-title > span,
-  .contact-page .section-title::before, .contact-page .section-title::after { animation: none; } }
+.hf-form { display: grid; gap: 16px; }
+.hf-form h2 { margin: 0 0 6px; font: 900 20px/1 Inter, Arial, sans-serif; text-transform: uppercase; letter-spacing: -.01em; }
+.hf-form label { display: grid; gap: 8px; font: 600 13px Inter, Arial, sans-serif; color: #a1a3a8; }
+.hf-form input, .hf-form textarea { width: 100%; box-sizing: border-box; padding: 14px 15px; border-radius: 12px;
+  background: var(--hf-card); color: #fff; border: 1px solid var(--hf-line); font: 500 15px/1.4 Inter, Arial, sans-serif;
+  outline: none; transition: border-color .15s, box-shadow .15s, background .15s; }
+.hf-form textarea { min-height: 190px; resize: vertical; }
+.hf-form input::placeholder, .hf-form textarea::placeholder { color: #5f6268; }
+.hf-form input:focus, .hf-form textarea:focus { border-color: rgba(209,254,23,.7); box-shadow: 0 0 0 3px rgba(209,254,23,.15); background: #1b1c20; }
+.hf-form .hf-pill--lime { justify-self: start; border: 0; cursor: pointer; padding: 14px 28px; font-size: 15px; }
+.hf-form .hp { display: none; }
+.hf-pill:focus-visible, .hf-form button:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+@media (max-width: 900px) {
+  .hf-contact-panel { grid-template-columns: 1fr; }
+  .hf-contact { padding: 0 10px; } .hf-card { padding: 26px 20px; border-radius: 18px; }
+  .hf-form .hf-pill--lime { justify-self: stretch; justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) { .hf-card--intro::after { animation: none; } }
+</style>
+<style id="nav-center">
+/* Menu centred in the top bar on every page; the current page is lime */
+@media (min-width: 901px) {
+  body > #container > #menu { position: absolute !important; left: 50% !important; top: 0 !important; transform: translateX(-50%) !important; }
+}
+body > #container > #menu > li > a.ai-video,
+body > #container > #menu > li > a[aria-current="page"] { color: #d1fe17 !important; font-weight: 800 !important; }
 </style>
 </head>
 <body>
@@ -346,32 +398,46 @@ body::-webkit-scrollbar,
       </ul>
     </li>
   </ul>
+  <div class="hf-top-actions">
+    <a class="hf-pill hf-pill--ghost" href="cv.html">CV</a>
+    <a class="hf-pill hf-pill--lime" href="index.html">See the work</a>
+  </div>
 </div>
 
-  <main class="contact-page">
-    <h1 class="section-title"><span>Contacts</span></h1>
-    <div class="contact-card">
-      <div class="contact-intro">
-        <img src="images/avatar3.png" alt="Sandu Gontza">
-        <h2>Let's work together :)</h2>
-        <p>Have a project, a question or an idea? Send me a message and I'll get back to you.</p>
-        <a class="mail" href="mailto:fugybogie@gmail.com">fugybogie@gmail.com</a>
-      </div>
-      <form class="contact-form" action="https://formspree.io/fugybogie@gmail.com" method="POST">
-        <label>Name
-          <input type="text" name="name" placeholder="Joe Dave" autocomplete="name" required>
-        </label>
-        <label>Email
-          <input type="email" name="email" placeholder="joe.dave@example.com" autocomplete="email" required>
-        </label>
-        <label>Message
-          <textarea name="message" placeholder="Enter message" required></textarea>
-        </label>
-        <input type="hidden" name="_next" value="thankyou.html">
-        <input type="hidden" name="_subject" value="New submission!">
-        <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off">
-        <button type="submit">Send</button>
-      </form>
+  <main class="hf-contact">
+    <div class="hf-contact-panel">
+      <section class="hf-card hf-card--intro">
+        <div>
+          <span class="hf-badge">Contacts</span>
+          <h1>Let's work <em>together</em></h1>
+          <p>Have a project, a question or an idea? Send me a message and I'll get back to you.</p>
+        </div>
+        <div class="hf-who">
+          <img src="images/avatar-contact.jpg" alt="">
+          <div>
+            <small>Write me directly</small>
+            <a href="mailto:sandugontaexp@gmail.com">sandugontaexp@gmail.com</a>
+          </div>
+        </div>
+      </section>
+      <section class="hf-card">
+        <form class="hf-form" action="https://formspree.io/sandugontaexp@gmail.com" method="POST">
+          <h2>Send a message</h2>
+          <label>Name
+            <input type="text" name="name" placeholder="Joe Dave" autocomplete="name" required>
+          </label>
+          <label>Email
+            <input type="email" name="email" placeholder="joe.dave@example.com" autocomplete="email" required>
+          </label>
+          <label>Message
+            <textarea name="message" placeholder="Enter message" required></textarea>
+          </label>
+          <input type="hidden" name="_next" value="thankyou.html">
+          <input type="hidden" name="_subject" value="New submission!">
+          <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off">
+          <button class="hf-pill hf-pill--lime" type="submit">Send message</button>
+        </form>
+      </section>
     </div>
   </main>
 </body>
