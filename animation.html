@@ -346,6 +346,36 @@ body::-webkit-scrollbar,
 @media (prefers-reduced-motion: reduce) { .animation-grid-page #rig.uncovered .section-title::after { animation: none; background: rgba(255,255,255,.6); } }
 @media (max-width: 600px) { .animation-grid-page .uncover-cue { font-size: 42px; } }
 @media (prefers-reduced-motion: reduce) { .animation-grid-page .uncover-cue > span { animation: none; } }
+/* Centered "Animation" title with lines on both sides and a magic glowing pulse */
+.animation-grid-page .section-title--center { margin: 10px 20px 24px; }
+.animation-grid-page .section-title--center::before {
+  content: ""; flex: 1; height: 1px;
+  background: linear-gradient(to left, rgba(255,255,255,.55), rgba(255,255,255,0));
+}
+.animation-grid-page .section-title--center::after {
+  background: linear-gradient(to right, rgba(255,255,255,.55), rgba(255,255,255,0));
+}
+.animation-grid-page .section-title--center::before,
+.animation-grid-page .section-title--center::after { animation: title-line-glow 2.4s ease-in-out infinite; }
+.animation-grid-page .section-title--center > span {
+  padding: 0 6px;
+  background: linear-gradient(100deg, #ffffff 0%, #ffffff 38%, #e9ffb0 47%, #d1fe17 50%, #e9ffb0 53%, #ffffff 62%, #ffffff 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+  animation: title-shimmer 3.2s linear infinite, title-glow 2.4s ease-in-out infinite;
+}
+@keyframes title-shimmer { 0% { background-position: 125% 0; } 100% { background-position: -125% 0; } }
+@keyframes title-glow {
+  0%, 100% { filter: drop-shadow(0 0 0 rgba(209,254,23,0)); }
+  50% { filter: drop-shadow(0 0 10px rgba(209,254,23,.55)) drop-shadow(0 0 22px rgba(255,255,255,.25)); }
+}
+@keyframes title-line-glow { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .animation-grid-page .section-title--center > span,
+  .animation-grid-page .section-title--center::before,
+  .animation-grid-page .section-title--center::after { animation: none; }
+}
 </style>
 </head>
 
@@ -392,6 +422,7 @@ body::-webkit-scrollbar,
 </div>
 
   <main class="video-showcase animation-grid-page">
+    <h2 class="section-title section-title--center" id="animation-title"><span>Animation</span></h2>
     <div class="video-grid">
         <article class="video-card">
           <div class="video-card-player">
@@ -747,9 +778,9 @@ body::-webkit-scrollbar,
       <h2 class="section-title" id="unreal-title">Unreal Engine Rigs and Assets</h2>
       <div class="video-grid" id="unreal-grid">
         <article class="video-card">
-          <div class="video-card-player yt-player" data-yt="dvQgNbLJ0uE">
+          <div class="video-card-player yt-player" data-yt="kcOPzuIE-Bc">
             <button class="yt-facade" type="button" aria-label="Play Unreal Engine video 1">
-              <img src="https://i.ytimg.com/vi/dvQgNbLJ0uE/hqdefault.jpg" alt="" loading="lazy">
+              <img src="https://i.ytimg.com/vi/kcOPzuIE-Bc/hqdefault.jpg" alt="" loading="lazy">
               <span class="yt-play" aria-hidden="true"></span>
             </button>
           </div>
@@ -779,9 +810,9 @@ body::-webkit-scrollbar,
           </div>
         </article>
         <article class="video-card">
-          <div class="video-card-player yt-player" data-yt="kcOPzuIE-Bc">
+          <div class="video-card-player yt-player" data-yt="dvQgNbLJ0uE">
             <button class="yt-facade" type="button" aria-label="Play Unreal Engine video 5">
-              <img src="https://i.ytimg.com/vi/kcOPzuIE-Bc/hqdefault.jpg" alt="" loading="lazy">
+              <img src="https://i.ytimg.com/vi/dvQgNbLJ0uE/hqdefault.jpg" alt="" loading="lazy">
               <span class="yt-play" aria-hidden="true"></span>
             </button>
           </div>
@@ -1100,6 +1131,56 @@ body::-webkit-scrollbar,
       placeCue();
       startGaze();
       onScroll();
+    })();
+  </script>
+  <script>
+    // YouTube thumbnails: always show the video's current thumbnail (also custom ones uploaded later),
+    // sharpest version first with fallbacks; refreshed at least once an hour.
+    // Black bars baked into a thumbnail (left/right or top/bottom) are detected and zoomed away.
+    (() => {
+      const stamp = Math.floor(Date.now() / 3600000);
+      const sizes = ['maxresdefault', 'sddefault', 'hqdefault'];
+
+      const trimBars = (img) => {
+        try {
+          const W = 160, H = 90, c = document.createElement('canvas');
+          c.width = W; c.height = H;
+          const x = c.getContext('2d', { willReadFrequently: true });
+          x.drawImage(img, 0, 0, W, H);
+          const d = x.getImageData(0, 0, W, H).data;
+          const lum = (px, py) => { const i = (py * W + px) * 4; return (d[i] + d[i + 1] + d[i + 2]) / 3; };
+          const colDark = (px) => { let m = 0; for (let y = 0; y < H; y++) m = Math.max(m, lum(px, y)); return m < 22; };
+          const rowDark = (py) => { let m = 0; for (let k = 0; k < W; k++) m = Math.max(m, lum(k, py)); return m < 22; };
+          let l = 0, r = 0, t = 0, b = 0;
+          while (l < W * 0.3 && colDark(l)) l++;
+          while (r < W * 0.3 && colDark(W - 1 - r)) r++;
+          while (t < H * 0.3 && rowDark(t)) t++;
+          while (b < H * 0.3 && rowDark(H - 1 - b)) b++;
+          if (l + r + t + b < 3) { img.style.transform = ''; return; }
+          const s = Math.max(W / (W - l - r), H / (H - t - b));
+          const cx = (l + (W - r)) / 2 / W - 0.5, cy = (t + (H - b)) / 2 / H - 0.5;
+          img.style.transformOrigin = '50% 50%';
+          img.style.transform = `translate(${(-cx * s * 100).toFixed(2)}%, ${(-cy * s * 100).toFixed(2)}%) scale(${s.toFixed(4)})`;
+        } catch (e) { /* image not readable: leave it as is */ }
+      };
+
+      document.querySelectorAll('.yt-player[data-yt] .yt-facade img').forEach((img) => {
+        const id = img.closest('.yt-player').dataset.yt;
+        let k = 0, cors = true;
+        const load = () => {
+          if (k >= sizes.length) return;
+          if (cors) img.crossOrigin = 'anonymous'; else img.removeAttribute('crossorigin');
+          img.src = `https://i.ytimg.com/vi/${id}/${sizes[k]}.jpg?t=${stamp}`;
+        };
+        img.addEventListener('load', () => {
+          if (img.naturalWidth <= 120) { k++; load(); return; }   // 120px = "no such image"
+          if (cors) trimBars(img);
+        });
+        img.addEventListener('error', () => {
+          if (cors) { cors = false; load(); } else { k++; cors = true; load(); }
+        });
+        load();
+      });
     })();
   </script>
 </body>
