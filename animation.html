@@ -346,19 +346,24 @@ body::-webkit-scrollbar,
 @media (prefers-reduced-motion: reduce) { .animation-grid-page #rig.uncovered .section-title::after { animation: none; background: rgba(255,255,255,.6); } }
 @media (max-width: 600px) { .animation-grid-page .uncover-cue { font-size: 42px; } }
 @media (prefers-reduced-motion: reduce) { .animation-grid-page .uncover-cue > span { animation: none; } }
-/* Centered "Animation" title with lines on both sides and a magic glowing pulse */
-.animation-grid-page .section-title--center { margin: 10px 20px 24px; }
-.animation-grid-page .section-title--center::before {
-  content: ""; flex: 1; height: 1px;
+/* Section titles: the section you are looking at gets its title glided to the centre,
+   with lines on both sides and a magic glowing pulse; the others sit on the left, calm. */
+.animation-grid-page .section-title--first { margin: 10px 20px 24px; }
+.animation-grid-page .section-title::before {
+  content: ""; height: 1px; flex: 0 1 0px; min-width: 0;
   background: linear-gradient(to left, rgba(255,255,255,.55), rgba(255,255,255,0));
+  transition: flex-grow .9s cubic-bezier(.65,0,.35,1), opacity .6s ease;
+  opacity: 0;
 }
-.animation-grid-page .section-title--center::after {
+.animation-grid-page .section-title::after { transition: background .6s ease; }
+.animation-grid-page .section-title > span { padding: 0 6px; white-space: nowrap; }
+.animation-grid-page .section-title.is-active::before { flex-grow: 1; opacity: 1; }
+.animation-grid-page .section-title.is-active::after {
   background: linear-gradient(to right, rgba(255,255,255,.55), rgba(255,255,255,0));
 }
-.animation-grid-page .section-title--center::before,
-.animation-grid-page .section-title--center::after { animation: title-line-glow 2.4s ease-in-out infinite; }
-.animation-grid-page .section-title--center > span {
-  padding: 0 6px;
+.animation-grid-page .section-title.is-active::before,
+.animation-grid-page .section-title.is-active::after { animation: title-line-glow 2.4s ease-in-out infinite; }
+.animation-grid-page .section-title.is-active > span {
   background: linear-gradient(100deg, #ffffff 0%, #ffffff 38%, #e9ffb0 47%, #d1fe17 50%, #e9ffb0 53%, #ffffff 62%, #ffffff 100%);
   background-size: 250% 100%;
   -webkit-background-clip: text; background-clip: text;
@@ -371,10 +376,12 @@ body::-webkit-scrollbar,
   50% { filter: drop-shadow(0 0 10px rgba(209,254,23,.55)) drop-shadow(0 0 22px rgba(255,255,255,.25)); }
 }
 @keyframes title-line-glow { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
+@media (max-width: 600px) { .animation-grid-page .section-title > span { white-space: normal; } }
 @media (prefers-reduced-motion: reduce) {
-  .animation-grid-page .section-title--center > span,
-  .animation-grid-page .section-title--center::before,
-  .animation-grid-page .section-title--center::after { animation: none; }
+  .animation-grid-page .section-title::before { transition: none; }
+  .animation-grid-page .section-title.is-active > span,
+  .animation-grid-page .section-title.is-active::before,
+  .animation-grid-page .section-title.is-active::after { animation: none; }
 }
 </style>
 </head>
@@ -422,7 +429,7 @@ body::-webkit-scrollbar,
 </div>
 
   <main class="video-showcase animation-grid-page">
-    <h2 class="section-title section-title--center" id="animation-title"><span>Animation</span></h2>
+    <h2 class="section-title section-title--first is-active" id="animation-title"><span>Animation</span></h2>
     <div class="video-grid">
         <article class="video-card">
           <div class="video-card-player">
@@ -455,7 +462,7 @@ body::-webkit-scrollbar,
     </div>
 
     <section class="video-section" id="rig" aria-labelledby="rig-title">
-      <h2 class="section-title" id="rig-title">Rig</h2>
+      <h2 class="section-title" id="rig-title"><span>Rig</span></h2>
       <div class="video-grid" id="rig-grid">
         <div class="focus-blur" data-focus="0bjt3t1l3x4" aria-hidden="true"></div>
         <button class="uncover-cue" type="button" aria-label="Uncover all Rig videos">Uncover</button>
@@ -775,7 +782,7 @@ body::-webkit-scrollbar,
     </section>
 
     <section class="video-section" id="unreal" aria-labelledby="unreal-title">
-      <h2 class="section-title" id="unreal-title">Unreal Engine Rigs and Assets</h2>
+      <h2 class="section-title" id="unreal-title"><span>Unreal Engine Rigs and Assets</span></h2>
       <div class="video-grid" id="unreal-grid">
         <article class="video-card">
           <div class="video-card-player yt-player" data-yt="kcOPzuIE-Bc">
@@ -1181,6 +1188,35 @@ body::-webkit-scrollbar,
         });
         load();
       });
+    })();
+  </script>
+  <script>
+    // The title of the section whose videos cross the middle of the screen glides to the centre and glows.
+    (() => {
+      const pairs = [
+        [document.getElementById('animation-title'), document.querySelector('.animation-grid-page > .video-grid')],
+        [document.getElementById('rig-title'), document.getElementById('rig-grid')],
+        [document.getElementById('unreal-title'), document.getElementById('unreal-grid')],
+      ].filter(([t, g]) => t && g);
+      let current = null, raf = 0;
+      const update = () => {
+        raf = 0;
+        const mid = window.innerHeight / 2;
+        let best = null, bestDist = Infinity;
+        for (const [t, g] of pairs) {
+          const r = g.getBoundingClientRect();
+          const d = (mid >= r.top && mid <= r.bottom) ? 0 : Math.min(Math.abs(r.top - mid), Math.abs(r.bottom - mid));
+          if (d < bestDist) { bestDist = d; best = t; }
+        }
+        if (best && best !== current) {
+          pairs.forEach(([t]) => t.classList.toggle('is-active', t === best));
+          current = best;
+        }
+      };
+      const queue = () => { if (!raf) raf = requestAnimationFrame(update); };
+      window.addEventListener('scroll', queue, { passive: true });
+      window.addEventListener('resize', queue);
+      update();
     })();
   </script>
 </body>
