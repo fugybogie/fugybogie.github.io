@@ -270,7 +270,7 @@ body > #container > #menu > li > a.ai-video { color: var(--cv-cyan) !important; 
   font-family: "Space Grotesk", Arial, sans-serif; display: flex; align-items: center; }
 .cv-hero::before { /* the photo, anchored right, fading into the night on the left */
   content: ""; position: absolute; top: 0; bottom: 0; right: 0; width: min(62vw, 1000px);
-  background: url("images/cv-bg.jpg") center 20% / cover no-repeat;
+  background: url("images/new.png") center 20% / cover no-repeat;
   -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 38%, #000 88%, transparent 100%);
           mask-image: linear-gradient(to right, transparent 0%, #000 38%, #000 88%, transparent 100%);
   animation: cv-breathe 6s ease-in-out infinite; }
@@ -361,6 +361,8 @@ body > #container > #menu li ul { background: #071a2e !important; }
 }
 body > #container > #menu > li > a.ai-video,
 body > #container > #menu > li > a[aria-current="page"] { color: #d1fe17 !important; font-weight: 800 !important; }
+/* logo vertically centred in the top bar (the old translateY(-50%) pushed it up) */
+body > #container > .site-logo { position: relative !important; top: -2px !important; transform: none !important; align-self: center !important; flex: 0 0 auto; }
 </style>
 </head>
 <body>
