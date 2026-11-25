@@ -378,10 +378,10 @@ body > #container::before {
 body > #container > .site-logo { width: 48px !important; height: 48px !important; }
 body > #container > .site-logo img { width: 48px !important; height: 48px !important; border-radius: 12px; }
 /* Logo hover: the top bar grows taller and the logo turns into its animation (images/logo-anim.mp4) */
-body > #container { transition: height .45s cubic-bezier(.2,.8,.2,1), margin-bottom .45s cubic-bezier(.2,.8,.2,1) !important; }
-body > #container > #menu { transition: top .45s cubic-bezier(.2,.8,.2,1); }
-body > #container > .site-logo { transition: width .45s cubic-bezier(.2,.8,.2,1), height .45s cubic-bezier(.2,.8,.2,1); }
-body > #container > .site-logo img, body > #container > .site-logo .logo-anim { transition: width .45s cubic-bezier(.2,.8,.2,1), height .45s cubic-bezier(.2,.8,.2,1), border-radius .45s, opacity .2s; }
+body > #container { transition: height .22s cubic-bezier(.34,1.7,.5,1), margin-bottom .22s cubic-bezier(.34,1.7,.5,1) !important; }
+body > #container > #menu { transition: top .22s cubic-bezier(.34,1.7,.5,1); }
+body > #container > .site-logo { transition: width .22s cubic-bezier(.34,1.7,.5,1), height .22s cubic-bezier(.34,1.7,.5,1); }
+body > #container > .site-logo img, body > #container > .site-logo .logo-anim { transition: width .22s cubic-bezier(.34,1.7,.5,1), height .22s cubic-bezier(.34,1.7,.5,1), border-radius .22s, opacity .12s; }
 body > #container > .site-logo .logo-anim {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 12px;
   opacity: 0; pointer-events: none; background: #000;
@@ -394,6 +394,13 @@ body > #container.logo-open > .site-logo .logo-anim { opacity: 1; border-radius:
 @media (prefers-reduced-motion: reduce) {
   body > #container, body > #container > #menu, body > #container > .site-logo, body > #container > .site-logo img { transition: none !important; }
 }
+@keyframes bar-shake {
+  0%, 100% { translate: 0 0; }
+  15% { translate: -5px 2px; } 30% { translate: 5px -2px; } 45% { translate: -4px 1px; }
+  60% { translate: 3px -1px; } 75% { translate: -2px 1px; } 90% { translate: 1px 0; }
+}
+body > #container.logo-shake { animation: bar-shake .32s cubic-bezier(.36,.07,.19,.97) 1; }
+@media (prefers-reduced-motion: reduce) { body > #container.logo-shake { animation: none; } }
 </style>
 <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
@@ -467,8 +474,21 @@ body > #container.logo-open > .site-logo .logo-anim { opacity: 1; border-radius:
       v.muted = true; v.playsInline = true; v.preload = 'auto';
       v.setAttribute('aria-hidden', 'true');
       logo.appendChild(v);
-      const open = () => { bar.classList.add('logo-open'); try { v.currentTime = 0; } catch (e) {} v.play().catch(() => {}); };
-      const close = () => { bar.classList.remove('logo-open'); v.pause(); };
+      v.playbackRate = 2.4;
+      let shakeTimer = 0;
+      const open = () => {
+        bar.classList.add('logo-open');
+        try { v.currentTime = 0; } catch (e) {}
+        v.playbackRate = 2.4; v.play().catch(() => {});
+        // one shake of the whole bar just before the animation ends
+        clearTimeout(shakeTimer);
+        bar.classList.remove('logo-shake');
+        shakeTimer = setTimeout(() => {
+          bar.classList.remove('logo-shake'); void bar.offsetWidth; bar.classList.add('logo-shake');
+        }, 185);
+      };
+      const close = () => { clearTimeout(shakeTimer); bar.classList.remove('logo-open', 'logo-shake'); v.pause(); };
+      bar.addEventListener('animationend', (e) => { if (e.animationName === 'bar-shake') bar.classList.remove('logo-shake'); });
       logo.addEventListener('mouseenter', open);
       logo.addEventListener('mouseleave', close);
       logo.addEventListener('focus', open);
