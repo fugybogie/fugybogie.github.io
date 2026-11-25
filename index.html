@@ -351,6 +351,14 @@ body > #container > #menu li li a { border-radius: 8px; font: 500 14px Inter, Ar
   .video-showcase .video-carousel-shell, .hf-footer { margin-left: 10px; margin-right: 10px; border-radius: 18px; }
 }
 @media (prefers-reduced-motion: reduce) { .hf-hero::after { animation: none; } }
+/* equal space above the videos and below the longest description inside each video panel */
+.video-showcase .video-carousel-shell { padding-top: 21px !important; padding-bottom: 21px !important; }
+.video-showcase .video-carousel-shell .video-carousel { padding-bottom: 0 !important; }
+.video-showcase .video-carousel-shell .video-card p { margin-bottom: 0 !important; }
+/* no panel boxes behind the video rows */
+.video-showcase .video-carousel-shell { background: transparent !important; border: 0 !important; border-radius: 0 !important;
+  padding: 0 12px !important; margin: 14px 0 0 !important; }
+.video-showcase .additional-video-row { margin-top: 36px !important; }
 </style>
 <style id="nav-center">
 /* Menu centred in the top bar on every page; the current page is lime */
