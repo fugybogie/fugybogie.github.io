@@ -609,6 +609,31 @@ html { scroll-padding-top: 80px; }
   main.animation-grid-page > #rig .section-title { font-size: 32px !important; }
 }
 </style>
+<style id="bar-slim">
+/* slimmer top bar: 60px -> 44px */
+body > #container { height: 44px !important; min-height: 44px !important; }
+body > #container > #menu, body > #container > #menu > li { min-height: 0 !important; }
+body > #container > #menu, body > #container > #menu > li { height: 44px !important; }
+body > #container > #menu > li > a { padding: 7px 12px !important; }
+body > #container > #menu li ul { top: 40px !important; }
+body > #container > .site-logo { width: 36px !important; height: 36px !important; top: 0 !important; }
+body > #container > .site-logo img { width: 36px !important; height: 36px !important; border-radius: 10px; }
+body > #container.logo-open { height: 120px !important; margin-bottom: -76px !important; }
+body > #container.logo-open > #menu { top: 38px !important; }
+body > #container.logo-open > .site-logo { width: 104px !important; height: 104px !important; }
+body > #container.logo-open > .site-logo img { width: 104px !important; height: 104px !important; border-radius: 18px; }
+</style>
+<style id="rig-tight">
+@media (min-width:1101px){
+  main.animation-grid-page > #rig.video-section { padding-top: 12px !important; }
+  main.animation-grid-page > #rig .section-title { margin: 0 12px 18px !important; }
+  main.animation-grid-page > #rig .video-grid { padding: 0 12px !important; }
+}
+</style>
+<style id="anim-title-big">
+main.animation-grid-page #animation-title { font-size: 48px !important; line-height: 1 !important; font-weight: 900 !important; margin: 4px 20px 10px !important; }
+@media (max-width:700px){ main.animation-grid-page #animation-title { font-size: 38px !important; } }
+</style>
 </head>
 
 <body>
