@@ -350,7 +350,7 @@ body::-webkit-scrollbar,
    with lines on both sides and a magic glowing pulse; the others sit on the left, calm. */
 .animation-grid-page .section-title--first { margin: 10px 20px 16px; }
 /* First row of Animation videos sits exactly midway between the "Animation" and "Rig" titles */
-.animation-grid-page > .video-grid { padding-bottom: 0; }
+.feature-stage { padding-bottom: 0; }
 .animation-grid-page #rig { margin-top: 16px; }
 .animation-grid-page .section-title::before {
   content: ""; height: 1px; flex: 0 1 0px; min-width: 0;
@@ -467,19 +467,7 @@ body > #container.logo-open > .site-logo .logo-anim { opacity: 1; border-radius:
 body > #container.logo-shake { animation: bar-shake .32s cubic-bezier(.36,.07,.19,.97) 1; }
 @media (prefers-reduced-motion: reduce) { body > #container.logo-shake { animation: none; } }
 </style>
-<style id="featured-row">
-/* First Animation row: big feature video + a 2 x 2 grid of smaller videos (together 75% of the width),
-   and an intro panel filling the rest of the row. */
-@media (min-width: 1101px) {
-  .animation-grid-page > .video-grid {
-    grid-template-columns: calc((100% * .75 + 23.56px) / 2) repeat(2, calc(((100% * .75 + 23.56px) / 2 - 35.56px) / 2)) minmax(0, 1fr);
-    grid-template-rows: auto auto; align-items: start; row-gap: 20px; column-gap: 6px;
-  }
-  .animation-grid-page > .video-grid > .video-card:first-child { grid-row: 1 / span 2; }
-  .animation-grid-page > .video-grid > .anim-intro { grid-column: 4; grid-row: 1 / span 2; align-self: stretch; }
-}
-@media (max-width: 1100px) { .animation-grid-page > .video-grid > .anim-intro { grid-column: 1 / -1; } }
-</style>
+
 <style id="anim-refine">
 /* Animation page design pass: same canvas as Home/Contacts, sections as rounded panels,
    cards with hairline borders and a lime hover ring, a proper "coming soon" placeholder. */
@@ -489,7 +477,7 @@ body > #container { background: rgba(10,10,11,.82) !important; }
 
 .animation-grid-page { padding-bottom: 40px; }
 .animation-grid-page .section-title--first { margin: 18px 20px 20px !important; }
-.animation-grid-page > .video-grid { padding: 0 20px !important; }
+.feature-stage { padding: 0 20px !important; }
 
 /* Rig and Unreal sections become rounded panels */
 .animation-grid-page .video-section {
@@ -550,13 +538,77 @@ html { scroll-padding-top: 80px; }
   .animation-grid-page .video-section { margin: 20px 8px 0 !important; padding: 20px 0; border-radius: 18px; }
   .animation-grid-page .video-section .section-title { margin: 0 14px 16px !important; }
   .animation-grid-page .video-section .video-grid { padding: 0 14px !important; }
-  .animation-grid-page > .video-grid { padding: 0 12px !important; }
+  .feature-stage { padding: 0 12px !important; }
 }
 </style>
 <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png">
 <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+
+<style id="feature-stage">
+/* Top of the Animation page, like a big-screen layout:
+   big Animation video on the left; next to it two columns of smaller videos (Animation, then Unreal Engine)
+   that show 2 videos and half of a third one, with up/down arrows. Rig stays below, unchanged.
+   w = column width, gap 12px:  w = (W - 66.67px) / 4.5, big = W - 2w - 24px, so that
+   big height = 2.5 small heights + 2 gaps. */
+@media (min-width: 1101px) {
+  .animation-grid-page .feature-stage {
+    display: grid !important; padding: 0 20px !important; row-gap: 12px !important; column-gap: 20px !important; align-items: stretch;
+    grid-template-columns: minmax(0, 1fr) repeat(2, calc((100% - 82.67px) / 4.5)) !important;
+    grid-template-rows: auto !important;
+    /* the whole block 35% smaller, centred */
+    box-sizing: border-box; width: calc((100% - 40px) * .65) !important; margin: 0 auto !important; padding: 0 !important;
+  }
+  .animation-grid-page .feature-stage > .video-card { grid-column: 1; grid-row: 1; align-self: start; }
+  .animation-grid-page .stage-col { position: relative; height: 0; min-height: 100%; }
+  .animation-grid-page .stage-scroll {
+    height: 100%; overflow-y: auto; overscroll-behavior: contain; scroll-behavior: smooth;
+    display: flex; flex-direction: column; gap: 12px; scrollbar-width: none; scroll-snap-type: y proximity;
+    -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent); mask-image: linear-gradient(to bottom, #000 78%, transparent);
+  }
+  .animation-grid-page .stage-scroll::-webkit-scrollbar { display: none; }
+  .animation-grid-page .stage-scroll > .video-card { flex: 0 0 auto; scroll-snap-align: start; }
+}
+@media (max-width: 1100px) {
+  .animation-grid-page .feature-stage { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .animation-grid-page .feature-stage > .video-card { grid-column: 1 / -1; }
+  .animation-grid-page .stage-col, .animation-grid-page .stage-scroll { display: contents; }
+  .animation-grid-page .side-arrow, .animation-grid-page .stage-label { display: none; }
+}
+.animation-grid-page .stage-label {
+  /* corner tab sitting flush in the top-left corner of the column */
+  position: absolute; top: -14px; left: -12px; z-index: 40; pointer-events: none;
+  padding: 10px 18px 10px 16px; border-radius: 12px 12px 12px 4px; background: #d1fe17; color: #0a0a0b;
+  font: 900 15px/1 Inter, Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase; font-style: italic;
+  box-shadow: 0 6px 18px rgba(0,0,0,.35);
+}
+.animation-grid-page .side-arrow {
+  position: absolute; left: 50%; z-index: 50; width: 58px; height: 58px; padding: 0; border: 0; border-radius: 50%;
+  background: rgba(28,30,32,.92); color: #fff; font-size: 32px; line-height: 58px; text-align: center; cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,.45); transition: opacity .2s, background .15s, color .15s;
+  animation: side-arrow-pulse 1.4s ease-in-out infinite;
+}
+@keyframes side-arrow-pulse {
+  0%, 100% { scale: 1; box-shadow: 0 4px 14px rgba(0,0,0,.45), 0 0 0 0 rgba(209,254,23,0); }
+  50% { scale: 1.12; box-shadow: 0 4px 14px rgba(0,0,0,.45), 0 0 0 7px rgba(209,254,23,.18), 0 0 22px rgba(209,254,23,.35); }
+}
+@media (prefers-reduced-motion: reduce) { .animation-grid-page .side-arrow { animation: none; } }
+.animation-grid-page .side-arrow-up { top: 10px; transform: translateX(-50%) rotate(90deg); }
+.animation-grid-page .side-arrow-down { bottom: -14px; transform: translateX(-50%) rotate(90deg); }
+.animation-grid-page .side-arrow:hover, .animation-grid-page .side-arrow:focus-visible { background: #d1fe17; color: #0a0a0b; outline: none; }
+.animation-grid-page .side-arrow[hidden] { display: block; opacity: 0; pointer-events: none; }
+</style>
+<style id="rig-narrow">
+/* Rig panel as wide as the Animation / Unreal block above it, centred, still 4 videos per row */
+@media (min-width: 1101px) {
+  main.animation-grid-page > #rig.video-section {
+    box-sizing: border-box; width: calc((100% - 40px) * .65); margin-left: auto !important; margin-right: auto !important;
+  }
+  main.animation-grid-page > #rig .video-grid { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: 14px !important; }
+  main.animation-grid-page > #rig .section-title { font-size: 32px !important; }
+}
+</style>
 </head>
 
 <body>
@@ -604,7 +656,7 @@ html { scroll-padding-top: 80px; }
 
   <main class="video-showcase animation-grid-page">
     <h2 class="section-title section-title--first is-active" id="animation-title"><span>Animation</span></h2>
-    <div class="video-grid">
+    <div class="video-grid feature-stage">
         <article class="video-card">
           <div class="video-card-player">
             <video id="animation-video-1" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/1HjHatW00feo3KSj2y7SCSugypA02MPn2gCsVaGOX02x8Y/thumbnail.jpg?width=1920">
@@ -612,43 +664,113 @@ html { scroll-padding-top: 80px; }
             </video>
           </div>
         </article>
-        <article class="video-card">
-          <div class="video-card-player">
-            <video class="video-js" id="third-row-video-3" controls muted loop playsinline preload="none" poster="https://image.mux.com/p01j01ZDWWMVEpoCLsJC9x9UDp72gzYC6ltRYfAoQjgv4/thumbnail.jpg?width=1920">
-              <source data-src="https://stream.mux.com/p01j01ZDWWMVEpoCLsJC9x9UDp72gzYC6ltRYfAoQjgv4.m3u8?min_resolution=1080p&amp;max_resolution=1080p" type="application/x-mpegURL">
-            </video>
-          </div>
-        </article>
-        <article class="video-card">
-          <div class="video-card-player">
-            <video id="animation-video-4" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/TUDQgVoy011eth00sZ2xFTKhKviyFLUkwW40002s8eaevP00/thumbnail.jpg?width=1920">
-              <source data-src="https://stream.mux.com/TUDQgVoy011eth00sZ2xFTKhKviyFLUkwW40002s8eaevP00.m3u8?min_resolution=1080p&amp;max_resolution=1080p" type="application/x-mpegURL">
-            </video>
-          </div>
-        </article>
-        <article class="video-card">
-          <div class="video-card-player">
-            <video id="animation-video-3" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/pwlXqMeItYF9vZIceD9IYRw00z9QmRZzFJAIiWtpZ8M8/thumbnail.jpg?width=1920">
-              <source data-src="https://stream.mux.com/pwlXqMeItYF9vZIceD9IYRw00z9QmRZzFJAIiWtpZ8M8.m3u8?min_resolution=1080p&amp;max_resolution=1080p" type="application/x-mpegURL">
-            </video>
-          </div>
-        </article>
-        <article class="video-card">
-          <div class="video-card-player empty-video-slot" aria-label="Video placeholder"><video class="video-js" muted playsinline preload="none" aria-label="Video not added yet"></video></div>
-        </article>
-        <aside class="anim-intro" aria-label="About this page">
-          <span class="anim-kicker">Showreel</span>
-          <h2>Selected animation work</h2>
-          <p>The featured clips rotate every 10 seconds. Below you'll find my character rigs and the Unreal Engine rigs and assets.</p>
-          <ul class="anim-stats">
-            <li><strong data-count="#rig-grid">0</strong><span>Rig videos</span></li>
-            <li><strong data-count="#unreal-grid">0</strong><span>Unreal Engine</span></li>
-          </ul>
-          <div class="anim-links">
-            <a class="anim-btn anim-btn--lime" href="#rig">Rig &darr;</a>
-            <a class="anim-btn" href="#unreal">Unreal Engine &darr;</a>
-          </div>
-        </aside>
+      <div class="stage-col" id="anim-col">
+        <span class="stage-label">Animation</span>
+        <button class="side-arrow side-arrow-up" type="button" aria-label="Previous Animation videos">&#10094;</button>
+        <div class="stage-scroll" tabindex="0" aria-label="Animation videos">
+            <article class="video-card">
+              <div class="video-card-player">
+                <video class="video-js" id="third-row-video-3" controls muted loop playsinline preload="none" poster="https://image.mux.com/p01j01ZDWWMVEpoCLsJC9x9UDp72gzYC6ltRYfAoQjgv4/thumbnail.jpg?width=1920">
+                  <source data-src="https://stream.mux.com/p01j01ZDWWMVEpoCLsJC9x9UDp72gzYC6ltRYfAoQjgv4.m3u8?min_resolution=1080p&amp;max_resolution=1080p" type="application/x-mpegURL">
+                </video>
+              </div>
+            </article>
+            <article class="video-card">
+              <div class="video-card-player">
+                <video id="animation-video-4" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/TUDQgVoy011eth00sZ2xFTKhKviyFLUkwW40002s8eaevP00/thumbnail.jpg?width=1920">
+                  <source data-src="https://stream.mux.com/TUDQgVoy011eth00sZ2xFTKhKviyFLUkwW40002s8eaevP00.m3u8?min_resolution=1080p&amp;max_resolution=1080p" type="application/x-mpegURL">
+                </video>
+              </div>
+            </article>
+            <article class="video-card">
+              <div class="video-card-player">
+                <video id="animation-video-3" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/pwlXqMeItYF9vZIceD9IYRw00z9QmRZzFJAIiWtpZ8M8/thumbnail.jpg?width=1920">
+                  <source data-src="https://stream.mux.com/pwlXqMeItYF9vZIceD9IYRw00z9QmRZzFJAIiWtpZ8M8.m3u8?min_resolution=1080p&amp;max_resolution=1080p" type="application/x-mpegURL">
+                </video>
+              </div>
+            </article>
+            <article class="video-card">
+              <div class="video-card-player empty-video-slot" aria-label="Video placeholder"><video class="video-js" muted playsinline preload="none" aria-label="Video not added yet"></video></div>
+            </article>
+        </div>
+        <button class="side-arrow side-arrow-down" type="button" aria-label="Next Animation videos">&#10095;</button>
+      </div>
+      <div class="stage-col" id="unreal-col">
+        <span class="stage-label">Unreal Engine</span>
+        <button class="side-arrow side-arrow-up" type="button" aria-label="Previous Unreal Engine videos">&#10094;</button>
+        <div class="stage-scroll" tabindex="0" aria-label="Unreal Engine videos">
+            <article class="video-card">
+              <div class="video-card-player">
+                <video id="unreal-video-1" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/MwNa01uty5cs6y2iNS4ZmJ0102MR2qYocOYOloVEVKCsHY/thumbnail.jpg?width=1920">
+                  <source data-src="https://stream.mux.com/MwNa01uty5cs6y2iNS4ZmJ0102MR2qYocOYOloVEVKCsHY.m3u8?min_resolution=1080p&amp;max_resolution=1080p" type="application/x-mpegURL">
+                </video>
+              </div>
+            </article>
+            <article class="video-card">
+              <div class="video-card-player">
+                <video id="unreal-video-2" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/cynkzxAUDuxoqUyFjzbzbg8F02ZKixjMycv8sO7eIanw/thumbnail.jpg?width=1920">
+                  <source data-src="https://stream.mux.com/cynkzxAUDuxoqUyFjzbzbg8F02ZKixjMycv8sO7eIanw.m3u8?min_resolution=1080p&amp;max_resolution=1080p" type="application/x-mpegURL">
+                </video>
+              </div>
+            </article>
+            <article class="video-card">
+              <div class="video-card-player">
+                <video id="unreal-video-3" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/CiNEL1j3H9w02ZOFaO8A01oClMgvoNwqrfZb972eq01Juw/thumbnail.jpg?width=1920">
+                  <source data-src="https://stream.mux.com/CiNEL1j3H9w02ZOFaO8A01oClMgvoNwqrfZb972eq01Juw.m3u8?min_resolution=1080p&amp;max_resolution=1080p" type="application/x-mpegURL">
+                </video>
+              </div>
+            </article>
+            <article class="video-card">
+              <div class="video-card-player yt-player" data-yt="9dKPCj2RfgA">
+                <button class="yt-facade" type="button" aria-label="Play Unreal Engine video 2">
+                  <img src="https://i.ytimg.com/vi/9dKPCj2RfgA/hqdefault.jpg" alt="" loading="lazy">
+                  <span class="yt-play" aria-hidden="true"></span>
+                </button>
+              </div>
+            </article>
+            <article class="video-card">
+              <div class="video-card-player yt-player" data-yt="-LpGiouqIoM">
+                <button class="yt-facade" type="button" aria-label="Play Unreal Engine video 3">
+                  <img src="https://i.ytimg.com/vi/-LpGiouqIoM/hqdefault.jpg" alt="" loading="lazy">
+                  <span class="yt-play" aria-hidden="true"></span>
+                </button>
+              </div>
+            </article>
+            <article class="video-card">
+              <div class="video-card-player yt-player" data-yt="vL4inpAXoIA">
+                <button class="yt-facade" type="button" aria-label="Play Unreal Engine video 6">
+                  <img src="https://i.ytimg.com/vi/vL4inpAXoIA/hqdefault.jpg" alt="" loading="lazy">
+                  <span class="yt-play" aria-hidden="true"></span>
+                </button>
+              </div>
+            </article>
+            <article class="video-card">
+              <div class="video-card-player yt-player" data-yt="UjaxvOX9050">
+                <button class="yt-facade" type="button" aria-label="Play Unreal Engine video 7">
+                  <img src="https://i.ytimg.com/vi/UjaxvOX9050/hqdefault.jpg" alt="" loading="lazy">
+                  <span class="yt-play" aria-hidden="true"></span>
+                </button>
+              </div>
+            </article>
+            <article class="video-card">
+              <div class="video-card-player yt-player" data-yt="QpZ86SZPDBQ">
+                <button class="yt-facade" type="button" aria-label="Play Unreal Engine video 8">
+                  <img src="https://i.ytimg.com/vi/QpZ86SZPDBQ/hqdefault.jpg" alt="" loading="lazy">
+                  <span class="yt-play" aria-hidden="true"></span>
+                </button>
+              </div>
+            </article>
+            <article class="video-card">
+              <div class="video-card-player yt-player" data-yt="Q9czpwAETI4">
+                <button class="yt-facade" type="button" aria-label="Play Unreal Engine video 9">
+                  <img src="https://i.ytimg.com/vi/Q9czpwAETI4/hqdefault.jpg" alt="" loading="lazy">
+                  <span class="yt-play" aria-hidden="true"></span>
+                </button>
+              </div>
+            </article>
+        </div>
+        <button class="side-arrow side-arrow-down" type="button" aria-label="Next Unreal Engine videos">&#10095;</button>
+      </div>
     </div>
 
     <section class="video-section" id="rig" aria-labelledby="rig-title">
@@ -972,84 +1094,6 @@ html { scroll-padding-top: 80px; }
           <div class="video-card-player yt-player" data-yt="1qzzllSD9P8">
             <button class="yt-facade" type="button" aria-label="Play Rig video 40">
               <img src="https://i.ytimg.com/vi/1qzzllSD9P8/hqdefault.jpg" alt="" loading="lazy">
-              <span class="yt-play" aria-hidden="true"></span>
-            </button>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="video-section" id="unreal" aria-labelledby="unreal-title">
-      <h2 class="section-title" id="unreal-title"><span>Unreal Engine Rigs and Assets</span></h2>
-      <div class="video-grid" id="unreal-grid">
-        <article class="video-card">
-          <div class="video-card-player yt-player" data-yt="kcOPzuIE-Bc">
-            <button class="yt-facade" type="button" aria-label="Play Unreal Engine video 1">
-              <img src="https://i.ytimg.com/vi/kcOPzuIE-Bc/hqdefault.jpg" alt="" loading="lazy">
-              <span class="yt-play" aria-hidden="true"></span>
-            </button>
-          </div>
-        </article>
-        <article class="video-card">
-          <div class="video-card-player yt-player" data-yt="9dKPCj2RfgA">
-            <button class="yt-facade" type="button" aria-label="Play Unreal Engine video 2">
-              <img src="https://i.ytimg.com/vi/9dKPCj2RfgA/hqdefault.jpg" alt="" loading="lazy">
-              <span class="yt-play" aria-hidden="true"></span>
-            </button>
-          </div>
-        </article>
-        <article class="video-card">
-          <div class="video-card-player yt-player" data-yt="-LpGiouqIoM">
-            <button class="yt-facade" type="button" aria-label="Play Unreal Engine video 3">
-              <img src="https://i.ytimg.com/vi/-LpGiouqIoM/hqdefault.jpg" alt="" loading="lazy">
-              <span class="yt-play" aria-hidden="true"></span>
-            </button>
-          </div>
-        </article>
-        <article class="video-card">
-          <div class="video-card-player yt-player" data-yt="ueYIFSaVptY">
-            <button class="yt-facade" type="button" aria-label="Play Unreal Engine video 4">
-              <img src="https://i.ytimg.com/vi/ueYIFSaVptY/hqdefault.jpg" alt="" loading="lazy">
-              <span class="yt-play" aria-hidden="true"></span>
-            </button>
-          </div>
-        </article>
-        <article class="video-card">
-          <div class="video-card-player yt-player" data-yt="dvQgNbLJ0uE">
-            <button class="yt-facade" type="button" aria-label="Play Unreal Engine video 5">
-              <img src="https://i.ytimg.com/vi/dvQgNbLJ0uE/hqdefault.jpg" alt="" loading="lazy">
-              <span class="yt-play" aria-hidden="true"></span>
-            </button>
-          </div>
-        </article>
-        <article class="video-card">
-          <div class="video-card-player yt-player" data-yt="vL4inpAXoIA">
-            <button class="yt-facade" type="button" aria-label="Play Unreal Engine video 6">
-              <img src="https://i.ytimg.com/vi/vL4inpAXoIA/hqdefault.jpg" alt="" loading="lazy">
-              <span class="yt-play" aria-hidden="true"></span>
-            </button>
-          </div>
-        </article>
-        <article class="video-card">
-          <div class="video-card-player yt-player" data-yt="UjaxvOX9050">
-            <button class="yt-facade" type="button" aria-label="Play Unreal Engine video 7">
-              <img src="https://i.ytimg.com/vi/UjaxvOX9050/hqdefault.jpg" alt="" loading="lazy">
-              <span class="yt-play" aria-hidden="true"></span>
-            </button>
-          </div>
-        </article>
-        <article class="video-card">
-          <div class="video-card-player yt-player" data-yt="QpZ86SZPDBQ">
-            <button class="yt-facade" type="button" aria-label="Play Unreal Engine video 8">
-              <img src="https://i.ytimg.com/vi/QpZ86SZPDBQ/hqdefault.jpg" alt="" loading="lazy">
-              <span class="yt-play" aria-hidden="true"></span>
-            </button>
-          </div>
-        </article>
-        <article class="video-card">
-          <div class="video-card-player yt-player" data-yt="Q9czpwAETI4">
-            <button class="yt-facade" type="button" aria-label="Play Unreal Engine video 9">
-              <img src="https://i.ytimg.com/vi/Q9czpwAETI4/hqdefault.jpg" alt="" loading="lazy">
               <span class="yt-play" aria-hidden="true"></span>
             </button>
           </div>
@@ -1393,25 +1437,33 @@ html { scroll-padding-top: 80px; }
   <script>
     // The title of the section whose videos cross the middle of the screen glides to the centre and glows.
     (() => {
+      const two = () => false;
       const pairs = [
-        [document.getElementById('animation-title'), document.querySelector('.animation-grid-page > .video-grid')],
+        [document.getElementById('animation-title'), document.querySelector('.feature-stage')],
         [document.getElementById('rig-title'), document.getElementById('rig-grid')],
         [document.getElementById('unreal-title'), document.getElementById('unreal-grid')],
       ].filter(([t, g]) => t && g);
-      let current = null, raf = 0;
-      const update = () => {
-        raf = 0;
+      let raf = 0;
+      const pick = (list) => {
         const mid = window.innerHeight / 2;
         let best = null, bestDist = Infinity;
-        for (const [t, g] of pairs) {
+        for (const [t, g] of list) {
           const r = g.getBoundingClientRect();
           const d = (mid >= r.top && mid <= r.bottom) ? 0 : Math.min(Math.abs(r.top - mid), Math.abs(r.bottom - mid));
           if (d < bestDist) { bestDist = d; best = t; }
         }
-        if (best && best !== current) {
-          pairs.forEach(([t]) => t.classList.toggle('is-active', t === best));
-          current = best;
+        return best;
+      };
+      const update = () => {
+        raf = 0;
+        let active;
+        if (two()) {
+          // side by side: the Animation title stays lit; Rig or Unreal lights up in the right column
+          active = [pairs[0][0], pick(pairs.slice(1))];
+        } else {
+          active = [pick(pairs)];
         }
+        pairs.forEach(([t]) => t.classList.toggle('is-active', active.includes(t)));
       };
       const queue = () => { if (!raf) raf = requestAnimationFrame(update); };
       window.addEventListener('scroll', queue, { passive: true });
@@ -1420,50 +1472,57 @@ html { scroll-padding-top: 80px; }
     })();
   </script>
   <script>
-    // First Animation row: every few seconds one of the small videos on the right glides into the big
-    // spot, and the big one shrinks and glides into the small one's place (FLIP animation).
-    // Keeps going even with the mouse over it or after a click; only waits while the row is off screen or the tab is hidden.
+    // Every 10 seconds one of the small Animation videos glides into the big spot and the big one
+    // shrinks and glides into its place in the Animation column (FLIP animation).
     (() => {
-      const grid = document.querySelector('.animation-grid-page > .video-grid');
-      if (!grid || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const stage = document.querySelector('.feature-stage');
+      const col = document.querySelector('#anim-col .stage-scroll');
+      if (!stage || !col || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       const INTERVAL = 10000, DURATION = 900;
-      let slot = 1, hovering = false, stopped = false, visible = true, busy = false;
-      const cards = () => [...grid.children].filter(el => el.classList.contains('video-card'));
+      let slot = 0, visible = true, busy = false;
       const isEmpty = (c) => !!c.querySelector('.empty-video-slot');
-
       const swap = () => {
-        if (busy || hovering || stopped || !visible || document.hidden) return;
-        if (!window.matchMedia('(min-width: 901px)').matches) return;
-        const list = cards();
-        const smalls = list.slice(1).filter(c => !isEmpty(c));
-        if (!smalls.length) return;
-        const small = list[1 + ((slot - 1) % (list.length - 1))];
-        slot = slot % (list.length - 1) + 1;
-        if (isEmpty(small)) return swap();
-        const big = list[0];
+        if (busy || !visible || document.hidden || !window.matchMedia('(min-width: 1101px)').matches) return;
+        const smalls = [...col.children].filter(c => c.classList.contains('video-card'));
+        const pool = smalls.filter(c => !isEmpty(c));
+        if (!pool.length) return;
+        const small = pool[slot % pool.length]; slot++;
+        const big = stage.querySelector(':scope > .video-card');
         busy = true;
         const before = new Map([big, small].map(el => [el, el.getBoundingClientRect()]));
-        // swap the two cards in the DOM (the first card always takes the big spot)
         const marker = document.createComment('');
-        grid.replaceChild(marker, small);
-        grid.replaceChild(small, big);
-        grid.replaceChild(big, marker);
+        col.replaceChild(marker, small);
+        stage.replaceChild(small, big);
+        col.replaceChild(big, marker);
         [big, small].forEach(el => {
           const a = before.get(el), b = el.getBoundingClientRect();
-          el.style.transformOrigin = '0 0';
-          el.style.zIndex = el === small ? '3' : '2';
+          el.style.transformOrigin = '0 0'; el.style.zIndex = el === small ? '3' : '2'; el.style.position = 'relative';
           el.animate([
             { transform: `translate(${a.left - b.left}px, ${a.top - b.top}px) scale(${a.width / b.width}, ${a.height / b.height})` },
             { transform: 'none' }
           ], { duration: DURATION, easing: 'cubic-bezier(.65,0,.35,1)' }).finished.then(() => {
-            el.style.zIndex = ''; el.style.transformOrigin = ''; busy = false;
+            el.style.zIndex = ''; el.style.transformOrigin = ''; el.style.position = ''; busy = false;
           });
         });
       };
-
-      new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(grid);
+      new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(stage);
       setInterval(swap, INTERVAL);
     })();
+  </script>
+  <script>
+    // Up/down arrows for the Animation and Unreal Engine columns: one video per click.
+    document.querySelectorAll('.stage-col').forEach((wrap) => {
+      const sc = wrap.querySelector('.stage-scroll');
+      const up = wrap.querySelector('.side-arrow-up'), down = wrap.querySelector('.side-arrow-down');
+      const step = () => { const c = sc.querySelector('.video-card'); return c ? c.getBoundingClientRect().height + 12 : sc.clientHeight; };
+      const update = () => { up.hidden = sc.scrollTop <= 2; down.hidden = sc.scrollTop + sc.clientHeight >= sc.scrollHeight - 2; };
+      up.addEventListener('click', () => sc.scrollBy({ top: -step(), behavior: 'smooth' }));
+      down.addEventListener('click', () => sc.scrollBy({ top: step(), behavior: 'smooth' }));
+      sc.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      new ResizeObserver(update).observe(sc);
+      update();
+    });
   </script>
   <script>
     // Intro panel: show how many videos each section holds.
