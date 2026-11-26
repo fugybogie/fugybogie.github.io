@@ -182,7 +182,7 @@ body > #container > #menu li ul {
   display: none;
 }
 </style>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&amp;display=swap">
 <style>
 .rocky-credit, .rocky-credit:visited {
   color: #ffdf00;
@@ -631,8 +631,70 @@ body > #container.logo-open > .site-logo img { width: 104px !important; height: 
 }
 </style>
 <style id="anim-title-big">
-main.animation-grid-page #animation-title { font-size: 48px !important; line-height: 1 !important; font-weight: 900 !important; margin: 4px 20px 10px !important; }
+main.animation-grid-page #animation-title { font-size: 48px !important; line-height: 1 !important; font-weight: 700 !important; margin: 4px 20px 10px !important; }
 @media (max-width:700px){ main.animation-grid-page #animation-title { font-size: 38px !important; } }
+</style>
+<style id="rig-right">
+@media (min-width:1101px){ main.animation-grid-page > #rig.video-section { margin-left: auto !important; margin-right: 20px !important; } }
+</style>
+<style id="gallery-panel">
+/* Gallery panel: Pinterest-style columns of looping GIFs / MP4s from images/for_animation_page */
+#gallery .pin-grid { columns: 2 220px; column-gap: 12px; padding: 0 12px !important; }
+#gallery .pin { margin: 0 0 12px; break-inside: avoid; border-radius: 14px; overflow: hidden;
+  border: 1px solid var(--ap-line); background: #000; line-height: 0; }
+#gallery .pin img, #gallery .pin video { display: block; width: 100%; height: auto; }
+@media (min-width:1101px){
+  main.animation-grid-page > #gallery.video-section {
+    float: left; box-sizing: border-box; padding-top: 12px !important;
+    width: calc(100% - (100% - 40px) * .65 - 60px); margin-left: 20px !important; margin-right: 0 !important;
+  }
+  main.animation-grid-page > #gallery .section-title { font-size: 32px !important; margin: 0 12px 18px !important; }
+  main.animation-grid-page::after { content: ""; display: block; clear: both; }
+}
+</style>
+<style id="rig-gallery-size">
+@media (min-width:1101px){
+  main.animation-grid-page > #rig.video-section { width: calc((100% - 40px) * .55) !important; }
+  main.animation-grid-page > #rig .video-grid { gap: 12px !important; }
+  main.animation-grid-page > #gallery.video-section { width: calc(100% - (100% - 40px) * .55 - 60px) !important; }
+  #gallery .pin-grid { columns: 3 !important; column-gap: 10px !important; }
+  #gallery .pin { margin-bottom: 10px; }
+}
+</style>
+<style id="gallery4-rig3">
+@media (min-width:1101px){
+  #gallery .pin-grid { columns: 4 !important; }
+  main.animation-grid-page > #rig .video-grid { grid-template-columns: repeat(3, minmax(0,1fr)) !important; }
+}
+#gallery .pin { position: relative; transition: transform .25s cubic-bezier(.34,1.5,.5,1), box-shadow .25s; transform-origin: center; }
+#gallery .pin:hover { transform: scale(1.08); z-index: 2; box-shadow: 0 14px 34px rgba(0,0,0,.6), 0 0 0 1px rgba(209,254,23,.35); }
+</style>
+<style id="rig-small-gallery-tight">
+@media (min-width:1101px){
+  /* Rig cards as small as the Animation / Unreal column videos above (3 per row) */
+  main.animation-grid-page > #rig.video-section { width: calc(((100% - 40px) * .65 - 82.67px) / 1.5 + 48px) !important; }
+  main.animation-grid-page > #gallery.video-section { width: calc(100% - (((100% - 40px) * .65 - 82.67px) / 1.5 + 48px) - 60px) !important; }
+  #gallery .pin-grid { column-gap: 5px !important; }
+}
+#gallery .pin { margin-bottom: 5px !important; }
+#gallery .pin:hover { transform: scale(1.35); z-index: 5; }
+</style>
+<style id="gallery-masonry">
+/* Gallery: 5-column masonry; each tile gets a random height and zoom (script below).
+   Hovering a tile shows the whole image bigger, at its real proportions, in a floating layer. */
+#gallery .pin-grid { display: block !important; columns: 5 !important; column-gap: 5px !important; }
+@media (max-width:1100px){ #gallery .pin-grid { columns: 3 !important; } }
+#gallery .pin { break-inside: avoid; margin: 0 0 5px !important; aspect-ratio: var(--ar, 3 / 4); position: relative;
+  overflow: hidden !important; border-radius: 12px; border: 1px solid var(--ap-line); background: #000;
+  transform: none !important; box-shadow: none !important; cursor: zoom-in; }
+#gallery .pin img, #gallery .pin video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  object-position: var(--ox, 50%) var(--oy, 50%); transform: scale(var(--z, 1)); transform-origin: var(--ox, 50%) var(--oy, 50%); }
+#gallery .pin.is-zoomed { border-color: rgba(209,254,23,.45); }
+.pin-zoom { position: fixed; z-index: 9999; pointer-events: none; border-radius: 14px; overflow: hidden; background: #000;
+  border: 1px solid rgba(209,254,23,.45); box-shadow: 0 24px 60px rgba(0,0,0,.75);
+  transform-origin: var(--tx, 50%) var(--ty, 50%); animation: pin-zoom-in .28s cubic-bezier(.34,1.5,.5,1); }
+.pin-zoom img, .pin-zoom video { display: block; width: 100%; height: 100%; object-fit: contain; }
+@keyframes pin-zoom-in { from { opacity: .3; transform: scale(.5); } to { opacity: 1; transform: scale(1); } }
 </style>
 </head>
 
@@ -657,7 +719,7 @@ main.animation-grid-page #animation-title { font-size: 48px !important; line-hei
     
     <li><a href="contacts.html">Contacts</a></li>
     <li><a href="index.html">Home</a></li>
-    <li><a class="ai-video" href="animation.html" aria-current="page">Animation</a></li>
+    <li><a class="ai-video" href="animation.html" aria-current="page">Gallery</a></li>
     <li><a href="cv.html">CV</a></li>
     <li><a href="#">CGI Skills</a>
       <ul>
@@ -797,6 +859,12 @@ main.animation-grid-page #animation-title { font-size: 48px !important; line-hei
         <button class="side-arrow side-arrow-down" type="button" aria-label="Next Unreal Engine videos">&#10095;</button>
       </div>
     </div>
+
+    <section class="video-section" id="gallery" aria-labelledby="gallery-title">
+      <h2 class="section-title" id="gallery-title"><span>Gallery</span></h2>
+      <div class="pin-grid" id="gallery-grid">
+      </div>
+    </section>
 
     <section class="video-section" id="rig" aria-labelledby="rig-title">
       <h2 class="section-title" id="rig-title"><span>Rig</span></h2>
@@ -1588,6 +1656,120 @@ main.animation-grid-page #animation-title { font-size: 48px !important; line-hei
       logo.addEventListener('mouseleave', close);
       logo.addEventListener('focus', open);
       logo.addEventListener('blur', close);
+    })();
+  </script>
+  <script>
+    // The Gallery title lights up together with the Rig title (they sit side by side)
+    (() => {
+      const g = document.getElementById('gallery-title'), r = document.getElementById('rig-title');
+      if (!g || !r) return;
+      const sync = () => g.classList.toggle('is-active', r.classList.contains('is-active'));
+      new MutationObserver(sync).observe(r, { attributes: true, attributeFilter: ['class'] });
+      sync();
+    })();
+  </script>
+  <script>
+    // Gallery: shows every image / video in images/for_animation_page automatically.
+    // The file list comes from GitHub (the site's repo), so anything pushed to that folder appears by itself.
+    // FALLBACK is only used when GitHub can't be reached (e.g. offline).
+    (() => {
+      const grid = document.getElementById('gallery-grid');
+      if (!grid) return;
+      const DIR = 'images/for_animation_page/';
+      const API = 'https://api.github.com/repos/fugybogie/fugybogie.github.io/contents/images/for_animation_page';
+      const FALLBACK = ["a1.mp4", "a4.gif", "aiko.gif", "baby.gif", "brown.mp4", "c2.mp4", "cera.gif", "eferg.gif", "go19.mp4", "iiii.mp4", "iiiii-ezgif.com-resize_2.gif", "iliii.mp4", "p3-ezgif.com-resize.gif", "pipo-ezgif.com-resize.gif", "pipo.gif", "rgeeeeee.mp4", "rgergre.mp4", "rgrth.gif", "rgrthjtyj.gif", "rgth.gif", "rthyj.gif", "sloth.mp4", "tgy14.gif", "tgy4.gif", "trhrth.gif", "uiluluili.mp4", "yjy.gif"];
+      const IMG = /\.(gif|png|jpe?g|webp|avif)$/i, VID = /\.(mp4|webm|mov)$/i;
+      const rnd = (a, b) => a + Math.random() * (b - a);
+      const seen = new Set();
+      // new random order on every page load
+      const shuffle = (a) => { a = [...new Set(a)]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+      const hover = window.matchMedia('(hover: hover)').matches;
+      let layer = null, owner = null;
+      const close = () => { if (layer) layer.remove(); if (owner) owner.classList.remove('is-zoomed'); layer = owner = null; };
+      const open = (p) => {
+        close();
+        const m = p.querySelector('img, video');
+        if (!m) return;
+        const nw = m.naturalWidth || m.videoWidth || 4, nh = m.naturalHeight || m.videoHeight || 3;
+        const r = p.getBoundingClientRect();
+        const vw = innerWidth, vh = innerHeight, pad = 12;
+        let w = r.width * 1.9, h = w * nh / nw;
+        const maxH = vh - 2 * pad - 60, maxW = vw - 2 * pad;
+        if (h > maxH) { h = maxH; w = h * nw / nh; }
+        if (w > maxW) { w = maxW; h = w * nh / nw; }
+        let x = r.left + r.width / 2 - w / 2, y = r.top + r.height / 2 - h / 2;
+        x = Math.max(pad, Math.min(x, vw - pad - w));
+        y = Math.max(pad + 50, Math.min(y, vh - pad - h));
+        layer = document.createElement('div');
+        layer.className = 'pin-zoom';
+        Object.assign(layer.style, { left: x + 'px', top: y + 'px', width: w + 'px', height: h + 'px' });
+        layer.style.setProperty('--tx', (r.left + r.width / 2 - x) + 'px');
+        layer.style.setProperty('--ty', (r.top + r.height / 2 - y) + 'px');
+        const c = m.cloneNode(true);
+        c.removeAttribute('style');
+        if (c.tagName === 'VIDEO') { c.muted = true; c.loop = true; c.playsInline = true; c.currentTime = m.currentTime || 0; c.play().catch(() => {}); }
+        layer.appendChild(c);
+        document.body.appendChild(layer);
+        // an ancestor transform can turn position:fixed into page-relative; correct the offset
+        layer.style.animation = 'none';
+        const got = layer.getBoundingClientRect();
+        if (Math.abs(got.top - y) > 1 || Math.abs(got.left - x) > 1) {
+          layer.style.left = (2 * x - got.left) + 'px';
+          layer.style.top = (2 * y - got.top) + 'px';
+        }
+        void layer.offsetWidth;
+        layer.style.animation = '';
+        owner = p; p.classList.add('is-zoomed');
+      };
+      const add = (name) => {
+        if (seen.has(name) || !(IMG.test(name) || VID.test(name))) return;
+        seen.add(name);
+        const fig = document.createElement('figure');
+        fig.className = 'pin';
+        fig.style.setProperty('--ar', rnd(0.55, 1.05).toFixed(3));
+        fig.style.setProperty('--z', rnd(1, 1.6).toFixed(3));
+        fig.style.setProperty('--ox', Math.round(rnd(30, 70)) + '%');
+        fig.style.setProperty('--oy', Math.round(rnd(30, 70)) + '%');
+        const src = DIR + encodeURIComponent(name);
+        let m;
+        if (VID.test(name)) {
+          m = document.createElement('video');
+          Object.assign(m, { src, muted: true, loop: true, autoplay: true, playsInline: true, preload: 'metadata' });
+          m.setAttribute('muted', ''); m.setAttribute('playsinline', '');
+        } else {
+          m = document.createElement('img');
+          Object.assign(m, { src, alt: '', loading: 'lazy', decoding: 'async' });
+        }
+        m.addEventListener('error', () => fig.remove());   // file not there (e.g. deleted) -> no empty tile
+        fig.appendChild(m);
+        if (hover) { fig.addEventListener('pointerenter', () => open(fig)); fig.addEventListener('pointerleave', close); }
+        grid.appendChild(fig);
+      };
+      window.addEventListener('scroll', close, { passive: true });
+
+      const fromGitHub = async () => {
+        const KEY = 'gallery-list-v2';
+        try {
+          const c = JSON.parse(sessionStorage.getItem(KEY) || 'null');
+          if (c && Date.now() - c.t < 10 * 60 * 1000) return c.list;
+        } catch (e) {}
+        const res = await fetch(API, { headers: { Accept: 'application/vnd.github+json' } });
+        if (!res.ok) throw new Error(res.status);
+        const list = (await res.json()).filter(f => f.type === 'file').map(f => f.name);
+        try { sessionStorage.setItem(KEY, JSON.stringify({ t: Date.now(), list })); } catch (e) {}
+        return list;
+      };
+      const local = location.protocol === 'file:' || /^(localhost|127\.)/.test(location.hostname);
+      // on a local server (python -m http.server) the folder itself can be listed, so new files show up at once
+      const fromLocalServer = async () => {
+        const res = await fetch(DIR);
+        if (!res.ok) throw new Error(res.status);
+        const html = await res.text();
+        return [...html.matchAll(/href="([^"?#\/]+)"/g)].map(m => decodeURIComponent(m[1]));
+      };
+      (location.protocol.startsWith('http') && local ? fromLocalServer().catch(fromGitHub) : fromGitHub())
+        .then(list => shuffle(local ? list.concat(FALLBACK) : list).forEach(add))
+        .catch(() => shuffle(FALLBACK.slice()).forEach(add));
     })();
   </script>
 </body>
