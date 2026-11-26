@@ -412,6 +412,20 @@ body > #container.logo-shake { animation: bar-shake .32s cubic-bezier(.36,.07,.1
 <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png">
 <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+<style id="bar-slim">
+/* slimmer top bar: 60px -> 44px */
+body > #container { height: 44px !important; min-height: 44px !important; }
+body > #container > #menu, body > #container > #menu > li { min-height: 0 !important; }
+body > #container > #menu, body > #container > #menu > li { height: 44px !important; }
+body > #container > #menu > li > a { padding: 7px 12px !important; }
+body > #container > #menu li ul { top: 40px !important; }
+body > #container > .site-logo { width: 36px !important; height: 36px !important; top: 0 !important; }
+body > #container > .site-logo img { width: 36px !important; height: 36px !important; border-radius: 10px; }
+body > #container.logo-open { height: 120px !important; margin-bottom: -76px !important; }
+body > #container.logo-open > #menu { top: 38px !important; }
+body > #container.logo-open > .site-logo { width: 104px !important; height: 104px !important; }
+body > #container.logo-open > .site-logo img { width: 104px !important; height: 104px !important; border-radius: 18px; }
+</style>
 </head>
 
 <body>
