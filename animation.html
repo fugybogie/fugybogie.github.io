@@ -724,6 +724,43 @@ main.animation-grid-page > #gallery.video-section { transition: width .55s cubic
 .video-js .vjs-loading-spinner { display: none !important; }
 #gallery .pin::after { display: none !important; }
 </style>
+<style id="stage-two-cols">
+/* Top block: big video + Animation (2 columns, all videos) + Unreal Engine (2 columns, all videos); no arrow strips */
+@media (min-width:1101px){
+  .animation-grid-page .feature-stage {
+    --s: calc((100% * .65 - 82.67px) / 4.5);          /* same small-video width as before */
+    width: calc(100% - 40px) !important;
+    grid-template-columns: calc(100% * .65 - 2 * var(--s) - 40px) repeat(2, calc(2 * var(--s) + 12px)) !important;   /* big video keeps its old size */
+    justify-content: center !important;
+    align-items: start !important;
+  }
+  .animation-grid-page .feature-stage > .stage-col { height: auto !important; min-height: 0 !important; padding-top: 22px; }
+  .animation-grid-page .feature-stage .stage-scroll { height: auto !important; overflow: visible !important; display: grid !important;
+    grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px !important; -webkit-mask-image: none !important; mask-image: none !important; }
+  .animation-grid-page .feature-stage .side-arrow { display: none !important; }
+  .animation-grid-page .feature-stage .stage-label { top: -6px !important; }
+}
+</style>
+<style id="unreal-scroll">
+/* Unreal Engine: 2 columns, as tall as the big video; the rest scrolls with the arrow buttons */
+@media (min-width:1101px){
+  .animation-grid-page .feature-stage > #unreal-col { align-self: stretch !important; height: 0 !important; min-height: 100% !important; box-sizing: border-box; }
+  .animation-grid-page .feature-stage #unreal-col .stage-scroll { height: 100% !important; overflow-y: auto !important; scrollbar-width: none;
+    scroll-snap-type: y proximity; align-content: start;
+    -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent) !important; mask-image: linear-gradient(to bottom, #000 80%, transparent) !important; }
+  .animation-grid-page .feature-stage #unreal-col .stage-scroll::-webkit-scrollbar { display: none; }
+  .animation-grid-page .feature-stage #unreal-col .stage-scroll > .video-card { scroll-snap-align: start; }
+  .animation-grid-page .feature-stage #unreal-col .side-arrow { display: block !important; }
+}
+</style>
+<style id="stage-zoom">
+/* hovering a small Animation / Unreal video shows it bigger in a floating layer */
+.stage-zoom { position: fixed; z-index: 9000; border-radius: 14px; overflow: hidden; background: #000;
+  box-shadow: 0 24px 60px rgba(0,0,0,.75), 0 0 0 1px rgba(209,254,23,.45); animation: stage-zoom-in .25s cubic-bezier(.34,1.4,.5,1); }
+.stage-zoom > .video-card-player { width: 100% !important; height: 100% !important; aspect-ratio: auto !important; margin: 0 !important; }
+.stage-zoom .video-js, .stage-zoom .yt-facade, .stage-zoom iframe { width: 100% !important; height: 100% !important; }
+@keyframes stage-zoom-in { from { opacity: .4; transform: scale(.6); } to { opacity: 1; transform: scale(1); } }
+</style>
 </head>
 
 <body>
@@ -1591,7 +1628,7 @@ main.animation-grid-page > #gallery.video-section { transition: width .55s cubic
       let slot = 0, visible = true, busy = false;
       const isEmpty = (c) => !!c.querySelector('.empty-video-slot');
       const swap = () => {
-        if (busy || !visible || document.hidden || !window.matchMedia('(min-width: 1101px)').matches) return;
+        if (busy || !visible || document.hidden || document.querySelector('.stage-zoom') || !window.matchMedia('(min-width: 1101px)').matches) return;
         const smalls = [...col.children].filter(c => c.classList.contains('video-card'));
         const pool = smalls.filter(c => !isEmpty(c));
         if (!pool.length) return;
@@ -1902,6 +1939,50 @@ main.animation-grid-page > #gallery.video-section { transition: width .55s cubic
       const scan = () => grid.querySelectorAll('.pin:not(.is-loaded) img, .pin:not(.is-loaded) video').forEach(m => { if (ready(m)) done(m); });
       new MutationObserver(scan).observe(grid, { childList: true });
       scan();
+    })();
+  </script>
+  <script>
+    // Small Animation / Unreal Engine videos: hover shows the video bigger (the same player, moved into a floating layer)
+    (() => {
+      if (!window.matchMedia('(hover: hover)').matches) return;
+      let layer = null, card = null, player = null;
+      const close = () => {
+        if (!layer) return;
+        card.appendChild(player); card.style.height = '';
+        layer.remove(); layer = card = player = null;
+      };
+      const open = (c) => {
+        if (layer && card === c) return;
+        close();
+        const pl = c.querySelector(':scope > .video-card-player');
+        if (!pl || pl.querySelector('iframe')) return;   // a playing YouTube video would restart if moved
+        const r = c.getBoundingClientRect();
+        const vw = innerWidth, vh = innerHeight;
+        let w = Math.min(r.width * 1.9, vw - 40), h = w * 9 / 16;
+        let x = r.left + r.width / 2 - w / 2, y = r.top + r.height / 2 - h / 2;
+        x = Math.max(20, Math.min(x, vw - 20 - w)); y = Math.max(60, Math.min(y, vh - 20 - h));
+        card = c; player = pl;
+        c.style.height = r.height + 'px';
+        layer = document.createElement('div');
+        layer.className = 'stage-zoom';
+        Object.assign(layer.style, { left: x + 'px', top: y + 'px', width: w + 'px', height: h + 'px' });
+        document.body.appendChild(layer);
+        layer.style.animation = 'none';
+        const g = layer.getBoundingClientRect();   // an ancestor transform can make position:fixed page-relative
+        if (Math.abs(g.top - y) > 1 || Math.abs(g.left - x) > 1) { layer.style.left = (2 * x - g.left) + 'px'; layer.style.top = (2 * y - g.top) + 'px'; }
+        void layer.offsetWidth; layer.style.animation = '';
+        layer.appendChild(pl);
+        layer.addEventListener('mouseleave', close);
+      };
+      document.querySelectorAll('#anim-col .stage-scroll, #unreal-col .stage-scroll').forEach(sc => {
+        sc.addEventListener('pointerover', e => {
+          if (e.pointerType !== 'mouse') return;
+          const c = e.target.closest('.video-card');
+          if (c && sc.contains(c)) open(c);
+        });
+      });
+      window.addEventListener('scroll', close, { passive: true });
+      document.querySelectorAll('.stage-scroll').forEach(sc => sc.addEventListener('scroll', close, { passive: true }));
     })();
   </script>
 </body>
