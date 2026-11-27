@@ -696,6 +696,19 @@ main.animation-grid-page #animation-title { font-size: 48px !important; line-hei
 .pin-zoom img, .pin-zoom video { display: block; width: 100%; height: 100%; object-fit: contain; }
 @keyframes pin-zoom-in { from { opacity: .3; transform: scale(.5); } to { opacity: 1; transform: scale(1); } }
 </style>
+<style id="gallery-js-masonry">
+/* JS masonry: tiles keep their size; the column count follows the panel width */
+#gallery .pin-grid { --cols: 5; }
+@media (max-width:1100px){ #gallery .pin-grid { --cols: 3; } }
+main.gallery-page #gallery .pin-grid { --cols: 6; }
+@media (max-width:1300px){ main.gallery-page #gallery .pin-grid { --cols: 4; } }
+@media (max-width:700px){ main.gallery-page #gallery .pin-grid { --cols: 2; } }
+#gallery .pin-grid.js-masonry { columns: auto !important; display: block !important; position: relative; overflow-anchor: none; }
+#gallery .pin-grid.js-masonry .pin { position: absolute !important; margin: 0 !important; width: var(--tw, 200px);
+  transition: left .55s cubic-bezier(.2,.8,.2,1), top .55s cubic-bezier(.2,.8,.2,1); }
+#gallery .pin-grid.js-masonry.no-anim .pin { transition: none; }
+main.animation-grid-page > #gallery.video-section { transition: width .55s cubic-bezier(.2,.8,.2,1), margin-right .55s cubic-bezier(.2,.8,.2,1); }
+</style>
 </head>
 
 <body>
@@ -1661,7 +1674,7 @@ main.animation-grid-page #animation-title { font-size: 48px !important; line-hei
       if (!grid) return;
       const DIR = 'images/for_animation_page/';
       const API = 'https://api.github.com/repos/fugybogie/fugybogie.github.io/contents/images/for_animation_page';
-      const FALLBACK = ["a1.mp4", "a4.gif", "aiko.gif", "baby.gif", "brown.mp4", "c2.mp4", "cera.gif", "eferg.gif", "go19.mp4", "iiii.mp4", "iiiii-ezgif.com-resize_2.gif", "iliii.mp4", "p3-ezgif.com-resize.gif", "pipo-ezgif.com-resize.gif", "pipo.gif", "rgeeeeee.mp4", "rgergre.mp4", "rgrth.gif", "rgrthjtyj.gif", "rgth.gif", "rthyj.gif", "sloth.mp4", "tgy14.gif", "tgy4.gif", "trhrth.gif", "uiluluili.mp4", "yjy.gif"];
+      const FALLBACK = ["013c4faf-537e-44bd-ad00-893803a8ea25.mp4", "10fps.mp4", "2024-11-19_17-29-03.mp4", "a-ezgif.com-resize-video.mp4", "a1.mp4", "a2.gif", "a2.mp4", "a2.png", "a2.webp", "a3 (1).png", "a3.png", "a4.gif", "a5 (1).png", "ae96cef9-6aa8-490b-adee-898a5ed0cd13.mp4", "agatare_de_pantaloni.mp4", "aiko.gif", "alxandra_strae_peste.gif", "angry.gif", "baby.gif", "back_00 (4).mp4", "back.mp4", "base_sharpener.mp4", "bear.webp", "brown.mp4", "c2.mp4", "c4.mp4", "c8_leafs_fix.mp4", "cera.gif", "downloadedImage_13.png", "e2.gif", "eeee.gif", "eeey.gif", "eewweewewewew.mp4", "efer.mp4", "eferg.gif", "efr.gif", "efrfrtttttttt.mp4", "efwg.mp4", "efwgr.gif", "erg.gif", "erge.png", "ergerge.mp4", "fat_02.mp4", "fat_tissue.mp4", "father.mp4", "fin (1).mp4", "fin.mp4", "fin2.mp4", "fin3.mp4", "final_mesh.mp4", "fregf.gif", "ge.gif", "Gen-3_Alpha_Turbo_1295528508_Laundry_rolling_in_t_Cropped_-_regfreweb_M_5.mp4", "general.gif", "gergerg.gif", "gghjghj.mp4", "ghmhj_00001 (1).mp4", "go.mp4", "go19.mp4", "gogogog.gif", "gogogogo.gif", "iiii (1).mp4", "iiii.mp4", "iiiii-ezgif.com-resize_2.gif", "ili.mp4", "iliii.mp4", "iltuil.mp4", "image (1).png", "image (10).webp", "image (11).jpg", "image (12).webp", "image (13).webp", "image (14).webp", "image (15).webp", "image (16).webp", "image (17).webp", "image (18).webp", "image (19).webp", "image (3).jpg", "image (4).webp", "image (7).webp", "image.jpg", "juu.png", "kim_palace_update1.gif", "kim.gif", "maiatmosferica.jpg", "maiepica.jpg", "mermaid_center_tail1.gif", "mermaid_left_tail.gif", "mermaid_right_tail5.gif", "morph_07.mp4", "mother.mp4", "muscle_excition.mp4", "new2.mp4", "nnew.mp4", "p1 (1).webp", "p2.mp4", "p3-ezgif.com-resize.gif", "pingvin.gif", "pipo-ezgif.com-resize.gif", "pipo.gif", "preview (5).mp4", "preview1.mp4", "prew_00002-audio (4).mp4", "prew2.mp4", "prewererg.mp4", "r_back_cam.mp4", "r_cam.mp4", "re.gif", "reg (1).mp4", "reg (2).mp4", "reg (3).mp4", "reg.gif", "regegerg.gif", "regerge.gif", "regerger.gif", "regfreg.gif", "Result_00052__1.png", "rewgre.gif", "rfe (1).gif", "rg.mp4", "rge7.mp4", "rgeeeeee.mp4", "rgerg.png", "rgergre.mp4", "rgethtr.gif", "rgfre.jpg", "rgrth.gif", "rgrthjtyj.gif", "rgth.gif", "rgthr.gif", "rh.mp4", "rrrrr.gif", "rrrttt.mp4", "rthty_00001.mp4", "rthyj.gif", "rttt.gif", "sharp.mp4", "sharp2.mp4", "sharpener.mp4", "shunka_making_00_1.mp4", "sloth.mp4", "tgy14.gif", "tgy4.gif", "thrth.gif", "thrthrr.mp4", "thrthty.mp4", "tjhtyukyu.gif", "tjtyj.mp4", "tjy.gif", "trhrt.gif", "trhrth.gif", "trhyjtyj.gif", "trrtrr.mp4", "ttttt.mp4", "tttyu.mp4", "tyjtyj.gif", "tyjutyjyu.mp4", "tyjy.png", "tykyu.gif", "u5282951836_3d_cartoon_north_korean_tropical_girl_Matias_Zadi_64c2565c-8789-4b57-a24c-3b0190d4c739_1.jpg", "u5282951836_a_bustling_Times_Square_in_New_York_City_at_dusk._b609e52d-93dd-4d09-bc86-bf5906527af7_1.jpg", "u5282951836_a_bustling_Times_Square_in_New_York_City_with_man_7b407e77-2eb6-4ee1-95db-0ebfcb2cfbcc_0.jpg", "u5282951836_httpss.mj.runZzxbGS_umbA_Aerial_view_of_Manhattan_66334061-9196-4640-8678-0b95a2205113_3.jpg", "u5282951836_httpss.mj.runZzxbGS_umbA_Aerial_view_of_Manhattan_a_4fc840fe-a586-4166-ad79-c9ea76a6cc8e.jpg", "u5282951836_httpss.mj.runZzxbGS_umbA_Aerial_view_of_Manhattan_f7e1374c-8668-4002-813d-f7546d752861_0.jpg", "uiluluili.mp4", "ukyu.gif", "unknown (7).jpg", "upscaled2.mp4", "uyky.png", "uyyy.png", "wan_native_00002.mp4", "wefwef.gif", "wgw (1).mp4", "wgw (2).mp4", "wind3.gif", "www.mp4", "yeehaaa.mp4", "yhjoioo-ezgif.com-resize-video.mp4", "yhjt.gif", "yj.jpg", "yjt.gif", "yjtyjtj.gif", "yjuuu.mp4", "yjy.gif", "yjyyyy.mp4", "yqqqq.mp4", "ythjytj.mp4", "yuktyku.mp4", "yukyyyy.mp4", "yyyy.png"];
       const IMG = /\.(gif|png|jpe?g|webp|avif)$/i, VID = /\.(mp4|webm|mov)$/i;
       const rnd = (a, b) => a + Math.random() * (b - a);
       const seen = new Set();
@@ -1754,6 +1767,109 @@ main.animation-grid-page #animation-title { font-size: 48px !important; line-hei
       (location.protocol.startsWith('http') && local ? fromLocalServer().catch(fromGitHub) : fromGitHub())
         .then(list => shuffle(local ? list.concat(FALLBACK) : list).forEach(add))
         .catch(() => shuffle(FALLBACK.slice()).forEach(add));
+    })();
+  </script>
+  <script>
+    // Gallery masonry + "expand when Rig scrolls away":
+    // tiles keep a fixed size; when the Rig panel has gone off the top of the screen the Gallery panel
+    // stretches to the right edge and gains columns, and shrinks back when Rig comes into view again.
+    (() => {
+      const grid = document.getElementById('gallery-grid');
+      const panel = document.getElementById('gallery');
+      if (!grid || !panel) return;
+      const rig = document.getElementById('rig');
+      const main = panel.parentElement;
+      const GAP = 5;
+      let tileW = 0, expanded = false, targetW = 0, queued = false;
+      grid.classList.add('js-masonry', 'no-anim');
+
+      const floating = () => getComputedStyle(panel).float === 'left';
+      const gpad = () => { const cs = getComputedStyle(grid); return [parseFloat(cs.paddingLeft) || 0, parseFloat(cs.paddingRight) || 0]; };
+      const colsWanted = () => parseInt(getComputedStyle(grid).getPropertyValue('--cols')) || 5;
+
+      // tile size is taken from the normal (collapsed) panel and never changes while expanded
+      const measureTile = () => {
+        const [l, r] = gpad(), cols = colsWanted();
+        tileW = Math.max(80, (grid.clientWidth - l - r - (cols - 1) * GAP) / cols);
+        grid.style.setProperty('--tw', tileW + 'px');
+      };
+
+      const layout = (innerWidth_, keep) => {
+        const pins = [...grid.querySelectorAll('.pin')];
+        const [l] = gpad();
+        // keep the tile nearest the middle of the screen in place so the view doesn't jump
+        const mid = innerHeight / 2, gTop = grid.getBoundingClientRect().top;
+        let anchor = null, before = 0, best = 1e9;
+        pins.forEach(p => { if (!p.style.top) return; const y = gTop + parseFloat(p.style.top); const d = Math.abs(y - mid); if (d < best) { best = d; anchor = p; before = y; } });
+        const cols = Math.max(1, Math.floor((innerWidth_ + GAP) / (tileW + GAP)));
+        const hs = new Array(cols).fill(0);
+        pins.forEach(p => {
+          const ar = parseFloat(getComputedStyle(p).getPropertyValue('--ar')) || 0.75;
+          let c = 0; for (let i = 1; i < cols; i++) if (hs[i] < hs[c] - 1) c = i;
+          p.style.left = (l + c * (tileW + GAP)) + 'px';
+          p.style.top = hs[c] + 'px';
+          hs[c] += tileW / ar + GAP;
+        });
+        grid.style.height = Math.max(0, Math.max(0, ...hs) - GAP) + 'px';
+        if (keep && anchor && gTop < 0) {
+          const after = grid.getBoundingClientRect().top + parseFloat(anchor.style.top);
+          let dy = after - before;
+          // never scroll so far back that Rig comes into view again (that would undo the expansion)
+          if (rig) dy = Math.max(dy, rig.getBoundingClientRect().bottom + 1);
+          if (Math.abs(dy) > 1) window.scrollBy(0, dy);
+        }
+      };
+      const collapsedInner = () => { const c = colsWanted(); return c * tileW + (c - 1) * GAP; };
+      const relayout = (keep) => layout(expanded ? targetW : collapsedInner(), keep);
+
+      const setExpanded = (on) => {
+        if (!floating()) on = false;
+        if (on === expanded) return;
+        if (on) {
+          const pr = panel.getBoundingClientRect(), mr = main.getBoundingClientRect();
+          const extra = Math.max(0, (mr.right - 20) - pr.right);
+          if (extra < tileW / 2) return;
+          expanded = true;
+          targetW = collapsedInner() + extra;
+          panel.style.setProperty('width', (pr.width + extra) + 'px', 'important');
+          panel.style.setProperty('margin-right', (-extra) + 'px', 'important');   // keeps Rig where it is
+        } else {
+          expanded = false;
+          panel.style.removeProperty('width');
+          panel.style.removeProperty('margin-right');
+        }
+        relayout(on);   // columns for the final width right away, so tiles glide while the panel grows / shrinks
+      };
+
+      const schedule = () => { if (queued) return; queued = true; requestAnimationFrame(() => { queued = false; relayout(); }); };
+      new MutationObserver(schedule).observe(grid, { childList: true });
+
+      // expand once Rig's bottom edge has left the top of the screen; shrink when it is back in view
+      if (rig) {
+        let ticking = false;
+        const check = () => {
+          ticking = false;
+          const b = rig.getBoundingClientRect().bottom;
+          if (!expanded && b < 0) setExpanded(true);
+          else if (expanded && b > 40) setExpanded(false);
+        };
+        window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(check); } }, { passive: true });
+        check();
+      }
+
+      let rt;
+      window.addEventListener('resize', () => {
+        clearTimeout(rt);
+        rt = setTimeout(() => {
+          grid.classList.add('no-anim');
+          if (expanded) { expanded = false; panel.style.removeProperty('width'); panel.style.removeProperty('margin-right'); }
+          measureTile(); relayout();
+          if (rig && rig.getBoundingClientRect().bottom < 0) setExpanded(true);
+          requestAnimationFrame(() => requestAnimationFrame(() => grid.classList.remove('no-anim')));
+        }, 120);
+      });
+      measureTile(); relayout();
+      setTimeout(() => grid.classList.remove('no-anim'), 600);
     })();
   </script>
 </body>
