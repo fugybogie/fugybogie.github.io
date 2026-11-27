@@ -704,6 +704,16 @@ main.gallery-page #gallery .pin-grid { columns: 6 !important; }
 @media (max-width:1300px){ main.gallery-page #gallery .pin-grid { columns: 4 !important; } }
 @media (max-width:700px){ main.gallery-page #gallery .pin-grid { columns: 2 !important; } }
 </style>
+<style id="pin-loader">
+/* circular loader on Gallery tiles until the gif / image / video has loaded */
+#gallery .pin::after { content: ""; position: absolute; left: 50%; top: 50%; width: 34px; height: 34px; margin: -17px 0 0 -17px;
+  border-radius: 50%; border: 3px solid rgba(255,255,255,.12); border-top-color: #d1fe17;
+  animation: pin-spin .8s linear infinite; pointer-events: none; z-index: 1; transition: opacity .3s; }
+#gallery .pin.is-loaded::after { opacity: 0; animation: none; }
+#gallery .pin img, #gallery .pin video { opacity: 0; transition: opacity .35s ease; }
+#gallery .pin.is-loaded img, #gallery .pin.is-loaded video { opacity: 1; }
+@keyframes pin-spin { to { transform: rotate(360deg); } }
+</style>
 </head>
 
 <body>
@@ -1316,6 +1326,19 @@ main.gallery-page #gallery .pin-grid { columns: 6 !important; }
       (location.protocol.startsWith('http') && local ? fromLocalServer().catch(fromGitHub) : fromGitHub())
         .then(list => shuffle(local ? list.concat(FALLBACK) : list).forEach(add))
         .catch(() => shuffle(FALLBACK.slice()).forEach(add));
+    })();
+  </script>
+  <script>
+    // Gallery tiles: show the spinner until each gif / image / video can be displayed
+    (() => {
+      const grid = document.getElementById('gallery-grid');
+      if (!grid) return;
+      const done = (m) => { const p = m.closest('.pin'); if (p) p.classList.add('is-loaded'); };
+      const ready = (m) => m.tagName === 'IMG' ? (m.complete && m.naturalWidth > 0) : m.readyState >= 2;
+      ['load', 'loadeddata'].forEach(ev => grid.addEventListener(ev, e => { if (e.target.matches && e.target.matches('img, video')) done(e.target); }, true));
+      const scan = () => grid.querySelectorAll('.pin:not(.is-loaded) img, .pin:not(.is-loaded) video').forEach(m => { if (ready(m)) done(m); });
+      new MutationObserver(scan).observe(grid, { childList: true });
+      scan();
     })();
   </script>
 </body>
