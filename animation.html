@@ -761,6 +761,15 @@ main.animation-grid-page > #gallery.video-section { transition: width .55s cubic
 .stage-zoom .video-js, .stage-zoom .yt-facade, .stage-zoom iframe { width: 100% !important; height: 100% !important; }
 @keyframes stage-zoom-in { from { opacity: .4; transform: scale(.6); } to { opacity: 1; transform: scale(1); } }
 </style>
+<style id="stage-zoom-controls">
+/* the enlarged player keeps the same slim timeline as on the page */
+.stage-zoom .video-js .vjs-control-bar { bottom: 0; left: 0; width: 100%; height: 24px; margin: 0; padding: 0 12px; box-sizing: border-box;
+  background: rgba(0,0,0,.4); visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; transition: none !important; }
+.stage-zoom .video-js.timeline-hover .vjs-control-bar { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }
+.stage-zoom .video-js .vjs-progress-control { flex: 1 1 auto; min-width: 0; }
+.stage-zoom .video-js .vjs-progress-holder { height: 4px; margin: 0; }
+.stage-zoom .video-js .vjs-time-tooltip, .stage-zoom .video-js .vjs-mouse-display, .stage-zoom .video-js .vjs-play-progress::before { display: none; }
+</style>
 </head>
 
 <body>
