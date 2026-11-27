@@ -707,6 +707,46 @@ main.projects-page .video-card--empty { aspect-ratio: 16 / 9; border-radius: 14p
   background: rgba(255,255,255,.03); display: grid; place-items: center; }
 main.projects-page .empty-slot { color: rgba(255,255,255,.45); font: 600 15px Inter, sans-serif; letter-spacing: .04em; text-transform: uppercase; }
 </style>
+<style id="collab-card">
+main.projects-page .collab-player { aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; background: #000; border: 1px solid rgba(255,255,255,.1); }
+main.projects-page .collab-player video { display: block; width: 100%; height: 100%; object-fit: contain; background: #000; }
+main.projects-page .collab-meta { padding: 10px 4px 0; }
+main.projects-page .collab-meta h3 { margin: 0; font: 700 16px Inter, sans-serif; color: #fff; }
+main.projects-page .collab-meta p { margin: 4px 0 0; font: 400 13px Inter, sans-serif; color: rgba(255,255,255,.55); }
+main.projects-page .collab-meta a { color: #d1fe17; text-decoration: none; }
+main.projects-page .projects-grid { align-items: start; }
+</style>
+<style id="sound-hint">
+main.projects-page .collab-player { position: relative; }
+main.projects-page .sound-hint { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  padding: 10px 18px; border: 0; border-radius: 999px; background: rgba(10,10,11,.75); color: #d1fe17;
+  font: 700 14px Inter, sans-serif; cursor: pointer; opacity: 0; pointer-events: none; transition: opacity .2s;
+  backdrop-filter: blur(6px); box-shadow: 0 0 0 1px rgba(209,254,23,.4); }
+main.projects-page .collab-player:hover .sound-hint { opacity: 1; pointer-events: auto; }
+body.sound-unlocked main.projects-page .sound-hint { display: none; }
+</style>
+<style id="collab-masonry">
+/* Collaborations: vertical tiles of different heights (like Gallery); hovering a tile opens it to the full wide video */
+main.projects-page #collab-grid { display: block !important; position: relative; padding: 0 16px !important; }
+main.projects-page #collab-grid .collab-card { position: absolute; margin: 0; z-index: 1;
+  transition: left .35s cubic-bezier(.2,.8,.2,1), top .35s cubic-bezier(.2,.8,.2,1), width .35s cubic-bezier(.2,.8,.2,1), height .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s; }
+main.projects-page #collab-grid .collab-player { width: 100%; height: 100%; aspect-ratio: auto; border-radius: 12px; }
+main.projects-page #collab-grid .collab-player video { object-fit: cover; object-position: var(--ox, 50%) var(--oy, 50%);
+  transform: scale(var(--z, 1)); transform-origin: var(--ox, 50%) var(--oy, 50%); transition: transform .35s ease; }
+main.projects-page #collab-grid .collab-card.is-wide { z-index: 20; box-shadow: 0 24px 60px rgba(0,0,0,.75); border-radius: 14px; }
+main.projects-page #collab-grid .collab-card.is-wide .collab-player { border-color: rgba(209,254,23,.45); }
+main.projects-page #collab-grid .collab-card.is-wide video { object-fit: contain; transform: none; }
+</style>
+<style id="collab-full-width">
+/* Collaborations panel spans the whole page width; tiles keep their size (more columns) */
+main.projects-page > #projects.video-section { max-width: none !important; width: auto !important; margin: 0 20px 40px !important; }
+</style>
+<style id="collab-hls">
+main.projects-page .collab-player .video-js { width: 100% !important; height: 100% !important; padding-top: 0 !important; background: #000; }
+main.projects-page .collab-player .vjs-poster, main.projects-page .collab-player .vjs-control-bar,
+main.projects-page .collab-player .vjs-big-play-button, main.projects-page .collab-player .vjs-loading-spinner { display: none !important; }
+main.projects-page .collab-player .video-js video { position: absolute; inset: 0; }
+</style>
 </head>
 
 <body>
@@ -739,14 +779,207 @@ main.projects-page .empty-slot { color: rgba(255,255,255,.45); font: 600 15px In
   <main class="video-showcase animation-grid-page projects-page">
     <h2 class="section-title section-title--first is-active" id="animation-title"><span>Collaborations</span></h2>
     <section class="video-section" id="projects" aria-label="Collaborations">
-      <div class="video-grid projects-grid">
-        <!-- Project videos go here (Mux or YouTube players) -->
-        <article class="video-card video-card--empty"><div class="empty-slot">Coming soon</div></article>
-        <article class="video-card video-card--empty"><div class="empty-slot">Coming soon</div></article>
-        <article class="video-card video-card--empty"><div class="empty-slot">Coming soon</div></article>
+      <div class="video-grid projects-grid" id="collab-grid">
+        <!-- Collaboration videos (shown in a random order on every page load) -->
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- New Balance - Egg Hatch (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_1d6fe916756d47caa92544b9c1c913bc/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- New Balance - Tennis (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_e56237a1befb48d2b48f2351d26f29a6/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- New Balance - Gator Run (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_12688f2012024bb8b5e28252c6e6b7d0/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Salt Xmax (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_db4ddbe60aba4fc48910c41d96f49be2/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Fiverr - Vibe Coding (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_9663f5cf31294cfbbc5a947b5c991622/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Roller - Strand (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_dbcb2a92428b4fd8838706a7bdd1c5d0/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Vienna Insurance (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_83cb722c7fed49aaa80c9abda063b759/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Roller - Kueche (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_c22e1ce5e2dc43c8958310e6f3ebfa76/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Roller - Das Galaktische Jubilaum (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_fb7e7b4c635540c5a9e837abd2f539f4/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Roller - Baerenstarke Black Weeks (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_2ee7df4bf08543ceb4ceee3c9b732eed/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Salt Bank - Christmas (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_b6fbc07e68b14c55883bccb3b25ec45e/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- XXXLutz (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_b3ee3894fe0e4987b80d66c2b62efd12/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Smyths Toys (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_a362a42df4bc4f3290ed803d4e854e2c/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Carrefour - FoodBook (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_4c2e044a20b5452ebf5846d7be5134c5/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Storia (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_a4e28e1eb4434e378c66d2d41f9aa36b/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Cojo - Erupt (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_e7363473ee3b459fa561f58f060c486f/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- MacuShield - 2025 Campaign (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_c341b8f4a587476991b3c61b46192ac4/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Salt Bank - 2024 Campaign (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_efdac8dd170e464d911ca9a5ce04c4f8/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Tomi - Pizza Sauce (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_5363e44beb9a485f984911cb89961c40/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Nesquick (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_47f2cb7f988a46ca9b8f3a5cc27df2c7/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Christian Tour - Campaign (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_6ef7548cb30f4c9383eaf448d6365974/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Captain Jack - 2022 Campaign (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_52dca263c8f24cde8a226258551b421d/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Barbie Dreamhouse - Smyths Toys (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_94ced99ee61349be887640369a55440e/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Fry's Chips - Boar (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_d1a72960c4584f769cd5515f596bc34b/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Salt Bank - Space (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_0b8af0621ec44031a21c2d4a6fa4416d/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Salt Bank - Pink (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_16987761aa7f432d8a2730a6c10c3fe2/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Peppa Pig - Smyths Toys (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_d3667c86829d4ae39d0d4f1c8fa1eb62/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Jordan - Good Habits (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_7b14b6f724e84e46a45fba5b8c5b75f7/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Pickleboy (Framebreed) - streamed from framebreed.com -->
+            <video muted loop playsinline preload="metadata" src="https://video.wixstatic.com/video/3b151b_f5d9a78ce44d47cba2719c67473e35ea/1080p/mp4/file.mp4"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Mux video (HLS, 1080p - same streaming as the Home page players) -->
+            <video class="video-js collab-hls" muted loop playsinline preload="none" poster="https://image.mux.com/RczHIz3Q18D35NsGvp33Ya00iAkVZkRpCHXlSRroIG7s/thumbnail.jpg?width=1920" data-hls="https://stream.mux.com/RczHIz3Q18D35NsGvp33Ya00iAkVZkRpCHXlSRroIG7s.m3u8?min_resolution=1080p&amp;max_resolution=1080p"></video>
+          </div>
+        </article>
+        <article class="video-card collab-card">
+          <div class="collab-player">
+            <!-- Mux video (HLS, 1080p - same streaming as the Home page players) -->
+            <video class="video-js collab-hls" muted loop playsinline preload="none" poster="https://image.mux.com/vJGLfCnNq9lVYwUVhGwtpMbMv0297TEw9pgchh017MktU/thumbnail.jpg?width=1920" data-hls="https://stream.mux.com/vJGLfCnNq9lVYwUVhGwtpMbMv0297TEw9pgchh017MktU.m3u8?min_resolution=1080p&amp;max_resolution=1080p"></video>
+          </div>
+        </article>
       </div>
     </section>
   </main>
+  <script>
+    // Collaborations: players appear in a random order on every page load
+    (() => {
+      const g = document.getElementById('collab-grid');
+      if (!g) return;
+      const cards = [...g.children];
+      for (let i = cards.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [cards[i], cards[j]] = [cards[j], cards[i]]; }
+      cards.forEach(c => g.appendChild(c));
+    })();
+  </script>
 
 
   <script src="https://vjs.zencdn.net/8.23.4/video.min.js"></script>
@@ -1323,6 +1556,124 @@ main.projects-page .empty-slot { color: rgba(255,255,255,.45); font: 600 15px In
       (location.protocol.startsWith('http') && local ? fromLocalServer().catch(fromGitHub) : fromGitHub())
         .then(list => shuffle(local ? list.concat(FALLBACK) : list).forEach(add))
         .catch(() => shuffle(FALLBACK.slice()).forEach(add));
+    })();
+  </script>
+  <script>
+    // Collaborations: Mux (HLS) players stream through Video.js, like the Home page players
+    document.querySelectorAll('video.collab-hls[data-hls]').forEach(v => {
+      if (!window.videojs) return;
+      const p = videojs(v, { autoplay: false, muted: true, loop: true, preload: 'none', controls: false, bigPlayButton: false,
+                             loadingSpinner: false, errorDisplay: false, textTrackSettings: false });
+      p.src({ src: v.dataset.hls, type: 'application/x-mpegURL' });
+    });
+  </script>
+  <script>
+    // Collaborations: sound only while the cursor is over a player.
+    // Browsers allow sound only after the visitor has clicked/tapped/pressed a key on the page once,
+    // so until then hovering shows a "Click for sound" button over the player.
+    (() => {
+      const players = [...document.querySelectorAll('.collab-player')];
+      if (!players.length) return;
+      let unlocked = navigator.userActivation ? navigator.userActivation.hasBeenActive : false;
+      let hovered = null;
+      const apply = () => players.forEach(p => {
+        const v = p.querySelector('video');
+        const want = unlocked && p === hovered;
+        if (v.muted === !want) return;
+        v.muted = !want;
+        if (v.paused) v.play().catch(() => { v.muted = true; v.play().catch(() => {}); });
+      });
+      const unlock = () => { if (unlocked) return; unlocked = true; document.body.classList.add('sound-unlocked'); apply(); };
+      ['pointerdown', 'keydown', 'touchstart'].forEach(ev => window.addEventListener(ev, unlock, { capture: true, passive: true }));
+      if (unlocked) document.body.classList.add('sound-unlocked');
+      players.forEach(p => {
+        const btn = document.createElement('button');
+        btn.type = 'button'; btn.className = 'sound-hint'; btn.textContent = '\u{1F50A} Click for sound';
+        btn.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); unlock(); });
+        p.appendChild(btn);
+        p.addEventListener('pointerenter', () => { hovered = p; apply(); });
+        p.addEventListener('pointerleave', () => { if (hovered === p) hovered = null; apply(); });
+      });
+    })();
+  </script>
+  <script>
+    // Collaborations videos play at normal speed
+    document.querySelectorAll('.collab-player video').forEach(v => {
+      const fast = () => { const r = v._rate || 1; if (v.playbackRate !== r) v.playbackRate = r; };
+      ['loadedmetadata', 'play', 'playing', 'ratechange'].forEach(ev => v.addEventListener(ev, fast));
+      v.defaultPlaybackRate = 1; fast();
+    });
+  </script>
+  <script>
+    // Collaborations masonry: random vertical heights + zoom; hover opens the tile to the video's real wide size
+    (() => {
+      const grid = document.getElementById('collab-grid');
+      if (!grid) return;
+      const cards = [...grid.querySelectorAll('.collab-card')];
+      const GAP = 8, TARGET = 200;   // tile width aims for ~200px
+      const rnd = (a, b) => a + Math.random() * (b - a);
+      cards.forEach(c => {
+        c.dataset.ar = rnd(0.5, 0.8).toFixed(3);            // width / height  -> vertical tiles
+        const p = c.querySelector('.collab-player');
+        p.style.setProperty('--z', rnd(1, 1.35).toFixed(3));
+        p.style.setProperty('--ox', Math.round(rnd(35, 65)) + '%');
+        p.style.setProperty('--oy', Math.round(rnd(35, 65)) + '%');
+      });
+      let tw = TARGET, pad = 16;
+      const layout = () => {
+        const cs = getComputedStyle(grid);
+        pad = parseFloat(cs.paddingLeft) || 0;
+        const inner = grid.clientWidth - pad - (parseFloat(cs.paddingRight) || 0);
+        const cols = Math.max(1, Math.round((inner + GAP) / (TARGET + GAP)));
+        tw = (inner - (cols - 1) * GAP) / cols;
+        const hs = new Array(cols).fill(0);
+        cards.forEach(c => {
+          let k = 0; for (let i = 1; i < cols; i++) if (hs[i] < hs[k] - 1) k = i;
+          const h = tw / parseFloat(c.dataset.ar);
+          c._box = { left: pad + k * (tw + GAP), top: hs[k], width: tw, height: h };
+          hs[k] += h + GAP;
+          if (!c.classList.contains('is-wide')) place(c, c._box);
+        });
+        grid.style.height = Math.max(0, Math.max(...hs) - GAP) + 'px';
+      };
+      const place = (c, b) => { c.style.left = b.left + 'px'; c.style.top = b.top + 'px'; c.style.width = b.width + 'px'; c.style.height = b.height + 'px'; };
+      const open = (c) => {
+        const v = c.querySelector('video'), b = c._box;
+        const ratio = (v.videoWidth && v.videoHeight) ? v.videoWidth / v.videoHeight : 16 / 9;
+        const gw = grid.clientWidth;
+        let w = Math.min(Math.max(b.width * 2.6, b.height * ratio * 0.75, 560), gw - 2 * pad, innerWidth - 40);
+        let h = w / ratio;
+        let left = b.left + b.width / 2 - w / 2, top = b.top + b.height / 2 - h / 2;
+        left = Math.max(pad, Math.min(left, gw - pad - w));
+        top = Math.max(-40, top);
+        c.classList.add('is-wide'); v.controls = true;
+        v._rate = 1; v.playbackRate = 1;            // normal speed while hovered, from the current moment
+        place(c, { left, top, width: w, height: h });
+      };
+      const close = (c) => { const v = c.querySelector('video'); c.classList.remove('is-wide'); v.controls = false; v._rate = 1; v.playbackRate = 1; place(c, c._box); };
+      cards.forEach(c => {
+        c.addEventListener('pointerenter', () => open(c));
+        c.addEventListener('pointerleave', () => close(c));
+      });
+      let t; window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(layout, 100); });
+      layout();
+    })();
+  </script>
+  <script>
+    // Collaborations: only the players that are on screen play (keeps the page light with many videos)
+    (() => {
+      const vids = [...document.querySelectorAll('.collab-player video')];
+      if (!('IntersectionObserver' in window)) { vids.forEach(v => v.play().catch(() => {})); return; }
+      const io = new IntersectionObserver(es => es.forEach(e => {
+        const v = e.target;
+        if (e.isIntersecting) {
+          v.preload = 'auto';
+          const w = v.closest('.video-js'), pl = w && window.videojs ? videojs.getPlayer(w) : null;
+          const r = pl ? pl.play() : v.play(); if (r && r.catch) r.catch(() => {});
+        }
+        else if (!v.closest('.is-wide')) v.pause();
+      }), { rootMargin: '150px 0px' });
+      vids.forEach(v => io.observe(v));
     })();
   </script>
 </body>

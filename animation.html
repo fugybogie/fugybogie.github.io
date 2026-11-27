@@ -719,6 +719,11 @@ main.animation-grid-page > #gallery.video-section { transition: width .55s cubic
 #gallery .pin.is-loaded img, #gallery .pin.is-loaded video { opacity: 1; }
 @keyframes pin-spin { to { transform: rotate(360deg); } }
 </style>
+<style id="no-video-spinner">
+/* Gallery 1: no loading icons - video players keep their poster, Gallery tiles just fade in when ready */
+.video-js .vjs-loading-spinner { display: none !important; }
+#gallery .pin::after { display: none !important; }
+</style>
 </head>
 
 <body>
@@ -784,7 +789,11 @@ main.animation-grid-page > #gallery.video-section { transition: width .55s cubic
               </div>
             </article>
             <article class="video-card">
-              <div class="video-card-player empty-video-slot" aria-label="Video placeholder"><video class="video-js" muted playsinline preload="none" aria-label="Video not added yet"></video></div>
+              <div class="video-card-player">
+                <video id="animation-video-5" class="video-js" controls muted loop playsinline preload="none" poster="https://image.mux.com/ZCRTH7U52mcLTEyVdlMzIeWBM3oO9dj802adV3g01Wq00Q/thumbnail.jpg?width=1920">
+                  <source data-src="https://stream.mux.com/ZCRTH7U52mcLTEyVdlMzIeWBM3oO9dj802adV3g01Wq00Q.m3u8?min_resolution=1080p&amp;max_resolution=1080p" type="application/x-mpegURL">
+                </video>
+              </div>
             </article>
         </div>
         <button class="side-arrow side-arrow-down" type="button" aria-label="Next Animation videos">&#10095;</button>
