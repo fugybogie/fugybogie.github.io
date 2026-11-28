@@ -714,6 +714,15 @@ main.gallery-page #gallery .pin-grid { columns: 6 !important; }
 #gallery .pin.is-loaded img, #gallery .pin.is-loaded video { opacity: 1; }
 @keyframes pin-spin { to { transform: rotate(360deg); } }
 </style>
+<style id="gallery2-like-gallery1">
+/* Gallery 2: same tile size as the Gallery 1 panel (~200px); the column count follows the page width */
+main.gallery-page #gallery .pin-grid { columns: 190px auto !important; column-gap: 5px !important; }
+#gallery .pin::after { display: none !important; }   /* no loading circle, like Gallery 1 */
+</style>
+<style id="gallery2-masonry">
+main.gallery-page #gallery .pin-grid.js-masonry { columns: auto !important; display: block !important; position: relative; }
+main.gallery-page #gallery .pin-grid.js-masonry .pin { position: absolute !important; margin: 0 !important; width: var(--tw, 200px); }
+</style>
 </head>
 
 <body>
@@ -1231,8 +1240,9 @@ main.gallery-page #gallery .pin-grid { columns: 6 !important; }
     (() => {
       const grid = document.getElementById('gallery-grid');
       if (!grid) return;
-      const DIR = 'images/for_gallery_2/';
-      const API = 'https://api.github.com/repos/fugybogie/fugybogie.github.io/contents/images/for_gallery_2';
+      const DIR = 'images/for_gallery2_page/';
+      const API = 'https://api.github.com/repos/fugybogie/fugybogie.github.io/contents/images/for_gallery2_page';
+      const FALLBACK_TOP = ["Seedream5.0_Pro_image_edit_00066.png", "Seedream5.0_Pro_image_edit_00067.png", "Seedream5.0_Pro_image_edit_00071.png", "Seedream5.0_Pro_image_edit_00072.png", "Seedream5.0_Pro_image_edit_00074.png", "u8716173774_A_doctor._--chaos_5_--ar_34_--sref_1817488497_--s_d9e9003a-bea0-4eaa-b84a-f04f6cbaf2e1_3.png", "u8716173774_asap_rocky_head_--stylize_450_--v_8.2_06a0804b-ba81-441e-8375-2fa34cc73f3b_3.png", "u8716173774_cyberpunk_young_very_skinny_man_clean_short_mulle_46fd4f18-17b2-41d4-8b41-c326fcf2b8f4_0.png", "u8716173774_Epic_artistic_illustration_of_two_iconic_classica_63b5b26b-6b07-4808-bd39-46ff8ff642b2_1.png", "u8716173774_Epic_artistic_illustration_of_two_iconic_classica_848fa0f1-3ea1-49e4-a117-8f2b0e9c6d2c_1.png", "u8716173774_Epic_artistic_illustration_of_two_iconic_classica_b77cc10f-fa7f-4810-85aa-178e9ef20424_2.png", "u8716173774_httpss.mj.run1d3RtFtRMcQ_httpss.mj.runnFOvUKbu34w_e212239c-8a66-41a3-bea3-d9f007952ced_3.png", "u8716173774_STRICT_IDENTITY_TRANSFER_Recreate_Image_2_EXACTLY_caa9d978-f519-4e26-8e95-d33f13d87a3f_3.png", "u8716173774_The_logos_hair_suddenly_shoots_straight_upward_as_d5ed063e-02e9-47b9-9ae3-39d3bfd20112_1.png", "u8716173774_Transfer_ONLY_the_facial_identity_of_the_man_from_56a7bd37-af8b-48e0-ae72-09e11f2b8d42_2.png", "u8716173774_Transfer_the_EXACT_facial_identity_AND_HAIRSTYLE__d7673d57-23b1-4f70-9779-2ebaa538308e_0.png", "u8716173774_Transfer_the_EXACT_facial_identity_of_the_25-year_20db47e5-4cca-4475-b74c-5612c120c041_3.png", "u8716173774_Transfer_the_EXACT_facial_identity_of_the_25-year_731e6bb1-cc57-4bd0-9bb8-8b4ac54a685f_3.png"];   // images/for_gallery2_page/on_top
       const FALLBACK = [];
       const IMG = /\.(gif|png|jpe?g|webp|avif)$/i, VID = /\.(mp4|webm|mov)$/i;
       const rnd = (a, b) => a + Math.random() * (b - a);
@@ -1286,7 +1296,7 @@ main.gallery-page #gallery .pin-grid { columns: 6 !important; }
         fig.style.setProperty('--z', rnd(1, 1.6).toFixed(3));
         fig.style.setProperty('--ox', Math.round(rnd(30, 70)) + '%');
         fig.style.setProperty('--oy', Math.round(rnd(30, 70)) + '%');
-        const src = DIR + encodeURIComponent(name);
+        const src = DIR + name.split('/').map(encodeURIComponent).join('/');
         let m;
         if (VID.test(name)) {
           m = document.createElement('video');
@@ -1303,29 +1313,36 @@ main.gallery-page #gallery .pin-grid { columns: 6 !important; }
       };
       window.addEventListener('scroll', close, { passive: true });
 
-      const fromGitHub = async () => {
-        const KEY = 'gallery2-list-v1';
+      // Files in on_top/ always come first (in random order), then the rest of the folder (in random order)
+      const fromGitHub = async (sub) => {
+        const KEY = 'gallery2-list-v3' + sub;
         try {
           const c = JSON.parse(sessionStorage.getItem(KEY) || 'null');
           if (c && Date.now() - c.t < 10 * 60 * 1000) return c.list;
         } catch (e) {}
-        const res = await fetch(API, { headers: { Accept: 'application/vnd.github+json' } });
+        const res = await fetch(API + (sub ? '/' + sub.replace(/\/$/, '') : ''), { headers: { Accept: 'application/vnd.github+json' } });
+        if (res.status === 404) return [];
         if (!res.ok) throw new Error(res.status);
         const list = (await res.json()).filter(f => f.type === 'file').map(f => f.name);
         try { sessionStorage.setItem(KEY, JSON.stringify({ t: Date.now(), list })); } catch (e) {}
         return list;
       };
       const local = location.protocol === 'file:' || /^(localhost|127\.)/.test(location.hostname);
-      // on a local server (python -m http.server) the folder itself can be listed, so new files show up at once
-      const fromLocalServer = async () => {
-        const res = await fetch(DIR);
+      // on a local server (start_site.bat) the folder itself can be listed, so new files show up at once
+      const fromLocalServer = async (sub) => {
+        const res = await fetch(DIR + sub);
+        if (res.status === 404) return [];
         if (!res.ok) throw new Error(res.status);
         const html = await res.text();
         return [...html.matchAll(/href="([^"?#\/]+)"/g)].map(m => decodeURIComponent(m[1]));
       };
-      (location.protocol.startsWith('http') && local ? fromLocalServer().catch(fromGitHub) : fromGitHub())
-        .then(list => shuffle(local ? list.concat(FALLBACK) : list).forEach(add))
-        .catch(() => shuffle(FALLBACK.slice()).forEach(add));
+      const list = (sub) => (location.protocol.startsWith('http') && local ? fromLocalServer(sub).catch(() => fromGitHub(sub)) : fromGitHub(sub));
+      Promise.all([list('on_top/').catch(() => null), list('').catch(() => null)]).then(([top, rest]) => {
+        if (top === null) top = []; if (rest === null) rest = [];
+        if (local || (!top.length && !rest.length)) { top = top.concat(FALLBACK_TOP); rest = rest.concat(FALLBACK); }
+        shuffle(top).forEach(n => add('on_top/' + n));
+        shuffle(rest).forEach(add);
+      });
     })();
   </script>
   <script>
@@ -1339,6 +1356,36 @@ main.gallery-page #gallery .pin-grid { columns: 6 !important; }
       const scan = () => grid.querySelectorAll('.pin:not(.is-loaded) img, .pin:not(.is-loaded) video').forEach(m => { if (ready(m)) done(m); });
       new MutationObserver(scan).observe(grid, { childList: true });
       scan();
+    })();
+  </script>
+  <script>
+    // Gallery 2 masonry: tiles fill the rows from the top (so on_top images stay at the top), ~200px wide
+    (() => {
+      const grid = document.getElementById('gallery-grid');
+      if (!grid) return;
+      const GAP = 5, TARGET = 200;
+      grid.classList.add('js-masonry');
+      let q = false;
+      const layout = () => {
+        q = false;
+        const cs = getComputedStyle(grid), l = parseFloat(cs.paddingLeft) || 0;
+        const inner = grid.clientWidth - l - (parseFloat(cs.paddingRight) || 0);
+        const cols = Math.max(1, Math.round((inner + GAP) / (TARGET + GAP)));
+        const tw = (inner - (cols - 1) * GAP) / cols;
+        grid.style.setProperty('--tw', tw + 'px');
+        const hs = new Array(cols).fill(0);
+        grid.querySelectorAll('.pin').forEach(p => {
+          const ar = parseFloat(p.style.getPropertyValue('--ar')) || 0.75;
+          let k = 0; for (let i = 1; i < cols; i++) if (hs[i] < hs[k] - 1) k = i;
+          p.style.left = (l + k * (tw + GAP)) + 'px'; p.style.top = hs[k] + 'px';
+          hs[k] += tw / ar + GAP;
+        });
+        grid.style.height = Math.max(0, Math.max(0, ...hs) - GAP) + 'px';
+      };
+      const later = () => { if (!q) { q = true; requestAnimationFrame(layout); } };
+      new MutationObserver(later).observe(grid, { childList: true });
+      window.addEventListener('resize', later);
+      layout();
     })();
   </script>
 </body>

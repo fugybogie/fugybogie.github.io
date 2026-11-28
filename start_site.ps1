@@ -10,9 +10,14 @@ $types = @{
   '.ico'='image/x-icon'; '.mp4'='video/mp4'; '.webm'='video/webm'; '.mov'='video/quicktime'; '.mp3'='audio/mpeg';
   '.woff'='font/woff'; '.woff2'='font/woff2'; '.ttf'='font/ttf'; '.otf'='font/otf'; '.pdf'='application/pdf'
 }
-$listener = New-Object System.Net.HttpListener
-$listener.Prefixes.Add("http://localhost:$Port/")
-try { $listener.Start() } catch { Write-Host "Portul $Port e ocupat. Inchide cealalta fereastra a serverului si incearca din nou."; Read-Host; exit }
+# use the first free port from 8000 up (another program may already be using 8000)
+$listener = $null
+foreach ($p in $Port..($Port + 20)) {
+  $l = New-Object System.Net.HttpListener
+  $l.Prefixes.Add("http://localhost:$p/")
+  try { $l.Start(); $listener = $l; $Port = $p; break } catch { $l.Close() }
+}
+if (-not $listener) { Write-Host "Nu am gasit niciun port liber intre 8000 si 8020."; Read-Host; exit }
 Write-Host "Site-ul ruleaza la http://localhost:$Port/  -  inchide fereastra ca sa-l opresti."
 Start-Process "http://localhost:$Port/animation.html"
 while ($listener.IsListening) {
@@ -32,13 +37,13 @@ while ($listener.IsListening) {
       }
       [void]$sb.Append('</ul>')
       $bytes = [Text.Encoding]::UTF8.GetBytes($sb.ToString())
-      $res.ContentType = 'text/html; charset=utf-8'; $res.Headers['Cache-Control'] = 'no-store'
+      $res.ContentType = 'text/html; charset=utf-8'; $res.AddHeader('Cache-Control', 'no-store')
       $res.ContentLength64 = $bytes.Length; $res.OutputStream.Write($bytes, 0, $bytes.Length)
     }
     elseif (Test-Path -LiteralPath $path -PathType Leaf) {
       $ext = [IO.Path]::GetExtension($path).ToLower()
       $res.ContentType = if ($types.ContainsKey($ext)) { $types[$ext] } else { 'application/octet-stream' }
-      $res.Headers['Accept-Ranges'] = 'bytes'; $res.Headers['Cache-Control'] = 'no-cache'
+      $res.AddHeader('Accept-Ranges', 'bytes'); $res.AddHeader('Cache-Control', 'no-cache')
       $fs = [IO.File]::Open($path, 'Open', 'Read', 'ReadWrite')
       try {
         $len = $fs.Length; $start = 0; $end = $len - 1
@@ -46,7 +51,7 @@ while ($listener.IsListening) {
         if ($range -match '^bytes=(\d*)-(\d*)$' -and $len -gt 0) {
           if ($Matches[1] -ne '') { $start = [int64]$Matches[1]; if ($Matches[2] -ne '') { $end = [Math]::Min([int64]$Matches[2], $len - 1) } }
           elseif ($Matches[2] -ne '') { $start = [Math]::Max(0, $len - [int64]$Matches[2]) }
-          $res.StatusCode = 206; $res.Headers['Content-Range'] = "bytes $start-$end/$len"
+          $res.StatusCode = 206; $res.AddHeader('Content-Range', "bytes $start-$end/$len")
         }
         $count = $end - $start + 1
         $res.ContentLength64 = [Math]::Max(0, $count)
