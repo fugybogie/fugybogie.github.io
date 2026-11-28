@@ -854,35 +854,20 @@ main.gallery-page #gallery .pin-grid.js-masonry .pin { position: absolute !impor
     <svg viewBox="0 0 64 56" aria-hidden="true"><path d="M12 14 L32 36 L52 14" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
   <script>
+    // Bouncing arrow at the bottom: scrolls down; hidden at the end of the page. (Up arrow not used on this page.)
     (() => {
       const down = document.getElementById('more-videos-arrow');
       const up = document.getElementById('previous-videos-arrow');
-      const rows = [...document.querySelectorAll('.video-showcase .video-carousel-shell')];
-      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-      const bounds = row => {
-        const players = [...row.querySelectorAll('.video-card-player')];
-        return { top: Math.min(...players.map(p => p.getBoundingClientRect().top)),
-                 bottom: Math.max(...players.map(p => p.getBoundingClientRect().bottom)) };
-      };
-      const nextRow = () => rows.find(row => bounds(row).bottom > window.innerHeight + 12);
-      const previousRow = () => [...rows].reverse().find(row => bounds(row).top < -12);
-      const updateCue = () => {
-        down.hidden = !nextRow();
-        up.hidden = !previousRow();
-      };
-      const scrollToRow = (row, direction) => {
-        if (!row) return;
-        const rect = bounds(row);
-        const top = window.scrollY + (direction === 'down' ? rect.bottom - window.innerHeight : rect.top);
-        window.scrollTo({ top: Math.max(0, top), behavior: reducedMotion.matches ? 'auto' : 'smooth' });
-      };
-      down.addEventListener('click', () => scrollToRow(nextRow(), 'down'));
-      up.addEventListener('click', () => scrollToRow(previousRow(), 'up'));
-      window.addEventListener('scroll', updateCue, { passive: true });
-      window.addEventListener('resize', updateCue);
-      window.addEventListener('load', updateCue);
-      new ResizeObserver(updateCue).observe(document.body);
-      updateCue();
+      if (up) up.hidden = true;
+      if (!down) return;
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const update = () => { down.hidden = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 40; };
+      down.addEventListener('click', () => window.scrollBy({ top: Math.round(window.innerHeight * 0.8), behavior: reduced.matches ? 'auto' : 'smooth' }));
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      window.addEventListener('load', update);
+      new ResizeObserver(update).observe(document.body);
+      update();
     })();
   </script>
   <script>
