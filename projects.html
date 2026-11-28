@@ -747,6 +747,7 @@ main.projects-page .collab-player .vjs-poster, main.projects-page .collab-player
 main.projects-page .collab-player .vjs-big-play-button, main.projects-page .collab-player .vjs-loading-spinner { display: none !important; }
 main.projects-page .collab-player .video-js video { position: absolute; inset: 0; }
 </style>
+<style id="up-arrow-below-bar">#previous-videos-arrow { top: 58px !important; }</style>
 </head>
 
 <body>
@@ -1375,15 +1376,19 @@ main.projects-page .collab-player .video-js video { position: absolute; inset: 0
     <svg viewBox="0 0 64 56" aria-hidden="true"><path d="M12 14 L32 36 L52 14" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
   <script>
-    // Bouncing arrow at the bottom: scrolls down; hidden at the end of the page. (Up arrow not used on this page.)
+    // Bouncing arrows: bottom one scrolls down (hidden at the end), top one scrolls up (shown once scrolled down)
     (() => {
       const down = document.getElementById('more-videos-arrow');
       const up = document.getElementById('previous-videos-arrow');
-      if (up) up.hidden = true;
-      if (!down) return;
+      if (!down || !up) return;
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-      const update = () => { down.hidden = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 40; };
-      down.addEventListener('click', () => window.scrollBy({ top: Math.round(window.innerHeight * 0.8), behavior: reduced.matches ? 'auto' : 'smooth' }));
+      const update = () => {
+        down.hidden = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 40;
+        up.hidden = window.scrollY < 120;   // the up arrow appears once you have scrolled down
+      };
+      const go = (dir) => window.scrollBy({ top: dir * Math.round(window.innerHeight * 0.8), behavior: reduced.matches ? 'auto' : 'smooth' });
+      down.addEventListener('click', () => go(1));
+      up.addEventListener('click', () => go(-1));
       window.addEventListener('scroll', update, { passive: true });
       window.addEventListener('resize', update);
       window.addEventListener('load', update);
